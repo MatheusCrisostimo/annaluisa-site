@@ -48,11 +48,13 @@
     .lightbox-img{ max-width:90vw; max-height:85vh; border-radius:1rem; box-shadow:0 20px 60px rgba(0,0,0,.4); }
   </style>
 
-  <!-- GA4 (troque G-XXXXXXX pelo seu ID) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+  <!-- Google tag (gtag.js) - GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-60ZPREPJV3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config','G-XXXXXXX');
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-60ZPREPJV3');
   </script>
 
   <!-- Meta Pixel (troque YOUR_PIXEL_ID pelo seu ID) -->
@@ -65,16 +67,18 @@
     fbq('init', 'YOUR_PIXEL_ID');
     fbq('track', 'PageView');
   </script>
-  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
-
+  <noscript>
+    <img height="1" width="1" style="display:none"
+         src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"/>
+  </noscript>
 </head>
-<body class="bg-neutral-50 text-neutral-800">
 
-  <!-- Botão flutuante WhatsApp -->
-  <a href="https://wa.me/5521995440439?text=Ol%C3%A1%2C%20vim%20do%20site%20e%20quero%20agendar%20maquiagem.%20Data/ocasi%C3%A3o%3A%20_____." aria-label="Agendar no WhatsApp"
+<body class="bg-neutral-50 text-neutral-800">
+  <!-- Botão flutuante WhatsApp (agora usa a função com tracking) -->
+  <button onclick="falarNoWhatsApp()" aria-label="Agendar no WhatsApp"
      class="fixed bottom-5 right-5 z-50 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-soft px-5 py-3 font-semibold flex items-center gap-2">
     <span>💬</span> WhatsApp
-  </a>
+  </button>
 
   <!-- Header -->
   <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-neutral-200">
@@ -277,11 +281,26 @@
     // Ano no rodapé
     document.getElementById('ano').textContent = new Date().getFullYear();
 
-    // WhatsApp helper
-    function falarNoWhatsApp(){
+    // WhatsApp com tracking GA4 + Pixel
+    function falarNoWhatsApp() {
       const tel = '5521995440439';
       const msg = encodeURIComponent('Olá, vim do site e quero agendar maquiagem. Data/ocasião: ____ .');
-      window.open(`https://wa.me/${tel}?text=${msg}`, '_blank');
+      const url = `https://wa.me/${tel}?text=${msg}`;
+
+      // GA4 event
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'whatsapp_click', {
+          event_category: 'Contato',
+          event_label: 'Clique no WhatsApp'
+        });
+      }
+
+      // Meta Pixel event
+      if (typeof fbq !== 'undefined') {
+        fbq('trackCustom', 'WhatsAppClick');
+      }
+
+      window.open(url, '_blank');
     }
 
     // Lightbox JS
