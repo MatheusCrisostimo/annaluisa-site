@@ -9,44 +9,61 @@
   <meta property="og:title" content="Maquiadora em Florianópolis | Anna Luísa" />
   <meta property="og:description" content="Maquiagem social, noivas e aulas. 9 anos embelezando sonhos." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="/images/og-cover.jpg" />
+  <meta property="og:image" content="images/og-cover.jpg" />
   <meta property="og:locale" content="pt_BR" />
-  <link rel="icon" href="/favicon.ico" />
+  <link rel="icon" href="favicon.ico" />
+  <link rel="canonical" href="https://SEU-USUARIO.github.io/annaluisa-site/">
+  <meta name="theme-color" content="#e11d48">
+
   <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-    /* Ajustes finos */
+    /* Estilos customizados (sem @apply) */
     .glass { backdrop-filter: blur(10px); background: rgba(255,255,255,0.7); }
     .shadow-soft { box-shadow: 0 10px 30px rgba(0,0,0,.08); }
-    .btn { @apply inline-flex items-center justify-center px-5 py-3 rounded-2xl font-semibold transition; }
-    .btn-primary { @apply bg-rose-600 text-white hover:bg-rose-700; }
-    .btn-outline { @apply border border-gray-300 hover:bg-gray-50; }
-    .chip { @apply inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm bg-white/80 shadow-soft; }
-    .section { @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8; }
+
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 20px; border-radius:1rem; font-weight:600; transition:.2s;
+    }
+    .btn-primary { background:#e11d48; color:#fff; }
+    .btn-primary:hover { background:#be123c; }
+    .btn-outline { border:1px solid #d1d5db; }
+    .btn-outline:hover { background:#f9fafb; }
+
+    .chip {
+      display:inline-flex; align-items:center; gap:.5rem; border-radius:9999px;
+      padding:.25rem .75rem; font-size:.875rem; background:rgba(255,255,255,.8);
+      box-shadow:0 10px 30px rgba(0,0,0,.08);
+    }
+
+    .section { max-width:72rem; margin:0 auto; padding:0 1rem; }
+    @media (min-width:640px){ .section { padding:0 1.5rem; } }
+    @media (min-width:1024px){ .section { padding:0 2rem; } }
   </style>
+
   <script>
-    // Utilitário para abrir WhatsApp com mensagem pré-preenchida
+    // Botão WhatsApp
     function falarNoWhatsApp() {
-      const tel = '5521995440439'; // informado no Instagram
+      const tel = '5521995440439'; // ajustar se mudar
       const msg = encodeURIComponent('Olá, vim do site e quero agendar maquiagem. Data/ocasião: ____ .');
       window.open(`https://wa.me/${tel}?text=${msg}`, '_blank');
     }
   </script>
+
+  <!-- SEO estruturado -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "MakeupArtist",
     "name": "Anna Luísa — Maquiadora",
-    "image": [
-    "/images/og-cover.jpg"
-    ],
+    "image": ["images/og-cover.jpg"],
     "areaServed": "Florianópolis, SC",
     "description": "Maquiagem social, noivas e aulas. 9 anos de experiência.",
-    "url": "https://seu-dominio.com",
+    "url": "https://SEU-USUARIO.github.io/annaluisa-site",
     "telephone": "+55 21 99544-0439",
-    "sameAs": [
-      "https://www.instagram.com/annalluisaa/"
-    ],
+    "sameAs": ["https://www.instagram.com/annalluisaa/"],
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Florianópolis",
@@ -59,17 +76,19 @@
   </script>
 </head>
 <body class="bg-neutral-50 text-neutral-800">
+
   <!-- Header -->
   <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-neutral-200">
     <div class="section flex items-center justify-between h-16">
       <a href="#" class="flex items-center gap-3 font-semibold">
-        <img src="/images/logo.svg" alt="Logo Anna Luísa" class="h-8 w-8" />
+        <img src="images/logo.png" alt="Logo Anna Luísa" class="h-8 w-8" />
         <span>Anna Luísa — Maquiadora</span>
       </a>
       <nav class="hidden md:flex items-center gap-6 text-sm">
         <a href="#servicos" class="hover:text-rose-600">Serviços</a>
         <a href="#portfolio" class="hover:text-rose-600">Portfólio</a>
         <a href="#depoimentos" class="hover:text-rose-600">Depoimentos</a>
+        <a href="#instagram" class="hover:text-rose-600">Instagram</a>
         <a href="#contato" class="hover:text-rose-600">Contato</a>
       </nav>
       <button class="btn btn-primary rounded-full" onclick="falarNoWhatsApp()">Agendar no WhatsApp</button>
@@ -78,7 +97,8 @@
 
   <!-- Hero -->
   <section class="relative overflow-hidden">
-    <img src="images/WhatsApp Image 2024-03-29 at 22.37.38 (1).jpeg" alt="Modelo maquiada por Anna Luísa" class="w-full h-[70vh] object-cover object-center" loading="eager" />
+    <img src="images/hero.webp" width="1600" height="900" alt="Modelo maquiada por Anna Luísa"
+         class="w-full h-[70vh] object-cover object-center" loading="eager" />
     <div class="section">
       <div class="absolute inset-0 section flex items-end pb-12">
         <div class="glass rounded-3xl p-6 md:p-8 shadow-soft max-w-2xl">
@@ -86,7 +106,9 @@
             <span class="chip">💄 9 anos embelezando sonhos</span>
             <span class="chip">📍 Florianópolis / SC</span>
           </div>
-          <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">Beleza que realça <span class="text-rose-600">você</span></h1>
+          <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">
+            Beleza que realça <span class="text-rose-600">você</span>
+          </h1>
           <p class="mt-3 text-neutral-700">Maquiagem social, noivas e aulas personalizadas para todos os tons de pele — com foco especial em peles pretas.</p>
           <div class="mt-5 flex gap-3">
             <button class="btn btn-primary rounded-full" onclick="falarNoWhatsApp()">Quero um horário</button>
@@ -117,7 +139,6 @@
   <section id="servicos" class="section py-6">
     <h2 class="text-2xl md:text-3xl font-extrabold">Serviços</h2>
     <div class="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      <!-- Card Serviço -->
       <article class="bg-white rounded-3xl p-6 shadow-soft">
         <h3 class="font-semibold">Maquiagem Social</h3>
         <p class="text-sm text-neutral-600 mt-2">Festas, formaturas e ensaios. Preparação de pele impecável e acabamento fotográfico.</p>
@@ -145,22 +166,22 @@
     </div>
   </section>
 
-  <!-- Portfólio / Galeria -->
+  <!-- Portfólio -->
   <section id="portfolio" class="section py-12">
     <div class="flex items-end justify-between">
       <h2 class="text-2xl md:text-3xl font-extrabold">Portfólio</h2>
-      <a href="https://www.instagram.com/annalluisaa/" target="_blank" rel="noopener" class="text-sm text-rose-600 hover:underline">Ver mais no Instagram</a>
+      <a href="https://www.instagram.com/annalluisaa/" target="_blank" rel="noopener"
+         class="text-sm text-rose-600 hover:underline">Ver mais no Instagram</a>
     </div>
     <div class="mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-      <!-- Substitua as URLs abaixo por imagens suas otimizadas (webp) -->
-      <img src="images/277621811_474855961040553_312294288601922813_n.jpg" alt="Maquiagem 1 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.42.jpeg" alt="Maquiagem 2 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.44.jpeg" alt="Maquiagem 3 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.51.jpeg" alt="Maquiagem 4 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.52.jpeg" alt="Maquiagem 5 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.53.jpeg" alt="Maquiagem 6 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.54.jpeg" alt="Maquiagem 7 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.55 (1).jpeg" alt="Maquiagem 8 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
+      <img src="images/portfolio-01.webp" alt="Maquiagem 1 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
+      <img src="images/portfolio-02.webp" alt="Maquiagem 2 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
+      <img src="images/portfolio-03.webp" alt="Maquiagem 3 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
+      <img src="images/portfolio-04.webp" alt="Maquiagem 4 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
+      <img src="images/portfolio-05.webp" alt="Maquiagem 5 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
+      <img src="images/portfolio-06.webp" alt="Maquiagem 6 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
+      <img src="images/portfolio-07.webp" alt="Maquiagem 7 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
+      <img src="images/portfolio-08.webp" alt="Maquiagem 8 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
     </div>
   </section>
 
@@ -194,13 +215,29 @@
     </div>
   </section>
 
-  <!-- Localização / Mapa -->
+  <!-- Vídeos do Instagram -->
+  <section id="instagram" class="section py-12">
+    <div class="flex items-end justify-between">
+      <h2 class="text-2xl md:text-3xl font-extrabold">Vídeos do Instagram</h2>
+      <a href="https://www.instagram.com/annalluisaa/" target="_blank" rel="noopener"
+         class="text-sm text-rose-600 hover:underline">Ver perfil</a>
+    </div>
+    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DNoWIjoPDkz/" data-instgrm-version="14"></blockquote>
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DGQnjPQA2On/" data-instgrm-version="14"></blockquote>
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DNRRZMdvQze/" data-instgrm-version="14"></blockquote>
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DMGn5aBvz8i/" data-instgrm-version="14"></blockquote>
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DL8PM-AvTrm/" data-instgrm-version="14"></blockquote>
+    </div>
+  </section>
+
+  <!-- Contato -->
   <section id="contato" class="section py-12">
     <div class="grid gap-8 md:grid-cols-2 items-start">
       <div>
         <h2 class="text-2xl md:text-3xl font-extrabold">Contato</h2>
         <ul class="mt-4 space-y-2 text-neutral-700">
-          <li><strong>WhatsApp:</strong> <a class="text-rose-600 hover:underline" href="https://wa.me/5521995440439" target="_blank" rel="noopener">(21) 99544‑0439</a></li>
+          <li><strong>WhatsApp:</strong> <a class="text-rose-600 hover:underline" href="https://wa.me/5521995440439" target="_blank" rel="noopener">(21) 99544-0439</a></li>
           <li><strong>Instagram:</strong> <a class="text-rose-600 hover:underline" href="https://www.instagram.com/annalluisaa/" target="_blank" rel="noopener">@annalluisaa</a></li>
           <li><strong>Atendimento:</strong> Seg-Dom, 08h–20h (com agendamento)</li>
           <li><strong>Região:</strong> Florianópolis e arredores</li>
@@ -211,8 +248,8 @@
         </div>
       </div>
       <div class="bg-white rounded-3xl shadow-soft overflow-hidden">
-        <!-- Substitua o q= pelo endereço/estúdio quando desejar -->
-        <iframe title="Mapa" src="https://www.google.com/maps?q=Florian%C3%B3polis%2C%20SC&output=embed" class="w-full h-80" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe title="Mapa" src="https://www.google.com/maps?q=Florian%C3%B3polis%2C%20SC&output=embed"
+                class="w-full h-80" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
     </div>
   </section>
@@ -231,5 +268,8 @@
   <script>
     document.getElementById('ano').textContent = new Date().getFullYear();
   </script>
+
+  <!-- Script oficial do Instagram (UMA vez) -->
+  <script async src="https://www.instagram.com/embed.js"></script>
 </body>
 </html>
