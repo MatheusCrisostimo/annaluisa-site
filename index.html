@@ -41,41 +41,40 @@
     .section { max-width:72rem; margin:0 auto; padding:0 1rem; }
     @media (min-width:640px){ .section { padding:0 1.5rem; } }
     @media (min-width:1024px){ .section { padding:0 2rem; } }
+
+    /* Lightbox básico */
+    .lightbox-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.8); display:none; align-items:center; justify-content:center; z-index:60; }
+    .lightbox-backdrop.active{ display:flex; }
+    .lightbox-img{ max-width:90vw; max-height:85vh; border-radius:1rem; box-shadow:0 20px 60px rgba(0,0,0,.4); }
   </style>
 
+  <!-- GA4 (troque G-XXXXXXX pelo seu ID) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
   <script>
-    // Botão WhatsApp
-    function falarNoWhatsApp() {
-      const tel = '5521995440439'; // ajustar se mudar
-      const msg = encodeURIComponent('Olá, vim do site e quero agendar maquiagem. Data/ocasião: ____ .');
-      window.open(`https://wa.me/${tel}?text=${msg}`, '_blank');
-    }
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config','G-XXXXXXX');
   </script>
 
-  <!-- SEO estruturado -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "MakeupArtist",
-    "name": "Anna Luísa — Maquiadora",
-    "image": ["images/og-cover.jpg"],
-    "areaServed": "Florianópolis, SC",
-    "description": "Maquiagem social, noivas e aulas. 9 anos de experiência.",
-    "url": "https://SEU-USUARIO.github.io/annaluisa-site",
-    "telephone": "+55 21 99544-0439",
-    "sameAs": ["https://www.instagram.com/annalluisaa/"],
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Florianópolis",
-      "addressRegion": "SC",
-      "addressCountry": "BR"
-    },
-    "priceRange": "$$",
-    "openingHours": "Mo-Su 08:00-20:00"
-  }
+  <!-- Meta Pixel (troque YOUR_PIXEL_ID pelo seu ID) -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID');
+    fbq('track', 'PageView');
   </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
+
 </head>
 <body class="bg-neutral-50 text-neutral-800">
+
+  <!-- Botão flutuante WhatsApp -->
+  <a href="https://wa.me/5521995440439?text=Ol%C3%A1%2C%20vim%20do%20site%20e%20quero%20agendar%20maquiagem.%20Data/ocasi%C3%A3o%3A%20_____." aria-label="Agendar no WhatsApp"
+     class="fixed bottom-5 right-5 z-50 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-soft px-5 py-3 font-semibold flex items-center gap-2">
+    <span>💬</span> WhatsApp
+  </a>
 
   <!-- Header -->
   <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-neutral-200">
@@ -166,22 +165,31 @@
     </div>
   </section>
 
-  <!-- Portfólio -->
+  <!-- Portfólio com Lightbox -->
   <section id="portfolio" class="section py-12">
     <div class="flex items-end justify-between">
       <h2 class="text-2xl md:text-3xl font-extrabold">Portfólio</h2>
       <a href="https://www.instagram.com/annalluisaa/" target="_blank" rel="noopener"
          class="text-sm text-rose-600 hover:underline">Ver mais no Instagram</a>
     </div>
+
     <div class="mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.42.jpeg" alt="Maquiagem 1 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.43.jpeg" alt="Maquiagem 2 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.44.jpeg" alt="Maquiagem 3 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.51.jpeg" alt="Maquiagem 4 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.53.jpeg" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.54.jpeg" alt="Maquiagem 6 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.55.jpeg" alt="Maquiagem 7 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.52.jpeg" alt="Maquiagem 8 por Anna" class="rounded-2xl w-full h-56 object-cover" loading="lazy" />
+      <!-- Substitua pelos seus arquivos .webp ou .jpg; nomes sem espaço são melhores -->
+      <img src="images/WhatsApp Image 2024-03-29 at 22.37.42.jpeg" alt="Maquiagem 1 por Anna" class="rounded-2xl w-full h-56 object-cover cursor-zoom-in" loading="lazy" width="800" height="700" />
+      <img src="images/WhatsApp Image 2024-03-29 at 22.37.43.jpeg" alt="Maquiagem 2 por Anna" class="rounded-2xl w-full h-56 object-cover cursor-zoom-in" loading="lazy" width="800" height="700" />
+      <img src="images/WhatsApp Image 2024-03-29 at 22.37.44.jpeg" alt="Maquiagem 3 por Anna" class="rounded-2xl w-full h-56 object-cover cursor-zoom-in" loading="lazy" width="800" height="700" />
+      <img src="images/WhatsApp Image 2024-03-29 at 22.37.51.jpeg" alt="Maquiagem 4 por Anna" class="rounded-2xl w-full h-56 object-cover cursor-zoom-in" loading="lazy" width="800" height="700" />
+      <img src="images/WhatsApp Image 2024-03-29 at 22.37.53.jpeg" alt="Maquiagem 5 por Anna" class="rounded-2xl w-full h-56 object-cover cursor-zoom-in" loading="lazy" width="800" height="700" />
+      <img src="images/WhatsApp Image 2024-03-29 at 22.37.54.jpeg" alt="Maquiagem 6 por Anna" class="rounded-2xl w-full h-56 object-cover cursor-zoom-in" loading="lazy" width="800" height="700" />
+      <img src="images/WhatsApp Image 2024-03-29 at 22.37.55.jpeg" alt="Maquiagem 7 por Anna" class="rounded-2xl w-full h-56 object-cover cursor-zoom-in" loading="lazy" width="800" height="700" />
+      <img src="images/WhatsApp Image 2024-03-29 at 22.37.52.jpeg" alt="Maquiagem 8 por Anna" class="rounded-2xl w-full h-56 object-cover cursor-zoom-in" loading="lazy" width="800" height="700" />
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox-backdrop" role="dialog" aria-modal="true" aria-label="Visualizador de imagem">
+      <button id="lightboxClose" class="absolute top-6 right-6 text-white text-2xl" aria-label="Fechar">✕</button>
+      <img id="lightboxImg" class="lightbox-img" alt="Imagem em destaque" />
+      <p id="lightboxCaption" class="text-white/90 mt-3 text-sm text-center max-w-2xl"></p>
     </div>
   </section>
 
@@ -266,7 +274,34 @@
   </footer>
 
   <script>
+    // Ano no rodapé
     document.getElementById('ano').textContent = new Date().getFullYear();
+
+    // WhatsApp helper
+    function falarNoWhatsApp(){
+      const tel = '5521995440439';
+      const msg = encodeURIComponent('Olá, vim do site e quero agendar maquiagem. Data/ocasião: ____ .');
+      window.open(`https://wa.me/${tel}?text=${msg}`, '_blank');
+    }
+
+    // Lightbox JS
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImg');
+    const lbCap = document.getElementById('lightboxCaption');
+    const lbClose = document.getElementById('lightboxClose');
+
+    document.querySelectorAll('#portfolio img').forEach(img => {
+      img.addEventListener('click', () => {
+        lbImg.src = img.src;
+        lbImg.alt = img.alt || '';
+        lbCap.textContent = img.alt || '';
+        lb.classList.add('active');
+      });
+    });
+    function closeLb(){ lb.classList.remove('active'); lbImg.src=''; }
+    lbClose.addEventListener('click', closeLb);
+    lb.addEventListener('click', (e)=>{ if(e.target === lb) closeLb(); });
+    window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeLb(); });
   </script>
 
   <!-- Script oficial do Instagram (UMA vez) -->
