@@ -42,10 +42,10 @@
     @media (min-width:640px){ .section { padding:0 1.5rem; } }
     @media (min-width:1024px){ .section { padding:0 2rem; } }
 
-    /* Lightbox básico */
-    .lightbox-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.8); display:none; align-items:center; justify-content:center; z-index:60; }
+    /* Lightbox */
+    .lightbox-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.8); display:none; align-items:center; justify-content:center; z-index:60; padding:2rem; }
     .lightbox-backdrop.active{ display:flex; }
-    .lightbox-img{ max-width:90vw; max-height:85vh; border-radius:1rem; box-shadow:0 20px 60px rgba(0,0,0,.4); }
+    .lightbox-img{ max-width:90vw; max-height:75vh; border-radius:1rem; box-shadow:0 20px 60px rgba(0,0,0,.4); }
   </style>
 
   <!-- Google tag (gtag.js) - GA4 -->
@@ -148,7 +148,7 @@
 </head>
 
 <body class="bg-neutral-50 text-neutral-800">
-  <!-- Botão flutuante WhatsApp (agora usa a função com tracking) -->
+  <!-- Botão flutuante WhatsApp -->
   <button onclick="falarNoWhatsApp()" aria-label="Agendar no WhatsApp"
      class="fixed bottom-5 right-5 z-50 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-soft px-5 py-3 font-semibold flex items-center gap-2">
     <span>💬</span> WhatsApp
@@ -243,7 +243,7 @@
     </div>
   </section>
 
-  <!-- Portfólio com Lightbox -->
+  <!-- Portfólio com <figure> + legendas e Lightbox -->
   <section id="portfolio" class="section py-12">
     <div class="flex items-end justify-between">
       <h2 class="text-2xl md:text-3xl font-extrabold">Portfólio</h2>
@@ -252,15 +252,77 @@
     </div>
 
     <div class="mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-      <!-- Substitua pelos seus arquivos .webp ou .jpg; nomes sem espaço são melhores -->
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.42.jpeg" alt="Maquiagem Social — ensaio (mar/24)" class="rounded-2xl w-full h-56 object-cover cursor-zoom-in" loading="lazy" width="800" height="700" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.43.jpeg" alt="Noiva — Florianópolis (mar/24)" class="rounded-2xl w-full h-56 object-cover cursor-zoom-in" loading="lazy" width="800" height="700" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.44.jpeg" alt="Automaquiagem — pele negra (abr/24)" class="rounded-2xl w-full h-56 object-cover cursor-zoom-in" loading="lazy" width="800" height="700" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.51.jpeg" alt="Formatura — alta durabilidade (abr/24)" class="rounded-2xl w-full h-56 object-cover cursor-zoom-in" loading="lazy" width="800" height="700" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.53.jpeg" alt="Social — pele iluminada, olhos neutros" class="rounded-2xl w-full h-56 object-cover cursor-zoom-in" loading="lazy" width="800" height="700" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.54.jpeg" alt="Evento — olho marcante, pele glow" class="rounded-2xl w-full h-56 object-cover cursor-zoom-in" loading="lazy" width="800" height="700" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.55.jpeg" alt="Editorial — smokey eye em pele retinta" class="rounded-2xl w-full h-56 object-cover cursor-zoom-in" loading="lazy" width="800" height="700" />
-      <img src="images/WhatsApp Image 2024-03-29 at 22.37.52.jpeg" alt="Social — olho esfumado quente" class="rounded-2xl w-full h-56 object-cover cursor-zoom-in" loading="lazy" width="800" height="700" />
+      <figure class="group cursor-zoom-in">
+        <img src="images/WhatsApp Image 2024-03-29 at 22.37.42.jpeg" alt="Maquiagem social pele preta"
+             data-caption="Maquiagem Social — Ensaio fotográfico (mar/24)"
+             class="rounded-2xl w-full h-56 object-cover" loading="lazy" width="800" height="700" />
+        <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
+          Maquiagem Social — Ensaio fotográfico (mar/24)
+        </figcaption>
+      </figure>
+
+      <figure class="group cursor-zoom-in">
+        <img src="images/WhatsApp Image 2024-03-29 at 22.37.43.jpeg" alt="Noiva pele retinta, acabamento glow"
+             data-caption="Noiva — Florianópolis (mar/24)"
+             class="rounded-2xl w-full h-56 object-cover" loading="lazy" width="800" height="700" />
+        <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
+          Noiva — Florianópolis (mar/24)
+        </figcaption>
+      </figure>
+
+      <figure class="group cursor-zoom-in">
+        <img src="images/WhatsApp Image 2024-03-29 at 22.37.44.jpeg" alt="Automaquiagem pele negra"
+             data-caption="Aula de Automaquiagem — pele negra (abr/24)"
+             class="rounded-2xl w-full h-56 object-cover" loading="lazy" width="800" height="700" />
+        <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
+          Aula de Automaquiagem — pele negra (abr/24)
+        </figcaption>
+      </figure>
+
+      <figure class="group cursor-zoom-in">
+        <img src="images/WhatsApp Image 2024-03-29 at 22.37.51.jpeg" alt="Maquiagem para formatura"
+             data-caption="Formatura — alta durabilidade (abr/24)"
+             class="rounded-2xl w-full h-56 object-cover" loading="lazy" width="800" height="700" />
+        <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
+          Formatura — alta durabilidade (abr/24)
+        </figcaption>
+      </figure>
+
+      <figure class="group cursor-zoom-in">
+        <img src="images/WhatsApp Image 2024-03-29 at 22.37.53.jpeg" alt="Pele iluminada, olhos neutros"
+             data-caption="Social — pele iluminada, olhos neutros"
+             class="rounded-2xl w-full h-56 object-cover" loading="lazy" width="800" height="700" />
+        <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
+          Social — pele iluminada, olhos neutros
+        </figcaption>
+      </figure>
+
+      <figure class="group cursor-zoom-in">
+        <img src="images/WhatsApp Image 2024-03-29 at 22.37.54.jpeg" alt="Olho marcante, pele glow"
+             data-caption="Evento — olho marcante, pele glow"
+             class="rounded-2xl w-full h-56 object-cover" loading="lazy" width="800" height="700" />
+        <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
+          Evento — olho marcante, pele glow
+        </figcaption>
+      </figure>
+
+      <figure class="group cursor-zoom-in">
+        <img src="images/WhatsApp Image 2024-03-29 at 22.37.55.jpeg" alt="Smokey eye em pele retinta"
+             data-caption="Editorial — smokey eye em pele retinta"
+             class="rounded-2xl w-full h-56 object-cover" loading="lazy" width="800" height="700" />
+        <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
+          Editorial — smokey eye em pele retinta
+        </figcaption>
+      </figure>
+
+      <figure class="group cursor-zoom-in">
+        <img src="images/WhatsApp Image 2024-03-29 at 22.37.52.jpeg" alt="Olho esfumado quente"
+             data-caption="Social — olho esfumado quente"
+             class="rounded-2xl w-full h-56 object-cover" loading="lazy" width="800" height="700" />
+        <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
+          Social — olho esfumado quente
+        </figcaption>
+      </figure>
     </div>
 
     <!-- Lightbox -->
@@ -339,7 +401,6 @@
         </div>
       </div>
       <div class="bg-white rounded-3xl shadow-soft overflow-hidden">
-        <!-- Mapa centrado no ponto exato -->
         <iframe title="Mapa"
                 src="https://www.google.com/maps?q=-27.628773,-48.670172&z=16&output=embed"
                 class="w-full h-80" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -368,23 +429,19 @@
       const msg = encodeURIComponent('Olá, vim do site e quero agendar maquiagem. Data/ocasião: ____ .');
       const url = `https://wa.me/${tel}?text=${msg}`;
 
-      // GA4 event
       if (typeof gtag !== 'undefined') {
         gtag('event', 'whatsapp_click', {
           event_category: 'Contato',
           event_label: 'Clique no WhatsApp'
         });
       }
-
-      // Meta Pixel event
       if (typeof fbq !== 'undefined') {
         fbq('trackCustom', 'WhatsAppClick');
       }
-
       window.open(url, '_blank');
     }
 
-    // Lightbox JS
+    // Lightbox
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightboxImg');
     const lbCap = document.getElementById('lightboxCaption');
@@ -394,7 +451,10 @@
       img.addEventListener('click', () => {
         lbImg.src = img.src;
         lbImg.alt = img.alt || '';
-        lbCap.textContent = img.alt || '';
+        // legenda prioriza data-caption; se não houver, usa figcaption; depois alt
+        const fromData = img.getAttribute('data-caption');
+        const fromFig = img.closest('figure')?.querySelector('figcaption')?.textContent?.trim();
+        lbCap.textContent = fromData || fromFig || img.alt || '';
         lb.classList.add('active');
       });
     });
@@ -404,7 +464,7 @@
     window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeLb(); });
   </script>
 
-  <!-- Script oficial do Instagram (UMA vez) -->
+  <!-- Script oficial do Instagram -->
   <script async src="https://www.instagram.com/embed.js"></script>
 </body>
 </html>
