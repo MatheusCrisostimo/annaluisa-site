@@ -1,0 +1,16 @@
+name: Link Check
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: "0 6 * * 1"
+jobs:
+  lychee:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lycheeverse/lychee-action@v1
+        with:
+          args: --verbose --no-progress --exclude-mail --accept 200,206 .
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
