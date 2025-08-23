@@ -1,0 +1,16 @@
+name: Lighthouse CI
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 7 * * 2"
+jobs:
+  lhci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Lighthouse
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          urls: |
+            https://MatheusCrisostimo.github.io/annaluisa-site/
+          budgetPath: ./lighthouse-budget.json
+          configPath: ./lighthouse-ci.json
