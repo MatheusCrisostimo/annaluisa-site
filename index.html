@@ -12,13 +12,14 @@
   <meta property="og:title" content="Maquiadora em Florianópolis | Anna Luísa" />
   <meta property="og:description" content="Maquiagem social, noivas, empresas e aulas. 9 anos embelezando sonhos." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="images/og-cover.jpg" />
+  <meta property="og:url" content="https://annaluisamakeup.vercel.app/" />
+  <meta property="og:image" content="https://annaluisamakeup.vercel.app/images/og-cover.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="pt_BR" />
 
   <link rel="icon" href="favicon.ico" />
-  <link rel="canonical" href="https://MatheusCrisostimo.github.io/annaluisa-site/">
+  <link rel="canonical" href="https://annaluisamakeup.vercel.app/">
   <meta name="theme-color" content="#e11d48">
 
   <!-- PWA -->
@@ -66,8 +67,9 @@
     .lightbox-backdrop.active{ display:flex; }
     .lightbox-img{ max-width:90vw; max-height:75vh; border-radius:1rem; box-shadow:0 20px 60px rgba(0,0,0,.4); }
 
-    /* Botão WhatsApp flutuante e ajuste com banner */
+    /* Botão WhatsApp flutuante (apenas mobile) e ajuste com banner */
     #waFloat{ position:fixed; bottom:1.25rem; right:1.25rem; z-index:50; }
+    @media (min-width:1024px){ #waFloat{ display:none; } }
     .cookie-open #waFloat{ bottom:6rem; }
   </style>
 
@@ -99,12 +101,13 @@
     "@context": "https://schema.org",
     "@type": "MakeupArtist",
     "name": "Anna Luísa — Maquiadora",
-    "image": ["https://MatheusCrisostimo.github.io/annaluisa-site/images/og-cover.jpg"],
+    "image": ["https://annaluisamakeup.vercel.app/images/og-cover.jpg"],
     "description": "Maquiagem social, noivas e aulas. 9 anos de experiência.",
-    "url": "https://MatheusCrisostimo.github.io/annaluisa-site",
+    "url": "https://annaluisamakeup.vercel.app",
     "telephone": "+55 21 99544-0439",
     "sameAs": ["https://www.instagram.com/annalluisaa/"],
     "areaServed": "Brasil",
+    "openingHours": ["Mo-Su 08:00-20:00"],
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "R. Maria Emília dos Santos",
@@ -121,12 +124,13 @@
   {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "@id": "https://MatheusCrisostimo.github.io/annaluisa-site/#local",
+    "@id": "https://annaluisamakeup.vercel.app/#local",
     "name": "Anna Luísa — Maquiadora",
-    "image": "https://MatheusCrisostimo.github.io/annaluisa-site/images/og-cover.jpg",
-    "url": "https://MatheusCrisostimo.github.io/annaluisa-site",
+    "image": "https://annaluisamakeup.vercel.app/images/og-cover.jpg",
+    "url": "https://annaluisamakeup.vercel.app",
     "telephone": "+55 21 99544-0439",
     "priceRange": "$$",
+    "openingHours": ["Mo-Su 08:00-20:00"],
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "R. Maria Emília dos Santos",
@@ -142,20 +146,12 @@
       {"@type":"Country","name":"Brasil"}
     ],
     "sameAs": [
-      "https://www.instagram.com/annalluisaa/",
-      "https://www.google.com/maps/place/Anna+Luisa+Makeup+Artist/@-27.628773,-48.6727469,17z/data=!4m8!3m7!1s0x952735c542321539:0xf235b99e191551e7!8m2!3d-27.628773!4d-48.670172!9m1!1b1!16s%2Fg%2F11s4_ngj38"
-    ],
-    "hasMap": "https://www.google.com/maps/place/Anna+Luisa+Makeup+Artist/@-27.628773,-48.6727469,17z/data=!4m8!3m7!1s0x952735c542321539:0xf235b99e191551e7!8m2!3d-27.628773!4d-48.670172!9m1!1b1!16s%2Fg%2F11s4_ngj38",
-    "makesOffer": [
-      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Maquiagem Social","areaServed":"Brasil"}},
-      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Noiva","areaServed":"Brasil"}},
-      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Aula de Automaquiagem","areaServed":"Brasil"}},
-      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Atendimento Corporativo","areaServed":"Brasil"}}
+      "https://www.instagram.com/annalluisaa/"
     ]
   }
   </script>
 
-  <!-- Safety‑net: WhatsApp funciona mesmo sem o módulo -->
+  <!-- Safety-net: WhatsApp funciona mesmo sem o módulo -->
   <script>
   (function(){
     const PHONE='5521995440439';
@@ -184,10 +180,10 @@
 
 <body class="bg-neutral-50 text-neutral-800">
 
-  <!-- Botão flutuante WhatsApp -->
+  <!-- Botão flutuante WhatsApp (mobile) -->
   <button id="waFloat" data-whats data-source="botao_fixo" aria-label="Agendar no WhatsApp"
      class="bg-green-500 hover:bg-green-600 text-white rounded-full shadow-mdx px-5 py-3 font-semibold flex items-center gap-2">
-    <span>💬</span> WhatsApp
+    <span aria-hidden="true">💬</span> WhatsApp
   </button>
 
   <!-- Header -->
@@ -212,17 +208,17 @@
       <!-- CTAs do header -->
       <div class="flex items-center gap-2">
         <a href="agendar.html"
-           class="hidden sm:inline-flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm font-semibold hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-rose-300"
+           class="hidden sm:inline-flex min-h-10 min-w-[148px] justify-center items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm font-semibold hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-rose-300"
            aria-label="Agendar online">
            Agendar online
         </a>
 
         <button type="button"
-                class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white
+                class="inline-flex min-h-10 min-w-[148px] justify-center items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white
                        bg-gradient-to-r from-rose-600 to-fuchsia-600 hover:opacity-95 shadow-md
                        focus:outline-none focus:ring-2 focus:ring-rose-300"
                 data-whats data-source="header">
-          Agendar Whats
+          Agendar pelo WhatsApp
         </button>
       </div>
     </div>
@@ -522,7 +518,7 @@
       <!-- Honeypot anti-spam -->
       <input type="text" name="_honey" style="display:none">
       <!-- Redirect -->
-      <input type="hidden" name="_next" value="https://MatheusCrisostimo.github.io/annaluisa-site/?enviado=1">
+      <input type="hidden" name="_next" value="https://annaluisamakeup.vercel.app/?enviado=1">
 
       <label class="text-sm">Nome
         <input required name="nome" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
@@ -626,9 +622,9 @@
     // Ano no rodapé
     document.getElementById('ano').textContent = new Date().getFullYear();
 
-    // PWA: registra SW (atenção ao path no GitHub Pages)
+    // PWA: registra SW (caminho relativo funciona no Vercel)
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/annaluisa-site/sw.js');
+      navigator.serviceWorker.register('sw.js').catch(()=>{});
     }
 
     // Lightbox acessível
@@ -695,13 +691,11 @@
     if (igSection) io.observe(igSection);
   </script>
 
-  <!-- Analytics centralizado (opcional; só para métricas, não bloqueia o clique) -->
+  <!-- Analytics centralizado (telemetria, sem bloquear UX) -->
   <script type="module">
     import { trackWhatsAppClick, trackLead, trackReviews } from './scripts/analytics.js';
-    // Sinaliza que o módulo carregou (apenas telemetria)
     window.__analyticsModuleReady = true;
 
-    // Métricas em cliques de Whats
     document.querySelectorAll('[data-whats]').forEach(el=>{
       el.addEventListener('click', ()=> trackWhatsAppClick(el.dataset.source || 'cta'));
     });
