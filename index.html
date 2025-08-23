@@ -15,38 +15,41 @@
   <link rel="canonical" href="https://SEU-USUARIO.github.io/annaluisa-site/">
   <meta name="theme-color" content="#e11d48">
 
+  <!-- Performance: preconnect/dns-prefetch -->
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://connect.facebook.net">
+  <link rel="dns-prefetch" href="https://connect.facebook.net">
+  <link rel="preconnect" href="https://www.instagram.com">
+  <link rel="dns-prefetch" href="https://www.instagram.com">
+
   <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    /* Estilos customizados (sem @apply) */
+    /* Estilos customizados */
     .glass { backdrop-filter: blur(10px); background: rgba(255,255,255,0.7); }
     .shadow-soft { box-shadow: 0 10px 30px rgba(0,0,0,.08); }
     .shadow-mdx { box-shadow: 0 6px 18px rgba(0,0,0,.06); }
 
-    .btn {
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:12px 20px; border-radius:0.75rem; font-weight:600; transition:.2s;
-    }
-    .btn-primary { background:#e11d48; color:#fff; }
-    .btn-primary:hover { background:#be123c; }
-    .btn-outline { border:1px solid #d1d5db; }
-    .btn-outline:hover { background:#f9fafb; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; padding:12px 20px; border-radius:0.75rem; font-weight:600; transition:.2s; }
+    .btn-primary { background:#e11d48; color:#fff; } .btn-primary:hover { background:#be123c; }
+    .btn-outline { border:1px solid #d1d5db; } .btn-outline:hover { background:#f9fafb; }
 
-    .chip {
-      display:inline-flex; align-items:center; gap:.5rem; border-radius:9999px;
-      padding:.25rem .75rem; font-size:.875rem; background:rgba(255,255,255,.85);
-      box-shadow:0 10px 30px rgba(0,0,0,.08);
-    }
+    .chip { display:inline-flex; align-items:center; gap:.5rem; border-radius:9999px; padding:.25rem .75rem; font-size:.875rem; background:rgba(255,255,255,.85); box-shadow:0 10px 30px rgba(0,0,0,.08); }
 
     .section { max-width:72rem; margin:0 auto; padding:0 1rem; }
     @media (min-width:640px){ .section { padding:0 1.5rem; } }
     @media (min-width:1024px){ .section { padding:0 2rem; } }
 
-    /* Lightbox */
+    /* Lightbox acessível */
     .lightbox-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.8); display:none; align-items:center; justify-content:center; z-index:60; padding:2rem; }
     .lightbox-backdrop.active{ display:flex; }
     .lightbox-img{ max-width:90vw; max-height:75vh; border-radius:1rem; box-shadow:0 20px 60px rgba(0,0,0,.4); }
+
+    /* Botão WhatsApp flutuante e ajuste com banner */
+    #waFloat{ position:fixed; bottom:1.25rem; right:1.25rem; z-index:50; }
+    .cookie-open #waFloat{ bottom:6rem; }
   </style>
 
   <!-- Google tag (gtag.js) - GA4 -->
@@ -54,7 +57,7 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    // Consentimento padrão (será atualizado pelo banner)
+    // Consentimento padrão (atualizado pelo banner)
     gtag('consent','default',{
       'ad_user_data':'denied',
       'ad_personalization':'denied',
@@ -72,13 +75,11 @@
     n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
     t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', 'YOUR_PIXEL_ID'); // <- troque
+    fbq('init', 'YOUR_PIXEL_ID'); /* troque pelo seu */
     fbq('track', 'PageView');
   </script>
-  <noscript>
-    <img height="1" width="1" style="display:none"
-         src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"/>
-  </noscript>
+  <noscript><img height="1" width="1" style="display:none"
+       src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
 
   <!-- Schema: MakeupArtist -->
   <script type="application/ld+json">
@@ -103,7 +104,7 @@
   }
   </script>
 
-  <!-- Schema: LocalBusiness com geo, serviços e mapa -->
+  <!-- Schema: LocalBusiness com geo/serviços/mapa -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -123,36 +124,31 @@
       "addressCountry": "BR"
     },
     "geo": { "@type": "GeoCoordinates", "latitude": -27.628773, "longitude": -48.670172 },
-    "areaServed": { "@type": "Country", "name": "Brasil" },
+    "areaServed": [
+      {"@type":"City","name":"Palhoça"},
+      {"@type":"City","name":"Florianópolis"},
+      {"@type":"Country","name":"Brasil"}
+    ],
     "sameAs": [
       "https://www.instagram.com/annalluisaa/",
       "https://www.google.com/maps/place/Anna+Luisa+Makeup+Artist/@-27.628773,-48.6727469,17z/data=!4m8!3m7!1s0x952735c542321539:0xf235b99e191551e7!8m2!3d-27.628773!4d-48.670172!9m1!1b1!16s%2Fg%2F11s4_ngj38"
     ],
     "hasMap": "https://www.google.com/maps/place/Anna+Luisa+Makeup+Artist/@-27.628773,-48.6727469,17z/data=!4m8!3m7!1s0x952735c542321539:0xf235b99e191551e7!8m2!3d-27.628773!4d-48.670172!9m1!1b1!16s%2Fg%2F11s4_ngj38",
-    "openingHoursSpecification": [{
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
-      "opens": "08:00",
-      "closes": "20:00"
-    }],
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "Serviços de maquiagem",
-      "itemListElement": [
-        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Maquiagem Social","description":"Festas, formaturas e ensaios. Preparação de pele impecável e acabamento fotográfico."}},
-        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Noiva","description":"Prova, atendimento no grande dia e kit de retoque. Opção com penteado parceiro."}},
-        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Aula de Automaquiagem","description":"Conteúdo personalizado por tom de pele, estilo e rotina. Material de apoio incluso."}},
-        {"@type":"Offer","itemOffered":{"@type":"Service","name":"Atendimento Corporativo","description":"Campanhas, editoriais, TV e eventos; time dedicado e emissão de NF."}}
-      ]
-    }
+    "makesOffer": [
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Maquiagem Social","areaServed":"Brasil"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Noiva","areaServed":"Brasil"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Aula de Automaquiagem","areaServed":"Brasil"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Atendimento Corporativo","areaServed":"Brasil"}}
+    ]
   }
   </script>
 </head>
 
 <body class="bg-neutral-50 text-neutral-800">
+
   <!-- Botão flutuante WhatsApp -->
-  <button onclick="falarNoWhatsApp()" aria-label="Agendar no WhatsApp"
-     class="fixed bottom-5 right-5 z-50 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-mdx px-5 py-3 font-semibold flex items-center gap-2">
+  <button id="waFloat" onclick="falarNoWhatsApp()" aria-label="Agendar no WhatsApp"
+     class="bg-green-500 hover:bg-green-600 text-white rounded-full shadow-mdx px-5 py-3 font-semibold flex items-center gap-2">
     <span>💬</span> WhatsApp
   </button>
 
@@ -173,14 +169,22 @@
         <a href="#orcamento" class="hover:text-rose-600">Orçamento</a>
         <a href="#contato" class="hover:text-rose-600">Contato</a>
       </nav>
-      <button class="btn btn-primary rounded-full" onclick="falarNoWhatsApp()">Agendar</button>
+      <div class="flex items-center gap-2">
+        <a href="agendar.html" class="btn btn-outline rounded-full hidden sm:inline-flex">Agendar online</a>
+        <button class="btn btn-primary rounded-full" onclick="falarNoWhatsApp()">Agendar Whats</button>
+      </div>
     </div>
   </header>
 
-  <!-- Hero -->
+  <!-- Hero com srcset/sizes -->
   <section class="relative overflow-hidden">
-    <img src="images/hero.webp" alt="Modelo maquiada por Anna Luísa"
-         class="w-full h-[68vh] object-cover object-center" loading="eager" width="1600" height="900" />
+    <img
+      src="images/hero-1600.webp"
+      srcset="images/hero-800.webp 800w, images/hero-1200.webp 1200w, images/hero-1600.webp 1600w"
+      sizes="100vw"
+      width="1600" height="900" alt="Modelo maquiada por Anna Luísa"
+      class="w-full h-[68vh] object-cover object-center" loading="eager" fetchpriority="high"
+    />
     <div class="section">
       <div class="absolute inset-0 section flex items-end pb-12">
         <div class="glass rounded-xl p-6 md:p-8 shadow-mdx max-w-2xl">
@@ -192,8 +196,8 @@
             Beleza que realça <span class="text-rose-600">você</span>
           </h1>
           <p class="mt-3 text-neutral-700">Maquiagem social, noivas, empresas e aulas — foco especial em peles pretas.</p>
-          <div class="mt-5 flex gap-3">
-            <button class="btn btn-primary rounded-full" onclick="falarNoWhatsApp()">Quero um horário</button>
+          <div class="mt-5 flex flex-wrap gap-3">
+            <a href="agendar.html" class="btn btn-primary rounded-full">Agendar online</a>
             <a href="#portfolio" class="btn btn-outline rounded-full">Ver portfólio</a>
           </div>
         </div>
@@ -201,7 +205,7 @@
     </div>
   </section>
 
-  <!-- Selos / Provas -->
+  <!-- Selos -->
   <section class="section py-12 grid gap-6 md:grid-cols-3">
     <div class="p-6 bg-white rounded-xl shadow-mdx">
       <h3 class="font-semibold">Especialista em peles pretas</h3>
@@ -327,6 +331,7 @@
     </div>
 
     <div class="mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+      <!-- Substitua pelos seus .webp -->
       <figure class="group cursor-zoom-in">
         <img src="images/portfolio-01.webp" alt="Maquiagem social pele preta"
              data-caption="Maquiagem Social — Ensaio fotográfico (mar/24)"
@@ -335,6 +340,7 @@
           Maquiagem Social — Ensaio fotográfico (mar/24)
         </figcaption>
       </figure>
+
       <figure class="group cursor-zoom-in">
         <img src="images/portfolio-02.webp" alt="Noiva pele retinta, acabamento glow"
              data-caption="Noiva — Florianópolis (mar/24)"
@@ -343,6 +349,7 @@
           Noiva — Florianópolis (mar/24)
         </figcaption>
       </figure>
+
       <figure class="group cursor-zoom-in">
         <img src="images/portfolio-03.webp" alt="Automaquiagem pele negra"
              data-caption="Aula de Automaquiagem — pele negra (abr/24)"
@@ -351,6 +358,7 @@
           Aula de Automaquiagem — pele negra (abr/24)
         </figcaption>
       </figure>
+
       <figure class="group cursor-zoom-in">
         <img src="images/portfolio-04.webp" alt="Maquiagem para formatura"
              data-caption="Formatura — alta durabilidade (abr/24)"
@@ -359,6 +367,7 @@
           Formatura — alta durabilidade (abr/24)
         </figcaption>
       </figure>
+
       <figure class="group cursor-zoom-in">
         <img src="images/portfolio-05.webp" alt="Pele iluminada, olhos neutros"
              data-caption="Social — pele iluminada, olhos neutros"
@@ -367,6 +376,7 @@
           Social — pele iluminada, olhos neutros
         </figcaption>
       </figure>
+
       <figure class="group cursor-zoom-in">
         <img src="images/portfolio-06.webp" alt="Olho marcante, pele glow"
              data-caption="Evento — olho marcante, pele glow"
@@ -375,6 +385,7 @@
           Evento — olho marcante, pele glow
         </figcaption>
       </figure>
+
       <figure class="group cursor-zoom-in">
         <img src="images/portfolio-07.webp" alt="Smokey eye em pele retinta"
              data-caption="Editorial — smokey eye em pele retinta"
@@ -383,6 +394,7 @@
           Editorial — smokey eye em pele retinta
         </figcaption>
       </figure>
+
       <figure class="group cursor-zoom-in">
         <img src="images/portfolio-08.webp" alt="Olho esfumado quente"
              data-caption="Social — olho esfumado quente"
@@ -394,7 +406,7 @@
     </div>
 
     <!-- Lightbox -->
-    <div id="lightbox" class="lightbox-backdrop" role="dialog" aria-modal="true" aria-label="Visualizador de imagem">
+    <div id="lightbox" class="lightbox-backdrop" role="dialog" aria-modal="true" aria-label="Visualizador de imagem" aria-hidden="true">
       <button id="lightboxClose" class="absolute top-6 right-6 text-white text-2xl" aria-label="Fechar">✕</button>
       <img id="lightboxImg" class="lightbox-img" alt="Imagem em destaque" />
       <p id="lightboxCaption" class="text-white/90 mt-3 text-sm text-center max-w-2xl"></p>
@@ -427,7 +439,10 @@
         <h2 class="text-2xl md:text-3xl font-extrabold">Pronta para brilhar?</h2>
         <p class="text-white/90 mt-2">Garanta seu horário — respondo mais rápido pelo WhatsApp.</p>
       </div>
-      <button class="btn bg-white text-rose-700 hover:bg-white/90 rounded-full" onclick="falarNoWhatsApp()">Agendar</button>
+      <div class="flex gap-2">
+        <a href="agendar.html" class="btn bg-white text-rose-700 hover:bg-white/90 rounded-full">Agendar online</a>
+        <button class="btn bg-white text-rose-700 hover:bg-white/90 rounded-full" onclick="falarNoWhatsApp()">Agendar no Whats</button>
+      </div>
     </div>
   </section>
 
@@ -447,26 +462,22 @@
     </div>
   </section>
 
-  <!-- Orçamento (lead) -->
+  <!-- Orçamento -->
   <section id="orcamento" class="section py-12">
     <h2 class="text-2xl md:text-3xl font-extrabold">Solicitar orçamento</h2>
     <form action="https://formsubmit.co/SEU-EMAIL@SEU-DOMINIO.COM" method="POST" class="mt-6 grid gap-4 md:grid-cols-2 bg-white p-6 rounded-xl shadow-mdx">
       <input type="hidden" name="_subject" value="Novo orçamento pelo site">
       <input type="hidden" name="_captcha" value="false">
-      <label class="text-sm">
-        Nome
+      <label class="text-sm">Nome
         <input required name="nome" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
       </label>
-      <label class="text-sm">
-        E-mail
+      <label class="text-sm">E-mail
         <input required type="email" name="email" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
       </label>
-      <label class="text-sm">
-        Telefone/WhatsApp
+      <label class="text-sm">Telefone/WhatsApp
         <input name="telefone" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
       </label>
-      <label class="text-sm">
-        Tipo de serviço
+      <label class="text-sm">Tipo de serviço
         <select name="servico" class="w-full mt-1 rounded-lg border border-neutral-300 p-3">
           <option>Maquiagem Social</option>
           <option>Noiva</option>
@@ -474,8 +485,7 @@
           <option>Empresas</option>
         </select>
       </label>
-      <label class="text-sm md:col-span-2">
-        Detalhes (data/ocasião, local, preferências)
+      <label class="text-sm md:col-span-2">Detalhes (data/ocasião, local, preferências)
         <textarea required name="detalhes" rows="4" class="w-full mt-1 rounded-lg border border-neutral-300 p-3"></textarea>
       </label>
       <div class="md:col-span-2 flex items-center gap-3">
@@ -491,7 +501,7 @@
       <div>
         <h2 class="text-2xl md:text-3xl font-extrabold">Contato</h2>
         <ul class="mt-4 space-y-2 text-neutral-700">
-          <li><strong>WhatsApp:</strong> <a class="text-rose-600 hover:underline" href="https://wa.me/5521995440439" target="_blank" rel="noopener">(21) 99544-0439</a></li>
+          <li><strong>WhatsApp:</strong> <a class="text-rose-600 hover:underline" href="https://wa.me/5521995440439?utm_source=site&utm_medium=cta&utm_campaign=whatsapp" target="_blank" rel="noopener">(21) 99544-0439</a></li>
           <li><strong>Instagram:</strong> <a class="text-rose-600 hover:underline" href="https://www.instagram.com/annalluisaa/" target="_blank" rel="noopener">@annalluisaa</a></li>
           <li><strong>Endereço:</strong> R. Maria Emília dos Santos — Jardim Coqueiros, Palhoça — SC, 88133-270</li>
           <li><strong>Atendimento:</strong> Seg-Dom, 08h–20h (com agendamento)</li>
@@ -507,8 +517,7 @@
         </div>
       </div>
       <div class="bg-white rounded-xl shadow-mdx overflow-hidden">
-        <iframe title="Mapa"
-                src="https://www.google.com/maps?q=-27.628773,-48.670172&z=16&output=embed"
+        <iframe title="Mapa" src="https://www.google.com/maps?q=-27.628773,-48.670172&z=16&output=embed"
                 class="w-full h-80" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
     </div>
@@ -555,6 +564,7 @@
     </div>
   </div>
 
+  <!-- Scripts -->
   <script>
     // Ano no rodapé
     document.getElementById('ano').textContent = new Date().getFullYear();
@@ -563,38 +573,62 @@
     function falarNoWhatsApp() {
       const tel = '5521995440439';
       const msg = encodeURIComponent('Olá, vim do site e quero agendar maquiagem. Data/ocasião: ____ .');
-      const url = `https://wa.me/${tel}?text=${msg}`;
+      const url = `https://wa.me/${tel}?text=${msg}&utm_source=site&utm_medium=cta&utm_campaign=whatsapp`;
       if (typeof gtag !== 'undefined') gtag('event', 'whatsapp_click', {event_category:'Contato', event_label:'Clique no WhatsApp'});
       if (typeof fbq !== 'undefined') fbq('trackCustom', 'WhatsAppClick');
       window.open(url, '_blank');
     }
 
-    // Lightbox
+    // Lightbox acessível (focus trap + restore)
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightboxImg');
     const lbCap = document.getElementById('lightboxCaption');
     const lbClose = document.getElementById('lightboxClose');
+    let lastFocus;
+
+    function openLb(img){
+      lastFocus = document.activeElement;
+      lbImg.src = img.src;
+      lbImg.alt = img.alt || '';
+      const fromData = img.getAttribute('data-caption');
+      const fromFig = img.closest('figure')?.querySelector('figcaption')?.textContent?.trim();
+      lbCap.textContent = fromData || fromFig || img.alt || '';
+      lb.classList.add('active');
+      lb.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+      lbClose.focus();
+    }
+    function closeLb(){
+      lb.classList.remove('active');
+      lb.setAttribute('aria-hidden','true');
+      lbImg.src='';
+      document.body.style.overflow='';
+      lastFocus?.focus();
+    }
 
     document.querySelectorAll('#portfolio img').forEach(img => {
-      img.addEventListener('click', () => {
-        lbImg.src = img.src;
-        lbImg.alt = img.alt || '';
-        const fromData = img.getAttribute('data-caption');
-        const fromFig = img.closest('figure')?.querySelector('figcaption')?.textContent?.trim();
-        lbCap.textContent = fromData || fromFig || img.alt || '';
-        lb.classList.add('active');
-      });
+      img.addEventListener('click', () => openLb(img));
+      img.setAttribute('tabindex','0');
+      img.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openLb(img); }});
     });
-    function closeLb(){ lb.classList.remove('active'); lbImg.src=''; }
     lbClose?.addEventListener('click', closeLb);
     lb?.addEventListener('click', (e)=>{ if(e.target === lb) closeLb(); });
     window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeLb(); });
+    lb.addEventListener('keydown', (e)=>{
+      if(e.key==='Tab'){
+        const focusables = lb.querySelectorAll('button, [href], img, [tabindex]:not([tabindex="-1"])');
+        const first=focusables[0], last=focusables[focusables.length-1];
+        if (e.shiftKey && document.activeElement===first) { last.focus(); e.preventDefault(); }
+        else if (!e.shiftKey && document.activeElement===last) { first.focus(); e.preventDefault(); }
+      }
+    });
 
-    // Consentimento LGPD
+    // LGPD + ajuste do botão flutuante
     const BKEY='cookieConsent';
     function setConsent(ok){
       localStorage.setItem(BKEY, ok?'granted':'denied');
       document.getElementById('cookieBanner').style.display='none';
+      document.body.classList.remove('cookie-open');
       if (typeof gtag!=='undefined') {
         gtag('consent','update',{
           ad_user_data: ok?'granted':'denied',
@@ -603,11 +637,12 @@
           analytics_storage: ok?'granted':'denied'
         });
       }
-      if (typeof fbq!=='undefined' && !ok){
-        // Se desejar, pare de enviar eventos do Pixel aqui.
-      }
     }
-    if (localStorage.getItem(BKEY)) document.getElementById('cookieBanner').style.display='none';
+    if (!localStorage.getItem(BKEY)) {
+      document.body.classList.add('cookie-open');
+    } else {
+      document.getElementById('cookieBanner').style.display='none';
+    }
 
     // Eventos extra GA4/Pixel
     document.querySelectorAll('a[href*="google.com/maps"]').forEach(a=>{
@@ -616,15 +651,47 @@
         if (typeof fbq!=='undefined') fbq('trackCustom','ClickAvaliacoes');
       });
     });
-    document.querySelectorAll('form').forEach(f=>{
-      f.addEventListener('submit', ()=>{
-        if (typeof gtag!=='undefined') gtag('event','envio_formulario',{event_category:'Lead'});
-        if (typeof fbq!=='undefined') fbq('track','Lead');
+    document.querySelectorAll('#portfolio img').forEach((img,i)=>{
+      img.addEventListener('click', ()=>{
+        if (typeof gtag!=='undefined') gtag('event','portfolio_open',{index:i+1});
+        if (typeof fbq!=='undefined') fbq('trackCustom','PortfolioOpen',{index:i+1});
       });
+    });
+
+    // Scroll depth simples
+    let fired25=false;
+    window.addEventListener('scroll', ()=>{
+      const p = (window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+      if (!fired25 && p>25){ fired25=true; gtag?.('event','scroll_25'); fbq?.('trackCustom','Scroll25'); }
     });
   </script>
 
-  <!-- Script oficial do Instagram -->
-  <script async src="https://www.instagram.com/embed.js"></script>
+  <!-- Instagram: carregar sob demanda -->
+  <script>
+    const igLoaded = { v:false };
+    const sec = document.getElementById('instagram');
+    const io = new IntersectionObserver((entries)=>{
+      if(entries.some(e=>e.isIntersecting) && !igLoaded.v){
+        igLoaded.v = true;
+        const s = document.createElement('script');
+        s.src = "https://www.instagram.com/embed.js"; s.async = true;
+        document.body.appendChild(s);
+      }
+    },{rootMargin:"200px"});
+    if (sec) io.observe(sec);
+  </script>
+
+  <!-- FAQPage Schema (para rich results) -->
+  <script type="application/ld+json">
+  {
+   "@context":"https://schema.org",
+   "@type":"FAQPage",
+   "mainEntity":[
+    {"@type":"Question","name":"Você atende no local do evento?","acceptedAnswer":{"@type":"Answer","text":"Sim, atendo em Palhoça/Florianópolis e realizo deslocamentos conforme necessidade."}},
+    {"@type":"Question","name":"Você emite nota fiscal?","acceptedAnswer":{"@type":"Answer","text":"Sim, para pessoa física e jurídica."}},
+    {"@type":"Question","name":"Como funcionam as provas de noiva?","acceptedAnswer":{"@type":"Answer","text":"Agendamos com antecedência para definir pele, acabamento e estilo, garantindo o resultado no grande dia."}}
+   ]
+  }
+  </script>
 </body>
 </html>
