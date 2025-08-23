@@ -1,6 +1,47 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+
+  <!-- Safety-net: WhatsApp mesmo se o módulo não carregar -->
+<script>
+(function(){
+  // abre WhatsApp imediatamente
+  function openWA(source){
+    const tel = '5521995440439';
+    const msg = encodeURIComponent('Olá, vim do site e quero agendar maquiagem. Data/ocasião: ____ .');
+    const url = `https://wa.me/${tel}?text=${msg}&utm_source=site&utm_medium=cta&utm_campaign=whatsapp&src=${encodeURIComponent(source||'cta')}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
+  // Se o ESM não sinalizar "ready", fazemos o bind de fallback
+  function bindFallback(){
+    if (window.__analyticsModuleReady) return; // módulo assumiu o controle
+    document.querySelectorAll('[data-whats-source]').forEach(el=>{
+      if (el.__waBoundFallback) return;
+      el.__waBoundFallback = true;
+      el.addEventListener('click', ()=> openWA(el.dataset.whatsSource || 'cta'));
+    });
+  }
+  // tenta ligar agora e após DOM pronto (garante cobertura)
+  bindFallback();
+  document.addEventListener('DOMContentLoaded', bindFallback);
+})();
+</script>
+
+  <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+  <!-- mantém 2 colunas no mobile, 3 no sm, 4 no lg -->
+</div>
+
+  <img
+  src="images/portfolio-01.webp"
+  alt="Maquiagem social pele preta"
+  width="800" height="700" loading="lazy" decoding="async"
+  class="w-full h-auto md:h-56 object-cover rounded-xl"
+  data-caption="Maquiagem Social — Ensaio fotográfico (mar/24)"
+/>
+<img src="images/corporate-01.webp" alt="Editorial/set"
+     class="rounded-xl w-full h-auto md:h-28 object-cover" loading="lazy" decoding="async">
+
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Maquiadora em Florianópolis | Anna Luísa — Beleza que Realça Você</title>
