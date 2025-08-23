@@ -1,0 +1,10 @@
+{
+  "resourceSizes": [
+    { "resourceType": "script", "budget": 200 },
+    { "resourceType": "total",  "budget": 2000 }
+  ],
+  "timings": [
+    { "metric": "first-contentful-paint", "budget": 2000 },
+    { "metric": "interactive", "budget": 4000 }
+  ]
+}
