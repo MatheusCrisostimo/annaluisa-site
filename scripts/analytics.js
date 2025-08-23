@@ -74,3 +74,22 @@ export function openWhatsApp({phone='5521995440439', text='Olá, vim do site e q
   const url = `https://wa.me/${phone}?text=${msg}&utm_source=site&utm_medium=cta&utm_campaign=whatsapp&src=${encodeURIComponent(source)}`;
   window.open(url,'_blank','noopener,noreferrer');
 }
+
+// scripts/analytics.js
+// Requer que o GA4 e o Pixel (fbq) já estejam carregados no index.html
+
+export function trackWhatsAppClick(source = 'btn') {
+  try { gtag && gtag('event','whatsapp_click',{event_category:'Contato', source}); } catch(e){}
+  try { fbq && fbq('trackCustom','WhatsAppClick',{source}); } catch(e){}
+}
+
+export function trackLead(formId = 'form') {
+  try { gtag && gtag('event','lead_submit',{form_id: formId}); } catch(e){}
+  try { fbq && fbq('track','Lead'); } catch(e){}
+}
+
+export function trackReviews() {
+  try { gtag && gtag('event','reviews_click'); } catch(e){}
+  try { fbq && fbq('trackCustom','ReviewsClick'); } catch(e){}
+}
+
