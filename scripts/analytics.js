@@ -54,4 +54,4 @@ export function trackScroll25Once() {
     hasPX() && window.fbq("trackCustom", "Scroll25");
   } catch (_) {}
 }
-
+window.__analyticsModuleReady = true;
