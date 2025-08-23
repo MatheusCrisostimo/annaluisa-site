@@ -3,49 +3,143 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Agendar | Anna Luísa — Maquiadora</title>
-  <meta name="description" content="Agende seu horário com Anna Luísa. Atendimento social, noivas, empresas e aulas." />
-  <link rel="preconnect" href="https://assets.calendly.com">
-  <link rel="dns-prefetch" href="https://assets.calendly.com">
+  <meta name="format-detection" content="telephone=no" />
+  <title>Agendar | Anna Luísa — Maquiadora em Florianópolis</title>
+  <meta name="description" content="Agende maquiagem social, noiva, aulas e corporativo. Atendimento em Palhoça/Florianópolis — SC." />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Agendar horário | Anna Luísa" />
+  <meta property="og:description" content="Agende maquiagem social, noiva, aulas e corporativo." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="images/og-cover.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="pt_BR" />
+
   <link rel="icon" href="favicon.ico" />
-  <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#e11d48" />
+  <link rel="canonical" href="https://MatheusCrisostimo.github.io/annaluisa-site/agendar.html">
+  <meta name="theme-color" content="#e11d48">
+
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="scripts/analytics.js"></script>
+
   <style>
-    .section { max-width: 72rem; margin: 0 auto; padding: 0 1rem; }
-    .btn { display:inline-flex; align-items:center; justify-content:center; padding:12px 20px; border-radius:.75rem; font-weight:600; transition:.2s; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; padding:10px 16px; border-radius:9999px; font-weight:600; transition:.2s; }
+    .btn-primary { color:#fff; background-image:linear-gradient(90deg,#e11d48,#c026d3); }
+    .btn-primary:hover { opacity:.95; }
     .btn-outline { border:1px solid #d1d5db; }
     .btn-outline:hover { background:#f9fafb; }
+    .section { max-width:56rem; margin:0 auto; padding:0 1rem; }
+    @media (min-width:640px){ .section { padding:0 1.5rem; } }
+    @media (min-width:1024px){ .section { padding:0 2rem; } }
   </style>
+
+  <!-- Safety‑net WhatsApp (funciona mesmo sem analytics.js) -->
+  <script>
+  (function(){
+    const PHONE='5521995440439';
+    const DEFAULT_MSG='Olá, vim do site e quero agendar maquiagem.';
+    function openWA(source, text){
+      const msg = encodeURIComponent(text || DEFAULT_MSG);
+      const url = `https://wa.me/${PHONE}?text=${msg}&utm_source=site&utm_medium=cta&utm_campaign=whatsapp&src=${encodeURIComponent(source||'agendar')}`;
+      window.open(url,'_blank','noopener,noreferrer');
+    }
+    // expõe p/ formulário
+    window.__openWA = openWA;
+
+    function bindWAButtons(){
+      document.querySelectorAll('[data-whats]').forEach(el=>{
+        if(el.__waBound) return; el.__waBound = true;
+        el.addEventListener('click', ()=> openWA(el.dataset.source, el.dataset.text));
+      });
+      // compat legado
+      document.querySelectorAll('[data-whats-source]').forEach(el=>{
+        if(el.__waBoundLegacy) return; el.__waBoundLegacy = true;
+        el.addEventListener('click', ()=> openWA(el.dataset.whatsSource));
+      });
+    }
+    bindWAButtons(); document.addEventListener('DOMContentLoaded', bindWAButtons);
+  })();
+  </script>
 </head>
+
 <body class="bg-neutral-50 text-neutral-800">
+  <!-- Header simples -->
   <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-neutral-200">
     <div class="section flex items-center justify-between h-16">
-      <a href="./" class="font-semibold">← Voltar</a>
-      <nav class="text-sm hidden md:block">
-        <a href="index.html#servicos" class="hover:text-rose-600 mr-4">Serviços</a>
+      <a href="index.html" class="flex items-center gap-3 font-semibold">
+        <img src="images/logo.png" alt="Logo Anna Luísa" class="h-8 w-8" />
+        <span>Anna Luísa — Maquiadora</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-4 text-sm">
+        <a href="index.html#servicos" class="hover:text-rose-600">Serviços</a>
+        <a href="index.html#portfolio" class="hover:text-rose-600">Portfólio</a>
         <a href="index.html#contato" class="hover:text-rose-600">Contato</a>
       </nav>
-      <a href="https://wa.me/5521995440439?text=Ol%C3%A1%2C%20vim%20do%20site%20e%20quero%20agendar%20maquiagem." 
-         class="btn btn-outline" data-whats-source="agendar_header">WhatsApp</a>
+      <div class="flex items-center gap-2">
+        <a href="index.html" class="btn btn-outline">Voltar ao site</a>
+        <button class="btn btn-primary" data-whats data-source="agendar_top">Agendar no Whats</button>
+      </div>
     </div>
   </header>
 
-  <main class="section py-8">
-    <h1 class="text-2xl md:text-3xl font-extrabold">Agendar online</h1>
-    <p class="mt-2 text-neutral-700">Escolha o melhor dia e horário no calendário abaixo. Após confirmar, você receberá e-mail com os detalhes.</p>
+  <!-- Hero curto -->
+  <section class="section py-10">
+    <h1 class="text-3xl md:text-4xl font-extrabold">Agendar</h1>
+    <p class="mt-2 text-neutral-700">Preencha os campos abaixo para agilizar o atendimento — respondo mais rápido pelo WhatsApp.</p>
+  </section>
 
-    <div class="mt-6 rounded-xl bg-white p-2 shadow">
-      <div class="calendly-inline-widget" data-url="https://calendly.com/annalluisaa/30min?hide_landing_page_details=1&hide_gdpr_banner=1" style="min-width:320px;height:780px;"></div>
-    </div>
-    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  <!-- Formulário de agendamento -->
+  <section class="section pb-16">
+    <form id="agendarForm" class="bg-white rounded-xl shadow p-6 grid gap-4 md:grid-cols-2">
+      <label class="text-sm">Nome
+        <input required name="nome" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
+      </label>
 
-    <div class="mt-6 text-sm text-neutral-600">
-      Dúvidas? <a class="text-rose-600 underline" href="https://wa.me/5521995440439" data-whats-source="agendar_help">Fale no WhatsApp</a>.
-    </div>
-  </main>
+      <label class="text-sm">Telefone/WhatsApp
+        <input name="telefone" inputmode="tel" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
+      </label>
 
+      <label class="text-sm">E-mail
+        <input type="email" name="email" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
+      </label>
+
+      <label class="text-sm">Tipo de serviço
+        <select name="servico" class="w-full mt-1 rounded-lg border border-neutral-300 p-3">
+          <option>Maquiagem Social</option>
+          <option>Noiva</option>
+          <option>Aula de Automaquiagem</option>
+          <option>Empresas</option>
+        </select>
+      </label>
+
+      <label class="text-sm">Data desejada
+        <input type="date" name="data" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
+      </label>
+
+      <label class="text-sm">Horário aproximado
+        <input type="time" name="horario" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
+      </label>
+
+      <label class="text-sm md:col-span-2">Local do atendimento
+        <input name="local" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" placeholder="Palhoça / Florianópolis ou endereço completo" />
+      </label>
+
+      <label class="text-sm md:col-span-2">Detalhes / referências
+        <textarea name="detalhes" rows="4" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" placeholder="Tipo de pele, acabamento preferido, referências etc."></textarea>
+      </label>
+
+      <div class="md:col-span-2 flex flex-wrap gap-3">
+        <button type="submit" class="btn btn-primary">Enviar no WhatsApp</button>
+        <button type="button" class="btn btn-outline" data-whats data-source="agendar_atalho">Abrir WhatsApp agora</button>
+      </div>
+
+      <p class="md:col-span-2 text-xs text-neutral-500">Ao enviar, abriremos o WhatsApp com as informações preenchidas para concluir o agendamento.</p>
+    </form>
+  </section>
+
+  <!-- Rodapé compacto -->
   <footer class="border-t border-neutral-200 py-10 mt-8">
     <div class="section flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-neutral-500">
       <p>© <span id="ano"></span> Anna Luísa — Maquiadora.</p>
@@ -56,16 +150,46 @@
     </div>
   </footer>
 
-  <script>
-    document.getElementById('ano').textContent = new Date().getFullYear();
-    window.addEventListener("message", function(e) {
-      if (e.data && e.data.event && e.data.event.indexOf("calendly.") === 0) {
-        if (e.data.event === "calendly.event_scheduled") {
-          if (typeof gtag !== 'undefined') gtag('event','calendly_scheduled',{event_category:'Agendamento'});
-          if (typeof fbq !== 'undefined') fbq('track','Schedule');
-        }
-      }
+  <!-- Scripts da página -->
+  <script type="module">
+    import { trackWhatsAppClick, trackLead } from './scripts/analytics.js';
+    window.__analyticsModuleReady = true;
+
+    // marca cliques em botões "simples"
+    document.querySelectorAll('[data-whats]').forEach(el=>{
+      el.addEventListener('click', ()=> trackWhatsAppClick(el.dataset.source || 'agendar'));
     });
+
+    // envia formulário -> monta mensagem e abre WhatsApp
+    const f = document.getElementById('agendarForm');
+    f.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const data = new FormData(f);
+      const campos = {
+        nome: data.get('nome') || '',
+        telefone: data.get('telefone') || '',
+        email: data.get('email') || '',
+        servico: data.get('servico') || '',
+        data: data.get('data') || '',
+        horario: data.get('horario') || '',
+        local: data.get('local') || '',
+        detalhes: data.get('detalhes') || ''
+      };
+      const linhas = [
+        `Olá, vim do site e quero agendar: ${campos.servico}`,
+        campos.data || campos.horario ? `Para: ${campos.data || '—'} ${campos.horario || ''}` : '',
+        campos.local ? `Local: ${campos.local}` : '',
+        campos.nome ? `Nome: ${campos.nome}` : '',
+        campos.telefone ? `Telefone: ${campos.telefone}` : '',
+        campos.email ? `E-mail: ${campos.email}` : '',
+        campos.detalhes ? `Detalhes: ${campos.detalhes}` : ''
+      ].filter(Boolean).join('\n');
+      trackLead('agendar_form');
+      (window.__openWA || function(){})('agendar_form', linhas);
+    });
+
+    // ano no rodapé
+    document.getElementById('ano').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
