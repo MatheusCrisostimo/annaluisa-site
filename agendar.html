@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agendar horário | Anna Luísa — Maquiadora</title>
+  <meta name="robots" content="index, follow" />
+  <link rel="icon" href="favicon.ico" />
+  <meta name="theme-color" content="#e11d48">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-60ZPREPJV3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent','default',{
+      'ad_user_data':'denied',
+      'ad_personalization':'denied',
+      'ad_storage':'denied',
+      'analytics_storage':'granted'
+    });
+    gtag('js', new Date());
+    gtag('config','G-60ZPREPJV3');
+  </script>
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init','YOUR_PIXEL_ID'); /* troque pelo seu */
+    fbq('track','PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
+
+  <style>
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 20px;border-radius:.75rem;font-weight:600;transition:.2s}
+    .btn-primary{background:#e11d48;color:#fff}.btn-primary:hover{background:#be123c}
+    .btn-outline{border:1px solid #d1d5db}.btn-outline:hover{background:#f9fafb}
+    .section{max-width:72rem;margin:0 auto;padding:0 1rem}
+    @media (min-width:640px){.section{padding:0 1.5rem}}
+    @media (min-width:1024px){.section{padding:0 2rem}}
+  </style>
+</head>
+<body class="bg-neutral-50 text-neutral-800">
+
+  <!-- Header simples -->
+  <header class="border-b border-neutral-200 bg-white">
+    <div class="section h-16 flex items-center justify-between">
+      <a href="index.html" class="font-semibold">← Voltar</a>
+      <span class="text-sm text-neutral-500">Agendamento online</span>
+      <a href="index.html#contato" class="text-sm text-rose-600 hover:underline">Contato</a>
+    </div>
+  </header>
+
+  <!-- Hero curto -->
+  <section class="section py-10">
+    <h1 class="text-3xl md:text-4xl font-extrabold">Agende seu horário</h1>
+    <p class="mt-2 text-neutral-700">Escolha o melhor dia e hora. Confirmação rápida por e‑mail e WhatsApp.</p>
+    <div class="mt-4 flex items-center gap-3">
+      <button class="btn btn-outline rounded-full" onclick="falarNoWhatsApp()">Preferir WhatsApp</button>
+    </div>
+  </section>
+
+  <!-- Calendly embed -->
+  <section class="section pb-12">
+    <div class="bg-white rounded-xl shadow p-2 md:p-4">
+      <div class="calendly-inline-widget"
+           data-url="SEU-LINK-DO-CALENDLY?hide_event_type_details=1&hide_gdpr_banner=1"
+           style="min-width:320px;height:850px;"></div>
+    </div>
+  </section>
+
+  <footer class="border-t border-neutral-200 py-8 mt-8">
+    <div class="section text-sm text-neutral-500">
+      © <span id="ano"></span> Anna Luísa — Maquiadora
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+  <script>
+    document.getElementById('ano').textContent = new Date().getFullYear();
+
+    function falarNoWhatsApp(){
+      const tel='5521995440439';
+      const msg=encodeURIComponent('Olá, vim da página de agendamento e quero reservar um horário. Data/ocasião: ____ .');
+      const url=`https://wa.me/${tel}?text=${msg}`;
+      if (typeof gtag!=='undefined') gtag('event','whatsapp_click',{event_category:'Contato',event_label:'Agendar'});
+      if (typeof fbq!=='undefined') fbq('trackCustom','WhatsAppClickAgendar');
+      window.open(url,'_blank');
+    }
+
+    // Eventos básicos de engajamento com Calendly
+    window.addEventListener('load', ()=>{
+      if (typeof gtag!=='undefined') gtag('event','view_calendly',{event_category:'Agendar'});
+      if (typeof fbq!=='undefined') fbq('trackCustom','ViewCalendly');
+    });
+
+    // Detecta cliques dentro do iframe (fallback genérico)
+    window.addEventListener('message', (e)=>{
+      // Calendly envia postMessage em integrações avançadas (quando habilitado),
+      // aqui deixamos um fallback para qualquer interação.
+      if (typeof gtag!=='undefined') gtag('event','interacao_calendly',{event_category:'Agendar'});
+      if (typeof fbq!=='undefined') fbq('trackCustom','InteracaoCalendly');
+    });
+  </script>
+</body>
+</html>
