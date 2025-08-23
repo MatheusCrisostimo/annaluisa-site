@@ -1,5 +1,3 @@
-# Permitir que todos os buscadores indexem o site
 User-agent: *
 Allow: /
-
-Sitemap: https://MatheusCrisostimo.github.io/annaluisa-site/sitemap.xml
+Sitemap: https://annaluisamakeup.vercel.app/sitemap.xml
