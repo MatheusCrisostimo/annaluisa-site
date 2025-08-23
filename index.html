@@ -6,14 +6,22 @@
   <title>Maquiadora em Florianópolis | Anna Luísa — Beleza que Realça Você</title>
   <meta name="description" content="Maquiagem social, noivas, empresas e aulas em Florianópolis e região. 9 anos embelezando sonhos. Agende pelo WhatsApp." />
   <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
   <meta property="og:title" content="Maquiadora em Florianópolis | Anna Luísa" />
   <meta property="og:description" content="Maquiagem social, noivas, empresas e aulas. 9 anos embelezando sonhos." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="images/og-cover.jpg" />
   <meta property="og:locale" content="pt_BR" />
+
   <link rel="icon" href="favicon.ico" />
-  <link rel="canonical" href="https://SEU-USUARIO.github.io/annaluisa-site/">
+  <link rel="canonical" href="https://MatheusCrisostimo.github.io/annaluisa-site/">
   <meta name="theme-color" content="#e11d48">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="images/icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
 
   <!-- Performance: preconnect/dns-prefetch -->
   <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -25,6 +33,12 @@
 
   <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Preload do hero (LCP) -->
+  <link rel="preload" as="image"
+        href="images/hero-1600.webp"
+        imagesrcset="images/hero-800.webp 800w, images/hero-1200.webp 1200w, images/hero-1600.webp 1600w"
+        imagesizes="100vw" />
 
   <style>
     /* Estilos customizados */
@@ -57,13 +71,7 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    // Consentimento padrão (atualizado pelo banner)
-    gtag('consent','default',{
-      'ad_user_data':'denied',
-      'ad_personalization':'denied',
-      'ad_storage':'denied',
-      'analytics_storage':'granted'
-    });
+    gtag('consent','default',{ ad_user_data:'denied', ad_personalization:'denied', ad_storage:'denied', analytics_storage:'granted' });
     gtag('js', new Date());
     gtag('config', 'G-60ZPREPJV3');
   </script>
@@ -73,8 +81,7 @@
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
     n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', 'YOUR_PIXEL_ID'); /* troque pelo seu */
     fbq('track', 'PageView');
   </script>
@@ -87,9 +94,9 @@
     "@context": "https://schema.org",
     "@type": "MakeupArtist",
     "name": "Anna Luísa — Maquiadora",
-    "image": ["https://SEU-USUARIO.github.io/annaluisa-site/images/og-cover.jpg"],
+    "image": ["https://MatheusCrisostimo.github.io/annaluisa-site/images/og-cover.jpg"],
     "description": "Maquiagem social, noivas e aulas. 9 anos de experiência.",
-    "url": "https://SEU-USUARIO.github.io/annaluisa-site",
+    "url": "https://MatheusCrisostimo.github.io/annaluisa-site",
     "telephone": "+55 21 99544-0439",
     "sameAs": ["https://www.instagram.com/annalluisaa/"],
     "areaServed": "Brasil",
@@ -109,10 +116,10 @@
   {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "@id": "https://SEU-USUARIO.github.io/annaluisa-site/#local",
+    "@id": "https://MatheusCrisostimo.github.io/annaluisa-site/#local",
     "name": "Anna Luísa — Maquiadora",
-    "image": "https://SEU-USUARIO.github.io/annaluisa-site/images/og-cover.jpg",
-    "url": "https://SEU-USUARIO.github.io/annaluisa-site",
+    "image": "https://MatheusCrisostimo.github.io/annaluisa-site/images/og-cover.jpg",
+    "url": "https://MatheusCrisostimo.github.io/annaluisa-site",
     "telephone": "+55 21 99544-0439",
     "priceRange": "$$",
     "address": {
@@ -146,8 +153,8 @@
 
 <body class="bg-neutral-50 text-neutral-800">
 
-  <!-- Botão flutuante WhatsApp -->
-  <button id="waFloat" onclick="falarNoWhatsApp()" aria-label="Agendar no WhatsApp"
+  <!-- Botão flutuante WhatsApp (com source) -->
+  <button id="waFloat" data-whats-source="botao_fixo" aria-label="Agendar no WhatsApp"
      class="bg-green-500 hover:bg-green-600 text-white rounded-full shadow-mdx px-5 py-3 font-semibold flex items-center gap-2">
     <span>💬</span> WhatsApp
   </button>
@@ -171,7 +178,7 @@
       </nav>
       <div class="flex items-center gap-2">
         <a href="agendar.html" class="btn btn-outline rounded-full hidden sm:inline-flex">Agendar online</a>
-        <button class="btn btn-primary rounded-full" onclick="falarNoWhatsApp()">Agendar Whats</button>
+        <button class="btn btn-primary rounded-full" data-whats-source="header">Agendar Whats</button>
       </div>
     </div>
   </header>
@@ -183,7 +190,7 @@
       srcset="images/hero-800.webp 800w, images/hero-1200.webp 1200w, images/hero-1600.webp 1600w"
       sizes="100vw"
       width="1600" height="900" alt="Modelo maquiada por Anna Luísa"
-      class="w-full h-[68vh] object-cover object-center" loading="eager" fetchpriority="high"
+      class="w-full h-[68vh] object-cover object-center" loading="eager" fetchpriority="high" decoding="async"
     />
     <div class="section">
       <div class="absolute inset-0 section flex items-end pb-12">
@@ -230,7 +237,7 @@
         <p class="text-sm text-neutral-600 mt-2">Festas, formaturas e ensaios. Preparação de pele impecável e acabamento fotográfico.</p>
         <div class="mt-4 flex items-center justify-between">
           <span class="text-sm text-neutral-500">60–90 min</span>
-          <button class="btn btn-primary rounded-full" onclick="falarNoWhatsApp()">Reservar</button>
+          <button class="btn btn-primary rounded-full" data-whats-source="servico_social">Reservar</button>
         </div>
       </article>
       <article class="bg-white rounded-xl p-6 shadow-mdx">
@@ -238,7 +245,7 @@
         <p class="text-sm text-neutral-600 mt-2">Prova, atendimento no grande dia e kit de retoque. Opção com penteado parceiro.</p>
         <div class="mt-4 flex items-center justify-between">
           <span class="text-sm text-neutral-500">Sob consulta</span>
-          <button class="btn btn-primary rounded-full" onclick="falarNoWhatsApp()">Solicitar proposta</button>
+          <button class="btn btn-primary rounded-full" data-whats-source="servico_noiva">Solicitar proposta</button>
         </div>
       </article>
       <article class="bg-white rounded-xl p-6 shadow-mdx">
@@ -246,7 +253,7 @@
         <p class="text-sm text-neutral-600 mt-2">Conteúdo personalizado por tom de pele, estilo e rotina. Material de apoio incluso.</p>
         <div class="mt-4 flex items-center justify-between">
           <span class="text-sm text-neutral-500">2–3 horas</span>
-          <button class="btn btn-primary rounded-full" onclick="falarNoWhatsApp()">Agendar aula</button>
+          <button class="btn btn-primary rounded-full" data-whats-source="servico_aula">Agendar aula</button>
         </div>
       </article>
     </div>
@@ -270,13 +277,13 @@
           </ul>
           <div class="mt-6 flex flex-wrap gap-3">
             <a href="#orcamento" class="btn btn-primary rounded-full">Solicitar proposta</a>
-            <a href="midia-kit.pdf" class="btn btn-outline rounded-full" target="_blank" rel="noopener">Ver mídia kit (PDF)</a>
+            <a href="docs/midia-kit.pdf" class="btn btn-outline rounded-full" target="_blank" rel="noopener">Ver mídia kit (PDF)</a>
           </div>
         </div>
         <div class="grid grid-cols-3 gap-3 md:w-1/3">
-          <img src="images/corporate-01.webp" alt="Editorial/set" class="rounded-xl h-28 w-full object-cover" loading="lazy">
-          <img src="images/corporate-02.webp" alt="Campanha" class="rounded-xl h-28 w-full object-cover" loading="lazy">
-          <img src="images/corporate-03.webp" alt="Workshop" class="rounded-xl h-28 w-full object-cover" loading="lazy">
+          <img src="images/corporate-01.webp" alt="Editorial/set" class="rounded-xl h-28 w-full object-cover" loading="lazy" decoding="async">
+          <img src="images/corporate-02.webp" alt="Campanha" class="rounded-xl h-28 w-full object-cover" loading="lazy" decoding="async">
+          <img src="images/corporate-03.webp" alt="Workshop" class="rounded-xl h-28 w-full object-cover" loading="lazy" decoding="async">
         </div>
       </div>
     </div>
@@ -294,7 +301,7 @@
           <li>• 60–90 min</li>
           <li>• Kit retoque básico</li>
         </ul>
-        <button class="btn btn-primary rounded-full mt-6" onclick="falarNoWhatsApp()">Reservar</button>
+        <button class="btn btn-primary rounded-full mt-6" data-whats-source="preco_social">Reservar</button>
       </div>
       <div class="bg-white rounded-xl shadow-mdx p-6 border border-rose-200">
         <span class="text-xs px-2 py-1 rounded-full bg-rose-100 text-rose-700">Mais escolhido</span>
@@ -306,7 +313,7 @@
           <li>• Atendimento in loco</li>
           <li>• Opção com penteado parceiro</li>
         </ul>
-        <button class="btn btn-primary rounded-full mt-6" onclick="falarNoWhatsApp()">Solicitar proposta</button>
+        <button class="btn btn-primary rounded-full mt-6" data-whats-source="preco_noiva">Solicitar proposta</button>
       </div>
       <div class="bg-white rounded-xl shadow-mdx p-6">
         <h3 class="font-semibold">Empresas</h3>
@@ -335,70 +342,63 @@
       <figure class="group cursor-zoom-in">
         <img src="images/portfolio-01.webp" alt="Maquiagem social pele preta"
              data-caption="Maquiagem Social — Ensaio fotográfico (mar/24)"
-             class="rounded-xl w-full h-56 object-cover" loading="lazy" width="800" height="700" />
+             class="rounded-xl w-full h-56 object-cover" loading="lazy" decoding="async" width="800" height="700" />
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
           Maquiagem Social — Ensaio fotográfico (mar/24)
         </figcaption>
       </figure>
-
       <figure class="group cursor-zoom-in">
         <img src="images/portfolio-02.webp" alt="Noiva pele retinta, acabamento glow"
              data-caption="Noiva — Florianópolis (mar/24)"
-             class="rounded-xl w-full h-56 object-cover" loading="lazy" width="800" height="700" />
+             class="rounded-xl w-full h-56 object-cover" loading="lazy" decoding="async" width="800" height="700" />
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
           Noiva — Florianópolis (mar/24)
         </figcaption>
       </figure>
-
       <figure class="group cursor-zoom-in">
         <img src="images/portfolio-03.webp" alt="Automaquiagem pele negra"
              data-caption="Aula de Automaquiagem — pele negra (abr/24)"
-             class="rounded-xl w-full h-56 object-cover" loading="lazy" width="800" height="700" />
+             class="rounded-xl w-full h-56 object-cover" loading="lazy" decoding="async" width="800" height="700" />
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
           Aula de Automaquiagem — pele negra (abr/24)
         </figcaption>
       </figure>
-
       <figure class="group cursor-zoom-in">
         <img src="images/portfolio-04.webp" alt="Maquiagem para formatura"
              data-caption="Formatura — alta durabilidade (abr/24)"
-             class="rounded-xl w-full h-56 object-cover" loading="lazy" width="800" height="700" />
+             class="rounded-xl w-full h-56 object-cover" loading="lazy" decoding="async" width="800" height="700" />
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
           Formatura — alta durabilidade (abr/24)
         </figcaption>
       </figure>
-
       <figure class="group cursor-zoom-in">
         <img src="images/portfolio-05.webp" alt="Pele iluminada, olhos neutros"
              data-caption="Social — pele iluminada, olhos neutros"
-             class="rounded-xl w-full h-56 object-cover" loading="lazy" width="800" height="700" />
+             class="rounded-xl w-full h-56 object-cover" loading="lazy" decoding="async" width="800" height="700" />
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
           Social — pele iluminada, olhos neutros
         </figcaption>
       </figure>
-
       <figure class="group cursor-zoom-in">
         <img src="images/portfolio-06.webp" alt="Olho marcante, pele glow"
              data-caption="Evento — olho marcante, pele glow"
-             class="rounded-xl w-full h-56 object-cover" loading="lazy" width="800" height="700" />
+             class="rounded-xl w-full h-56 object-cover" loading="lazy" decoding="async" width="800" height="700" />
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
           Evento — olho marcante, pele glow
         </figcaption>
       </figure>
-
       <figure class="group cursor-zoom-in">
         <img src="images/portfolio-07.webp" alt="Smokey eye em pele retinta"
              data-caption="Editorial — smokey eye em pele retinta"
-             class="rounded-xl w-full h-56 object-cover" loading="lazy" width="800" height="700" />
+             class="rounded-xl w-full h-56 object-cover" loading="lazy" decoding="async" width="800" height="700" />
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
           Editorial — smokey eye em pele retinta
         </figcaption>
       </figure>
-
       <figure class="group cursor-zoom-in">
         <img src="images/portfolio-08.webp" alt="Olho esfumado quente"
              data-caption="Social — olho esfumado quente"
-             class="rounded-xl w-full h-56 object-cover" loading="lazy" width="800" height="700" />
+             class="rounded-xl w-full h-56 object-cover" loading="lazy" decoding="async" width="800" height="700" />
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
           Social — olho esfumado quente
         </figcaption>
@@ -441,12 +441,12 @@
       </div>
       <div class="flex gap-2">
         <a href="agendar.html" class="btn bg-white text-rose-700 hover:bg-white/90 rounded-full">Agendar online</a>
-        <button class="btn bg-white text-rose-700 hover:bg-white/90 rounded-full" onclick="falarNoWhatsApp()">Agendar no Whats</button>
+        <button class="btn bg-white text-rose-700 hover:bg-white/90 rounded-full" data-whats-source="cta_final">Agendar no Whats</button>
       </div>
     </div>
   </section>
 
-  <!-- Vídeos do Instagram -->
+  <!-- Vídeos do Instagram (lazy embed) -->
   <section id="instagram" class="section py-12">
     <div class="flex items-end justify-between">
       <h2 class="text-2xl md:text-3xl font-extrabold">Vídeos do Instagram</h2>
@@ -465,9 +465,14 @@
   <!-- Orçamento -->
   <section id="orcamento" class="section py-12">
     <h2 class="text-2xl md:text-3xl font-extrabold">Solicitar orçamento</h2>
-    <form action="https://formsubmit.co/SEU-EMAIL@SEU-DOMINIO.COM" method="POST" class="mt-6 grid gap-4 md:grid-cols-2 bg-white p-6 rounded-xl shadow-mdx">
+    <form action="https://formsubmit.co/SEU-EMAIL@SEU-DOMINIO.COM" method="POST" id="form-orcamento" class="mt-6 grid gap-4 md:grid-cols-2 bg-white p-6 rounded-xl shadow-mdx">
       <input type="hidden" name="_subject" value="Novo orçamento pelo site">
       <input type="hidden" name="_captcha" value="false">
+      <!-- Honeypot anti-spam -->
+      <input type="text" name="_honey" style="display:none">
+      <!-- Redirect -->
+      <input type="hidden" name="_next" value="https://MatheusCrisostimo.github.io/annaluisa-site/?enviado=1">
+
       <label class="text-sm">Nome
         <input required name="nome" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
       </label>
@@ -490,7 +495,7 @@
       </label>
       <div class="md:col-span-2 flex items-center gap-3">
         <button class="btn btn-primary rounded-full" type="submit">Enviar</button>
-        <button type="button" class="btn btn-outline rounded-full" onclick="falarNoWhatsApp()">Falar no WhatsApp</button>
+        <button type="button" class="btn btn-outline rounded-full" data-whats-source="form_orcamento">Falar no WhatsApp</button>
       </div>
     </form>
   </section>
@@ -508,7 +513,7 @@
           <li><strong>Região:</strong> Palhoça/Florianópolis — <em>atendo todo o Brasil</em></li>
         </ul>
         <div class="mt-6 flex flex-wrap gap-3">
-          <button class="btn btn-primary rounded-full" onclick="falarNoWhatsApp()">Falar agora</button>
+          <button class="btn btn-primary rounded-full" data-whats-source="contato_bloco">Falar agora</button>
           <a href="#servicos" class="btn btn-outline rounded-full">Ver serviços</a>
           <a href="https://www.google.com/maps/place/Anna+Luisa+Makeup+Artist/@-27.628773,-48.6727469,17z/data=!4m8!3m7!1s0x952735c542321539:0xf235b99e191551e7!8m2!3d-27.628773!4d-48.670172!9m1!1b1!16s%2Fg%2F11s4_ngj38"
              target="_blank" rel="noopener" class="btn btn-outline rounded-full" aria-label="Ver avaliações no Google">
@@ -547,8 +552,9 @@
     <div class="section flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-neutral-500">
       <p>© <span id="ano"></span> Anna Luísa — Maquiadora. Todos os direitos reservados.</p>
       <div class="flex items-center gap-4">
-        <a href="politica-privacidade.html" class="hover:text-neutral-700">Política de Privacidade</a>
-        <a href="termos-de-uso.html" class="hover:text-neutral-700">Termos</a>
+        <a href="docs/politica-privacidade.html" class="hover:text-neutral-700">Política de Privacidade</a>
+        <a href="docs/termos-de-uso.html" class="hover:text-neutral-700">Termos</a>
+        <a href="docs/midia-kit.pdf" class="hover:text-neutral-700" target="_blank" rel="noopener">Mídia Kit (PDF)</a>
       </div>
     </div>
   </footer>
@@ -556,7 +562,7 @@
   <!-- Banner LGPD -->
   <div id="cookieBanner" class="fixed bottom-0 inset-x-0 bg-white border-t border-neutral-200 p-4 z-50">
     <div class="section flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-      <p class="text-sm text-neutral-700">Usamos cookies/tecnologias para medir audiência e melhorar anúncios. Veja nossa <a href="politica-privacidade.html" class="text-rose-600 underline">Política de Privacidade</a>.</p>
+      <p class="text-sm text-neutral-700">Usamos cookies/tecnologias para medir audiência e melhorar anúncios. Veja nossa <a href="docs/politica-privacidade.html" class="text-rose-600 underline">Política de Privacidade</a>.</p>
       <div class="flex gap-2">
         <button class="btn btn-outline rounded-full" onclick="setConsent(false)">Rejeitar</button>
         <button class="btn btn-primary rounded-full" onclick="setConsent(true)">Aceitar</button>
@@ -564,22 +570,17 @@
     </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- Scripts núcleo -->
   <script>
     // Ano no rodapé
     document.getElementById('ano').textContent = new Date().getFullYear();
 
-    // WhatsApp com tracking GA4 + Pixel
-    function falarNoWhatsApp() {
-      const tel = '5521995440439';
-      const msg = encodeURIComponent('Olá, vim do site e quero agendar maquiagem. Data/ocasião: ____ .');
-      const url = `https://wa.me/${tel}?text=${msg}&utm_source=site&utm_medium=cta&utm_campaign=whatsapp`;
-      if (typeof gtag !== 'undefined') gtag('event', 'whatsapp_click', {event_category:'Contato', event_label:'Clique no WhatsApp'});
-      if (typeof fbq !== 'undefined') fbq('trackCustom', 'WhatsAppClick');
-      window.open(url, '_blank');
+    // PWA: registra SW (atenção ao path do Pages)
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/annaluisa-site/sw.js');
     }
 
-    // Lightbox acessível (focus trap + restore)
+    // Lightbox acessível
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightboxImg');
     const lbCap = document.getElementById('lightboxCaption');
@@ -593,37 +594,23 @@
       const fromData = img.getAttribute('data-caption');
       const fromFig = img.closest('figure')?.querySelector('figcaption')?.textContent?.trim();
       lbCap.textContent = fromData || fromFig || img.alt || '';
-      lb.classList.add('active');
-      lb.setAttribute('aria-hidden','false');
-      document.body.style.overflow='hidden';
-      lbClose.focus();
+      lb.classList.add('active'); lb.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden'; lbClose.focus();
     }
     function closeLb(){
-      lb.classList.remove('active');
-      lb.setAttribute('aria-hidden','true');
-      lbImg.src='';
-      document.body.style.overflow='';
-      lastFocus?.focus();
+      lb.classList.remove('active'); lb.setAttribute('aria-hidden','true');
+      lbImg.src=''; document.body.style.overflow=''; lastFocus?.focus();
     }
-
     document.querySelectorAll('#portfolio img').forEach(img => {
       img.addEventListener('click', () => openLb(img));
       img.setAttribute('tabindex','0');
-      img.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openLb(img); }});
+      img.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openLb(img); }});
     });
     lbClose?.addEventListener('click', closeLb);
     lb?.addEventListener('click', (e)=>{ if(e.target === lb) closeLb(); });
     window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeLb(); });
-    lb.addEventListener('keydown', (e)=>{
-      if(e.key==='Tab'){
-        const focusables = lb.querySelectorAll('button, [href], img, [tabindex]:not([tabindex="-1"])');
-        const first=focusables[0], last=focusables[focusables.length-1];
-        if (e.shiftKey && document.activeElement===first) { last.focus(); e.preventDefault(); }
-        else if (!e.shiftKey && document.activeElement===last) { first.focus(); e.preventDefault(); }
-      }
-    });
 
-    // LGPD + ajuste do botão flutuante
+    // LGPD + ajuste botão flutuante
     const BKEY='cookieConsent';
     function setConsent(ok){
       localStorage.setItem(BKEY, ok?'granted':'denied');
@@ -644,44 +631,62 @@
       document.getElementById('cookieBanner').style.display='none';
     }
 
-    // Eventos extra GA4/Pixel
-    document.querySelectorAll('a[href*="google.com/maps"]').forEach(a=>{
-      a.addEventListener('click', ()=>{
-        if (typeof gtag!=='undefined') gtag('event','click_avaliacoes',{event_category:'Prova social'});
-        if (typeof fbq!=='undefined') fbq('trackCustom','ClickAvaliacoes');
+    // Lazy-load Instagram quando entra na viewport
+    const igSection = document.getElementById('instagram');
+    const io = new IntersectionObserver((entries)=>{
+      if(entries.some(e=>e.isIntersecting)){
+        const s = document.createElement('script');
+        s.src = "https://www.instagram.com/embed.js"; s.async = true;
+        document.body.appendChild(s);
+        io.disconnect();
+      }
+    },{rootMargin:"200px"});
+    if (igSection) io.observe(igSection);
+  </script>
+
+  <!-- Analytics centralizado (GA4 + Pixel + UTMs + eventos) -->
+  <script type="module">
+    import { trackWhatsAppClick, trackLead, trackReviews, openWhatsApp } from './scripts/analytics.js';
+
+    // Botões WhatsApp (qualquer elemento com data-whats-source)
+    const wireWhats = el => el.addEventListener('click', ()=>{
+      trackWhatsAppClick(el.dataset.whatsSource || 'cta');
+      openWhatsApp();
+    });
+    document.querySelectorAll('[data-whats-source]').forEach(wireWhats);
+    document.getElementById('waFloat')?.addEventListener('click', ()=>{}); // já coberto pelo seletor acima
+
+    // Form → lead + bloqueio tempo mínimo (3s)
+    document.querySelectorAll('form').forEach(f=>{
+      const start = Date.now();
+      f.addEventListener('submit', (e)=>{
+        if ((Date.now()-start)/1000 < 3) { e.preventDefault(); alert('Ops! Muito rápido 😊 Tente novamente.'); return; }
+        trackLead(f.id || 'form');
       });
     });
+
+    // Maps/Reviews
+    document.querySelectorAll('a[href*="google.com/maps"]').forEach(a=>{
+      a.addEventListener('click', trackReviews);
+    });
+
+    // Abertura de imagens do portfólio
     document.querySelectorAll('#portfolio img').forEach((img,i)=>{
       img.addEventListener('click', ()=>{
-        if (typeof gtag!=='undefined') gtag('event','portfolio_open',{index:i+1});
-        if (typeof fbq!=='undefined') fbq('trackCustom','PortfolioOpen',{index:i+1});
+        gtag?.('event','portfolio_open',{index:i+1});
+        fbq?.('trackCustom','PortfolioOpen',{index:i+1});
       });
     });
 
     // Scroll depth simples
     let fired25=false;
-    window.addEventListener('scroll', ()=>{
-      const p = (window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
-      if (!fired25 && p>25){ fired25=true; gtag?.('event','scroll_25'); fbq?.('trackCustom','Scroll25'); }
+    addEventListener('scroll', ()=>{
+      const p=(scrollY/(document.body.scrollHeight-innerHeight))*100;
+      if(!fired25 && p>25){ fired25=true; gtag?.('event','scroll_25'); fbq?.('trackCustom','Scroll25'); }
     });
   </script>
 
-  <!-- Instagram: carregar sob demanda -->
-  <script>
-    const igLoaded = { v:false };
-    const sec = document.getElementById('instagram');
-    const io = new IntersectionObserver((entries)=>{
-      if(entries.some(e=>e.isIntersecting) && !igLoaded.v){
-        igLoaded.v = true;
-        const s = document.createElement('script');
-        s.src = "https://www.instagram.com/embed.js"; s.async = true;
-        document.body.appendChild(s);
-      }
-    },{rootMargin:"200px"});
-    if (sec) io.observe(sec);
-  </script>
-
-  <!-- FAQPage Schema (para rich results) -->
+  <!-- FAQPage Schema (rich results) -->
   <script type="application/ld+json">
   {
    "@context":"https://schema.org",
