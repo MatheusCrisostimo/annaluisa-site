@@ -2,15 +2,17 @@
 
 export const ANALYTICS_CFG = {
   GA4_ID: 'G-60ZPREPJV3',
-  PIXEL_ID: 'YOUR_PIXEL_ID' // troque pelo ID real do Meta Pixel
+  PIXEL_ID: 'YOUR_PIXEL_ID' // TODO: troque pelo ID real do Meta Pixel
 };
 
 // ---------- Boot helpers ----------
 function ensureGA4() {
+  // se já existe gtag (ex.: definido inline no index), não reconfigura para evitar page_view duplicado
   if (typeof window.gtag === 'function') return;
-  // load gtag.js
+
   const gid = ANALYTICS_CFG.GA4_ID;
   if (!gid) return;
+
   const s = document.createElement('script');
   s.async = true;
   s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gid;
@@ -25,27 +27,38 @@ function ensureGA4() {
     analytics_storage:'granted'
   });
   window.gtag('js', new Date());
-  window.gtag('config', gid);
+  window.gtag('config', gid); // só roda se não havia gtag antes
 }
 
 function ensurePixel() {
-  if (typeof window.fbq === 'function') return;
-  // Meta Pixel loader
-  (function(f,b,e,v,n,t,s){
-    if(f.fbq)return; n=f.fbq=function(){n.callMethod ?
-      n.callMethod.apply(n,arguments) : n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n; n.push=n; n.loaded=!0; n.version='2.0';
-    n.queue=[]; t=b.createElement(e); t.async=!0; t.src=v;
-    s=b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s);
-  })(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  const bootPixel = () => {
+    // evita init duplicado
+    if (
+      ANALYTICS_CFG.PIXEL_ID &&
+      ANALYTICS_CFG.PIXEL_ID !== 'YOUR_PIXEL_ID' &&
+      !window.__pixelInitialized
+    ) {
+      window.fbq('init', ANALYTICS_CFG.PIXEL_ID);
+      window.fbq('track', 'PageView');
+      window.__pixelInitialized = true;
+    }
+  };
 
-  if (ANALYTICS_CFG.PIXEL_ID && ANALYTICS_CFG.PIXEL_ID !== 'YOUR_PIXEL_ID') {
-    window.fbq('init', ANALYTICS_CFG.PIXEL_ID);
-    window.fbq('track', 'PageView');
+  if (typeof window.fbq !== 'function') {
+    // loader oficial do Meta Pixel
+    (function(f,b,e,v,n,t,s){
+      if(f.fbq)return; n=f.fbq=function(){ n.callMethod ?
+        n.callMethod.apply(n,arguments) : n.queue.push(arguments) };
+      if(!f._fbq) f._fbq=n; n.push=n; n.loaded=!0; n.version='2.0';
+      n.queue=[]; t=b.createElement(e); t.async=!0; t.src=v;
+      s=b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s);
+    })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
   }
+
+  bootPixel(); // inicializa se tiver PIXEL_ID válido
 }
 
-// initialize lazily after DOM is ready (safe em qualquer página)
+// Inicializa de forma segura
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => { ensureGA4(); ensurePixel(); });
 } else {
@@ -68,28 +81,13 @@ export function trackReviews() {
   try { window.fbq && window.fbq('trackCustom','ReviewsClick'); } catch {}
 }
 
-// (opcional) util para abrir WA via módulo — o site já tem fallback próprio
-export function openWhatsApp({phone='5521995440439', text='Olá, vim do site e quero agendar maquiagem.', source='cta'} = {}) {
+// (opcional) abrir WhatsApp programaticamente
+export function openWhatsApp({
+  phone='5521995440439',
+  text='Olá, vim do site e quero agendar maquiagem.',
+  source='cta'
+} = {}) {
   const msg = encodeURIComponent(text);
   const url = `https://wa.me/${phone}?text=${msg}&utm_source=site&utm_medium=cta&utm_campaign=whatsapp&src=${encodeURIComponent(source)}`;
   window.open(url,'_blank','noopener,noreferrer');
 }
-
-// scripts/analytics.js
-// Requer que o GA4 e o Pixel (fbq) já estejam carregados no index.html
-
-export function trackWhatsAppClick(source = 'btn') {
-  try { gtag && gtag('event','whatsapp_click',{event_category:'Contato', source}); } catch(e){}
-  try { fbq && fbq('trackCustom','WhatsAppClick',{source}); } catch(e){}
-}
-
-export function trackLead(formId = 'form') {
-  try { gtag && gtag('event','lead_submit',{form_id: formId}); } catch(e){}
-  try { fbq && fbq('track','Lead'); } catch(e){}
-}
-
-export function trackReviews() {
-  try { gtag && gtag('event','reviews_click'); } catch(e){}
-  try { fbq && fbq('trackCustom','ReviewsClick'); } catch(e){}
-}
-
