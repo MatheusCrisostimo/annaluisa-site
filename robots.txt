@@ -1,0 +1,6 @@
+# Permitir que todos os buscadores indexem o site
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://SEU-USUARIO.github.io/annaluisa-site/sitemap.xml
