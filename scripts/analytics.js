@@ -1,70 +1,57 @@
-// analytics.js — centraliza GA4 + Meta Pixel + binds
-window.ANALYTICS_CFG = { GA4_ID: 'G-60ZPREPJV3', PIXEL_ID: 'YOUR_PIXEL_ID' };
+// scripts/analytics.js — ESM puro, sem carregar GA/Pixel de novo
+// Exports: trackWhatsAppClick, trackLead, trackReviews, openWhatsApp
 
-(function(){
-  const gsrc = 'https://www.googletagmanager.com/gtag/js?id=' + window.ANALYTICS_CFG.GA4_ID;
-  const s = document.createElement('script'); s.async = true; s.src = gsrc;
-  document.head.appendChild(s);
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  window.gtag = gtag;
-  gtag('consent','default',{
-    ad_user_data:'denied',
-    ad_personalization:'denied',
-    ad_storage:'denied',
-    analytics_storage:'granted'
-  });
-  gtag('js', new Date());
-  gtag('config', window.ANALYTICS_CFG.GA4_ID);
-})();
+// -- helpers de detecção
+const hasGA = () => typeof window.gtag === "function";
+const hasPX = () => typeof window.fbq === "function";
 
-(function(){
-  !(function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)})(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  if (window.ANALYTICS_CFG.PIXEL_ID && window.ANALYTICS_CFG.PIXEL_ID !== 'YOUR_PIXEL_ID') {
-    fbq('init', window.ANALYTICS_CFG.PIXEL_ID);
-    fbq('track', 'PageView');
-  }
-})();
+// -- eventos
+export function trackWhatsAppClick(source = "cta") {
+  try {
+    hasGA() && window.gtag("event", "whatsapp_click", {
+      event_category: "Contato",
+      source: String(source)
+    });
+    hasPX() && window.fbq("trackCustom", "WhatsAppClick", { source: String(source) });
+  } catch (_) {}
+}
 
-window.trackWhatsApp = function(source){
-  if (typeof gtag !== 'undefined') gtag('event','whatsapp_click',{event_category:'Contato', source: source||'btn'});
-  if (typeof fbq !== 'undefined') fbq('trackCustom','WhatsAppClick',{source: source||'btn'});
-};
+export function trackLead(formIdOrAction = "form") {
+  try {
+    hasGA() && window.gtag("event", "lead_submit", {
+      form_action: String(formIdOrAction)
+    });
+    // Pixel: evento padrão para captação
+    hasPX() && window.fbq("track", "Lead", { form_action: String(formIdOrAction) });
+  } catch (_) {}
+}
 
-(function(){
-  function bindWhats(){
-    document.querySelectorAll('a[href*="wa.me"], a[href*="api.whatsapp.com"], button[data-whats-source]')
-      .forEach(el => {
-        if (el.__waBound) return;
-        el.__waBound = true;
-        el.addEventListener('click', () => {
-          const src = el.getAttribute('data-whats-source') || 'link';
-          window.trackWhatsApp(src);
-        });
-      });
-  }
-  bindWhats();
-  document.addEventListener('DOMContentLoaded', bindWhats);
-})();
+export function trackReviews() {
+  try {
+    hasGA() && window.gtag("event", "click_avaliacoes", { event_category: "Prova social" });
+    hasPX() && window.fbq("trackCustom", "ClickAvaliacoes");
+  } catch (_) {}
+}
 
-(function(){
-  document.addEventListener('submit', (e)=>{
-    const f = e.target;
-    if (f && f.tagName === 'FORM') {
-      if (typeof gtag !== 'undefined') gtag('event','lead_submit',{form_action:f.action || ''});
-      if (typeof fbq !== 'undefined') fbq('track','Lead');
-    }
-  });
-})();
+// -- helper para abrir WhatsApp com UTM
+export function openWhatsApp({
+  tel = "5521995440439",
+  source = "cta",
+  message = "Olá, vim do site e quero agendar maquiagem. Data/ocasião: ____ .",
+  utm = { utm_source: "site", utm_medium: "cta", utm_campaign: "whatsapp" }
+} = {}) {
+  const qp = new URLSearchParams({ text: message, ...utm, src: source });
+  const url = `https://wa.me/${tel}?${qp.toString()}`;
 
-(function(){
-  let fired25=false;
-  window.addEventListener('scroll', ()=>{
-    const p = (window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
-    if (!fired25 && p>25){ fired25=true; gtag?.('event','scroll_25'); fbq?.('trackCustom','Scroll25'); }
-  });
-})();
+  trackWhatsAppClick(source);
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+// -- util opcional: disparar scroll_25 (se quiser chamar no index)
+export function trackScroll25Once() {
+  try {
+    hasGA() && window.gtag("event", "scroll_25");
+    hasPX() && window.fbq("trackCustom", "Scroll25");
+  } catch (_) {}
+}
+
