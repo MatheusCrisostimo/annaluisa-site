@@ -2,5 +2,4 @@
 User-agent: *
 Allow: /
 
-# Sitemap
 Sitemap: https://MatheusCrisostimo.github.io/annaluisa-site/sitemap.xml
