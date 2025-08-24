@@ -19,6 +19,9 @@
   <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="pt_BR" />
 
+  <!-- Opcional: ajuda a carregar o site principal mais rápido quando o usuário passa por aqui -->
+  <link rel="prefetch" href="/?utm_source=instagram&utm_medium=bio&utm_campaign=links" as="document">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .card{box-shadow:0 10px 30px rgba(0,0,0,.08)}
@@ -27,15 +30,12 @@
     .btn-outline{border:1px solid #d1d5db}
     .btn-neutral{background:#fff;border:1px solid #e5e7eb}
     .avatar{
-      width: 9rem;          /* 144px */
-      height: 9rem;
-      border-radius: 9999px;
-      object-fit: cover;    /* preenche o círculo */
-      object-position: 50% 20%; /* move o enquadramento (x%, y%) */
+      width: 9rem; height: 9rem; border-radius: 9999px;
+      object-fit: cover; object-position: 50% 20%;
     }
   </style>
 
-  <!-- GA4 mínimo (opcional) -->
+  <!-- GA4 mínimo -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-60ZPREPJV3"></script>
   <script>
     window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
@@ -66,16 +66,35 @@
 <body class="bg-neutral-50 text-neutral-800">
   <main class="max-w-lg mx-auto px-4 py-10">
     <section class="bg-white rounded-2xl p-6 md:p-8 card text-center">
-      <img src="images/WhatsApp Image 2025-08-24 at 15.04.13.jpeg" alt="Logo Anna Luísa" class="avatar mx-auto" />
+      <!-- Troque por um nome de arquivo sem espaços, ex.: images/avatar.jpg -->
+      <img src="images/WhatsApp Image 2025-08-24 at 15.04.13.jpeg" alt="Foto de perfil — Anna Luísa" class="avatar mx-auto" width="144" height="144" />
       <h1 class="mt-4 text-2xl font-extrabold">Anna Luísa — Maquiadora</h1>
       <p class="mt-1 text-sm text-neutral-600">Palhoça / Florianópolis — SC</p>
 
       <div class="mt-6 grid gap-3">
-        <button class="btn btn-primary" type="button" data-whats data-source="links_whats_top">💬 Falar no WhatsApp</button>
+        <!-- CTA primário -->
+        <button class="btn btn-primary" type="button" data-whats data-source="links_whats_top" aria-label="Falar no WhatsApp">
+          💬 Falar no WhatsApp
+        </button>
+
+        <!-- Novo: visitar o site (mantém usuário no domínio, com UTMs) -->
+        <a href="/?utm_source=instagram&utm_medium=bio&utm_campaign=links"
+           class="btn btn-neutral" id="btnSite" aria-label="Ver site completo">
+          🌐 Ver site completo
+        </a>
+
         <a href="https://www.google.com/maps/place/Anna+Luisa+Makeup+Artist/@-27.628773,-48.6727469,17z"
-           target="_blank" rel="noopener" class="btn btn-outline" id="btnReviews">⭐ Avaliações / Como chegar</a>
-        <a href="docs/midia-kit.pdf" target="_blank" rel="noopener" class="btn btn-outline">📄 Mídia Kit (PDF)</a>
-        <a href="docs/politica-privacidade.html" class="btn btn-outline">🔒 Política de Privacidade</a>
+           target="_blank" rel="noopener" class="btn btn-outline" id="btnReviews" aria-label="Avaliações no Google e como chegar">
+          ⭐ Avaliações / Como chegar
+        </a>
+
+        <a href="docs/midia-kit.pdf" target="_blank" rel="noopener" class="btn btn-outline" aria-label="Mídia kit em PDF">
+          📄 Mídia Kit (PDF)
+        </a>
+
+        <a href="docs/politica-privacidade.html" class="btn btn-outline" aria-label="Política de Privacidade">
+          🔒 Política de Privacidade
+        </a>
       </div>
 
       <p class="mt-6 text-xs text-neutral-500">© <span id="ano"></span> Anna Luísa — Maquiadora</p>
@@ -84,12 +103,19 @@
 
   <script type="module">
     import { trackWhatsAppClick, trackReviews } from '/scripts/analytics.js';
+
     document.getElementById('ano').textContent = new Date().getFullYear();
+
+    // Métricas
     document.querySelectorAll('[data-whats]').forEach(el=>{
       el.addEventListener('click', ()=>trackWhatsAppClick(el.dataset.source||'links'));
     });
     document.getElementById('btnReviews')?.addEventListener('click', trackReviews);
+
+    // Clique em "Ver site completo"
+    document.getElementById('btnSite')?.addEventListener('click', ()=>{
+      try { gtag && gtag('event','site_from_links',{event_category:'Navegacao'}); } catch(e){}
+    });
   </script>
 </body>
 </html>
-
