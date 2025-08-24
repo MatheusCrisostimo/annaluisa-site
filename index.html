@@ -27,7 +27,7 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
 
-  <!-- Performance: preconnect/dns-prefetch -->
+  <!-- Performance -->
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
   <link rel="preconnect" href="https://connect.facebook.net">
@@ -38,14 +38,15 @@
   <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Preload do hero (LCP) -->
+  <!-- Preload do hero com nome codificado -->
   <link rel="preload" as="image"
-        href="images/hero-1600.webp"
-        imagesrcset="images/hero-800.webp 800w, images/hero-1200.webp 1200w, images/hero-1600.webp 1600w"
+        href="images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg"
+        imagesrcset="images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 800w,
+                     images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 1200w,
+                     images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 1600w"
         imagesizes="100vw" />
 
   <style>
-    /* Estilos customizados */
     .glass { backdrop-filter: blur(10px); background: rgba(255,255,255,0.7); }
     .shadow-soft { box-shadow: 0 10px 30px rgba(0,0,0,.08); }
     .shadow-mdx { box-shadow: 0 6px 18px rgba(0,0,0,.06); }
@@ -62,18 +63,18 @@
     @media (min-width:640px){ .section { padding:0 1.5rem; } }
     @media (min-width:1024px){ .section { padding:0 2rem; } }
 
-    /* Lightbox acessível */
+    /* Lightbox */
     .lightbox-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.8); display:none; align-items:center; justify-content:center; z-index:60; padding:2rem; }
     .lightbox-backdrop.active{ display:flex; }
     .lightbox-img{ max-width:90vw; max-height:75vh; border-radius:1rem; box-shadow:0 20px 60px rgba(0,0,0,.4); }
 
-    /* Botão WhatsApp flutuante (apenas mobile) e ajuste com banner */
+    /* Botão WhatsApp flutuante (só mobile) */
     #waFloat{ position:fixed; bottom:1.25rem; right:1.25rem; z-index:50; }
     @media (min-width:1024px){ #waFloat{ display:none; } }
     .cookie-open #waFloat{ bottom:6rem; }
   </style>
 
-  <!-- Google tag (gtag.js) - GA4 -->
+  <!-- GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-60ZPREPJV3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -83,19 +84,17 @@
     gtag('config', 'G-60ZPREPJV3');
   </script>
 
-  <!-- Meta Pixel -->
+  <!-- Meta Pixel (opcional; troque o ID para usar) -->
   <script>
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
     n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
     t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', 'YOUR_PIXEL_ID'); /* troque pelo seu */
-    fbq('track', 'PageView');
+    fbq && fbq('init', 'YOUR_PIXEL_ID');
+    fbq && fbq('track', 'PageView');
   </script>
-  <noscript><img height="1" width="1" style="display:none"
-       src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
 
-  <!-- Schema: MakeupArtist -->
+  <!-- Schema.org (MakeupArtist + LocalBusiness) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -118,8 +117,6 @@
     }
   }
   </script>
-
-  <!-- Schema: LocalBusiness com geo/serviços/mapa -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -140,14 +137,8 @@
       "addressCountry": "BR"
     },
     "geo": { "@type": "GeoCoordinates", "latitude": -27.628773, "longitude": -48.670172 },
-    "areaServed": [
-      {"@type":"City","name":"Palhoça"},
-      {"@type":"City","name":"Florianópolis"},
-      {"@type":"Country","name":"Brasil"}
-    ],
-    "sameAs": [
-      "https://www.instagram.com/annalluisaa/"
-    ]
+    "areaServed": [{"@type":"City","name":"Palhoça"},{"@type":"City","name":"Florianópolis"},{"@type":"Country","name":"Brasil"}],
+    "sameAs": ["https://www.instagram.com/annalluisaa/"]
   }
   </script>
 
@@ -166,14 +157,9 @@
         if(el.__waBound) return; el.__waBound = true;
         el.addEventListener('click', ()=> openWA(el.dataset.source, el.dataset.text));
       });
-      // compat com data-whats-source legado
-      document.querySelectorAll('[data-whats-source]').forEach(el=>{
-        if(el.__waBoundLegacy) return; el.__waBoundLegacy = true;
-        el.addEventListener('click', ()=> openWA(el.dataset.whatsSource));
-      });
     }
     bindWA(); document.addEventListener('DOMContentLoaded', bindWA);
-    window.__openWA = openWA; // opcional para usos externos
+    window.__openWA = openWA;
   })();
   </script>
 </head>
@@ -190,14 +176,14 @@
   <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-neutral-200">
     <div class="section flex items-center justify-between h-16">
       <a href="#" class="flex items-center gap-3 font-semibold">
-        <img src="images/WhatsApp Image 2025-08-24 at 15.03.20.jpeg" alt="Logo Anna Luísa" class="h-8 w-8" />
-        <span>Anna Luísa — Maquiadora</span>
+        <img src="images/WhatsApp%20Image%202025-08-24%20at%2015.03.20.jpeg" alt="Logo Anna Luísa"
+             class="h-10 sm:h-12 w-auto object-contain" />
+        <span class="hidden sm:inline">Anna Luísa — Maquiadora</span>
       </a>
 
       <nav class="hidden md:flex items-center gap-6 text-sm">
         <a href="#servicos" class="hover:text-rose-600">Serviços</a>
         <a href="#empresas" class="hover:text-rose-600">Para Empresas</a>
-        <a href="#precos" class="hover:text-rose-600">Preços</a>
         <a href="#portfolio" class="hover:text-rose-600">Portfólio</a>
         <a href="#depoimentos" class="hover:text-rose-600">Depoimentos</a>
         <a href="#instagram" class="hover:text-rose-600">Instagram</a>
@@ -205,14 +191,8 @@
         <a href="#contato" class="hover:text-rose-600">Contato</a>
       </nav>
 
-      <!-- CTAs do header -->
       <div class="flex items-center gap-2">
-        <a href="agendar.html"
-           class="hidden sm:inline-flex min-h-10 min-w-[148px] justify-center items-center gap-2 rounded-full border border-neutral-300 px-4 py-2 text-sm font-semibold hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-rose-300"
-           aria-label="Agendar online">
-           Agendar online
-        </a>
-
+        <!-- ficou só o Whats -->
         <button type="button"
                 class="inline-flex min-h-10 min-w-[148px] justify-center items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white
                        bg-gradient-to-r from-rose-600 to-fuchsia-600 hover:opacity-95 shadow-md
@@ -227,8 +207,10 @@
   <!-- Hero -->
   <section class="relative overflow-hidden">
     <img
-      src="images/WhatsApp Image 2025-08-24 at 15.58.24.jpeg"
-      srcset="images/WhatsApp Image 2025-08-24 at 15.58.24.jpeg 800w, images/WhatsApp Image 2025-08-24 at 15.58.24.jpeg 1200w, images/WhatsApp Image 2025-08-24 at 15.58.24.jpeg 1600w"
+      src="images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg"
+      srcset="images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 800w,
+              images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 1200w,
+              images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 1600w"
       sizes="100vw"
       width="1600" height="900" alt="Modelo maquiada por Anna Luísa"
       class="w-full h-[68vh] object-cover object-center" loading="eager" fetchpriority="high" decoding="async"
@@ -245,7 +227,6 @@
           </h1>
           <p class="mt-3 text-neutral-700">Maquiagem social, noivas, empresas e aulas — foco especial em peles pretas.</p>
           <div class="mt-5 flex flex-wrap gap-3">
-            <a href="agendar.html" class="btn btn-primary">Agendar online</a>
             <button class="btn btn-outline" type="button" data-whats data-source="hero">Agendar no Whats</button>
           </div>
         </div>
@@ -256,12 +237,12 @@
   <!-- Selos -->
   <section class="section py-12 grid gap-6 md:grid-cols-3">
     <div class="p-6 bg-white rounded-xl shadow-mdx">
-      <h3 class="font-semibold">Especialista em peles pretas</h3>
-      <p class="text-sm text-neutral-600 mt-2">Produtos e técnicas pensadas para realçar a beleza de peles negras e retintas.</p>
+      <h3 class="font-semibold">Atendimento Social</h3>
+      <p class="text-sm text-neutral-600 mt-2">Produtos e técnicas pensadas para realçar a beleza de sua pele.</p>
     </div>
     <div class="p-6 bg-white rounded-xl shadow-mdx">
       <h3 class="font-semibold">Noivas & eventos</h3>
-      <p class="text-sm text-neutral-600 mt-2">Atendimento no estúdio ou no local do evento — pontualidade e durabilidade.</p>
+      <p class="text-sm text-neutral-600 mt-2">Atendimento no local do evento — pontualidade e durabilidade.</p>
     </div>
     <div class="p-6 bg-white rounded-xl shadow-mdx">
       <h3 class="font-semibold">Aulas & consultoria</h3>
@@ -283,7 +264,7 @@
       </article>
       <article class="bg-white rounded-xl p-6 shadow-mdx">
         <h3 class="font-semibold">Noiva</h3>
-        <p class="text-sm text-neutral-600 mt-2">Prova, atendimento no grande dia e kit de retoque. Opção com penteado parceiro.</p>
+        <p class="text-sm text-neutral-600 mt-2">Prova, Pré Wedding, atendimento no grande dia e destination wedding.</p>
         <div class="mt-4 flex items-center justify-between">
           <span class="text-sm text-neutral-500">Sob consulta</span>
           <button class="btn btn-primary" type="button" data-whats data-source="servico_noiva">Solicitar proposta</button>
@@ -330,47 +311,7 @@
     </div>
   </section>
 
-  <!-- Preços -->
-  <section id="precos" class="section py-12">
-    <h2 class="text-2xl md:text-3xl font-extrabold">Preços</h2>
-    <div class="mt-6 grid gap-6 md:grid-cols-3">
-      <div class="bg-white rounded-xl shadow-mdx p-6">
-        <h3 class="font-semibold">Social</h3>
-        <p class="text-sm text-neutral-600 mt-2">Pele impecável e acabamento fotográfico.</p>
-        <p class="mt-4 text-3xl font-extrabold">R$ —</p>
-        <ul class="mt-4 text-sm text-neutral-700 space-y-2">
-          <li>• 60–90 min</li>
-          <li>• Kit retoque básico</li>
-        </ul>
-        <button class="btn btn-primary mt-6" type="button" data-whats data-source="preco_social">Reservar</button>
-      </div>
-      <div class="bg-white rounded-xl shadow-mdx p-6 border border-rose-200">
-        <span class="text-xs px-2 py-1 rounded-full bg-rose-100 text-rose-700">Mais escolhido</span>
-        <h3 class="font-semibold mt-2">Noiva</h3>
-        <p class="text-sm text-neutral-600 mt-2">Prova + grande dia + kit retoque.</p>
-        <p class="mt-4 text-3xl font-extrabold">Sob consulta</p>
-        <ul class="mt-4 text-sm text-neutral-700 space-y-2">
-          <li>• Prova de maquiagem</li>
-          <li>• Atendimento in loco</li>
-          <li>• Opção com penteado parceiro</li>
-        </ul>
-        <button class="btn btn-primary mt-6" type="button" data-whats data-source="preco_noiva">Solicitar proposta</button>
-      </div>
-      <div class="bg-white rounded-xl shadow-mdx p-6">
-        <h3 class="font-semibold">Empresas</h3>
-        <p class="text-sm text-neutral-600 mt-2">Campanhas, editoriais e eventos.</p>
-        <p class="mt-4 text-3xl font-extrabold">Sob consulta</p>
-        <ul class="mt-4 text-sm text-neutral-700 space-y-2">
-          <li>• Time dedicado</li>
-          <li>• Emissão de NF</li>
-          <li>• SLA e cronograma</li>
-        </ul>
-        <a href="#empresas" class="btn btn-outline mt-6">Detalhes</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Portfólio com legendas + Lightbox -->
+  <!-- Portfólio (sem corte: aspect 3:4 + object-contain) -->
   <section id="portfolio" class="section py-12">
     <div class="flex items-end justify-between">
       <h2 class="text-2xl md:text-3xl font-extrabold">Portfólio</h2>
@@ -379,73 +320,89 @@
     </div>
 
     <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-      <figure class="group cursor-zoom-in">
-        <img src="images/portfolio-01.webp" alt="Maquiagem social pele preta"
-             class="rounded-xl w-full h-auto md:h-56 object-cover" loading="lazy" decoding="async" width="800" height="700"
-             data-caption="Maquiagem Social — Ensaio fotográfico (mar/24)" />
+      <figure class="group">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden flex items-center justify-center">
+          <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.53.jpeg" alt="Maquiagem social pele preta"
+               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+               data-caption="Maquiagem Social — Ensaio fotográfico (mar/24)" />
+        </div>
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
           Maquiagem Social — Ensaio fotográfico (mar/24)
         </figcaption>
       </figure>
 
-      <figure class="group cursor-zoom-in">
-        <img src="images/portfolio-02.webp" alt="Noiva pele retinta, acabamento glow"
-             class="rounded-xl w-full h-auto md:h-56 object-cover" loading="lazy" decoding="async" width="800" height="700"
-             data-caption="Noiva — Florianópolis (mar/24)" />
+      <figure class="group">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden flex items-center justify-center">
+          <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.53%20%281%29.jpeg" alt="Noiva pele retinta, acabamento glow"
+               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+               data-caption="Noiva — Florianópolis (mar/24)" />
+        </div>
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
           Noiva — Florianópolis (mar/24)
         </figcaption>
       </figure>
 
-      <figure class="group cursor-zoom-in">
-        <img src="images/portfolio-03.webp" alt="Automaquiagem pele negra"
-             class="rounded-xl w-full h-auto md:h-56 object-cover" loading="lazy" decoding="async" width="800" height="700"
-             data-caption="Aula de Automaquiagem — pele negra (abr/24)" />
+      <figure class="group">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden flex items-center justify-center">
+          <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.54%20%281%29.jpeg" alt="Automaquiagem pele negra"
+               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+               data-caption="Aula de Automaquiagem — pele negra (abr/24)" />
+        </div>
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
           Aula de Automaquiagem — pele negra (abr/24)
         </figcaption>
       </figure>
 
-      <figure class="group cursor-zoom-in">
-        <img src="images/portfolio-04.webp" alt="Maquiagem para formatura"
-             class="rounded-xl w-full h-auto md:h-56 object-cover" loading="lazy" decoding="async" width="800" height="700"
-             data-caption="Formatura — alta durabilidade (abr/24)" />
+      <figure class="group">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden flex items-center justify-center">
+          <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.54.jpeg" alt="Maquiagem para formatura"
+               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+               data-caption="Formatura — alta durabilidade (abr/24)" />
+        </div>
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
           Formatura — alta durabilidade (abr/24)
         </figcaption>
       </figure>
 
-      <figure class="group cursor-zoom-in">
-        <img src="images/portfolio-05.webp" alt="Pele iluminada, olhos neutros"
-             class="rounded-xl w-full h-auto md:h-56 object-cover" loading="lazy" decoding="async" width="800" height="700"
-             data-caption="Social — pele iluminada, olhos neutros" />
+      <figure class="group">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden flex items-center justify-center">
+          <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.28.39%20%281%29.jpeg" alt="Pele iluminada, olhos neutros"
+               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+               data-caption="Social — pele iluminada, olhos neutros" />
+        </div>
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
           Social — pele iluminada, olhos neutros
         </figcaption>
       </figure>
 
-      <figure class="group cursor-zoom-in">
-        <img src="images/portfolio-06.webp" alt="Olho marcante, pele glow"
-             class="rounded-xl w-full h-auto md:h-56 object-cover" loading="lazy" decoding="async" width="800" height="700"
-             data-caption="Evento — olho marcante, pele glow" />
+      <figure class="group">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden flex items-center justify-center">
+          <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.54%20%282%29.jpeg" alt="Olho marcante, pele glow"
+               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+               data-caption="Evento — olho marcante, pele glow" />
+        </div>
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
           Evento — olho marcante, pele glow
         </figcaption>
       </figure>
 
-      <figure class="group cursor-zoom-in">
-        <img src="images/portfolio-07.webp" alt="Smokey eye em pele retinta"
-             class="rounded-xl w-full h-auto md:h-56 object-cover" loading="lazy" decoding="async" width="800" height="700"
-             data-caption="Editorial — smokey eye em pele retinta" />
+      <figure class="group">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden flex items-center justify-center">
+          <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.29.12.jpeg" alt="Smokey eye em pele retinta"
+               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+               data-caption="Editorial — smokey eye em pele retinta" />
+        </div>
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
           Editorial — smokey eye em pele retinta
         </figcaption>
       </figure>
 
-      <figure class="group cursor-zoom-in">
-        <img src="images/portfolio-08.webp" alt="Olho esfumado quente"
-             class="rounded-xl w-full h-auto md:h-56 object-cover" loading="lazy" decoding="async" width="800" height="700"
-             data-caption="Social — olho esfumado quente" />
+      <figure class="group">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden flex items-center justify-center">
+          <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.29.39.jpeg" alt="Olho esfumado quente"
+               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+               data-caption="Social — olho esfumado quente" />
+        </div>
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
           Social — olho esfumado quente
         </figcaption>
@@ -479,7 +436,7 @@
     </div>
   </section>
 
-  <!-- CTA -->
+  <!-- CTA final -->
   <section class="section py-12">
     <div class="bg-rose-600 text-white rounded-xl p-8 md:p-12 shadow-mdx flex flex-col md:flex-row items-center justify-between gap-6">
       <div>
@@ -487,7 +444,6 @@
         <p class="text-white/90 mt-2">Garanta seu horário — respondo mais rápido pelo WhatsApp.</p>
       </div>
       <div class="flex gap-2">
-        <a href="agendar.html" class="btn bg-white text-rose-700 hover:bg-white/90">Agendar online</a>
         <button class="btn bg-white text-rose-700 hover:bg-white/90" type="button" data-whats data-source="cta_final">Agendar no Whats</button>
       </div>
     </div>
@@ -512,12 +468,14 @@
   <!-- Orçamento -->
   <section id="orcamento" class="section py-12">
     <h2 class="text-2xl md:text-3xl font-extrabold">Solicitar orçamento</h2>
-    <form action="https://formsubmit.co/SEU-EMAIL@SEU-DOMINIO.COM" method="POST" id="form-orcamento" class="mt-6 grid gap-4 md:grid-cols-2 bg-white p-6 rounded-xl shadow-mdx">
+
+    <!-- Se quiser manter envio por e-mail com Formsubmit, configure seu e-mail abaixo -->
+    <form action="https://formsubmit.co/SEU-EMAIL@SEU-DOMINIO.COM" method="POST"
+          id="form-orcamento"
+          class="mt-6 grid gap-4 md:grid-cols-2 bg-white p-6 rounded-xl shadow-mdx">
       <input type="hidden" name="_subject" value="Novo orçamento pelo site">
       <input type="hidden" name="_captcha" value="false">
-      <!-- Honeypot anti-spam -->
       <input type="text" name="_honey" style="display:none">
-      <!-- Redirect -->
       <input type="hidden" name="_next" value="https://annaluisamakeup.vercel.app/?enviado=1">
 
       <label class="text-sm">Nome
@@ -540,9 +498,11 @@
       <label class="text-sm md:col-span-2">Detalhes (data/ocasião, local, preferências)
         <textarea required name="detalhes" rows="4" class="w-full mt-1 rounded-lg border border-neutral-300 p-3"></textarea>
       </label>
+
       <div class="md:col-span-2 flex items-center gap-3">
         <button class="btn btn-primary" type="submit">Enviar</button>
-        <button type="button" class="btn btn-outline" data-whats data-source="form_orcamento">Falar no WhatsApp</button>
+        <!-- este botão monta a mensagem com os dados e abre o Whats -->
+        <button id="btn-whats-form" type="button" class="btn btn-outline">Falar no WhatsApp</button>
       </div>
     </form>
   </section>
@@ -622,12 +582,12 @@
     // Ano no rodapé
     document.getElementById('ano').textContent = new Date().getFullYear();
 
-    // PWA: registra SW (caminho relativo funciona no Vercel)
+    // PWA (Vercel: caminho relativo)
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').catch(()=>{});
     }
 
-    // Lightbox acessível
+    // Lightbox
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightboxImg');
     const lbCap = document.getElementById('lightboxCaption');
@@ -657,7 +617,7 @@
     lb?.addEventListener('click', (e)=>{ if(e.target === lb) closeLb(); });
     window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeLb(); });
 
-    // LGPD + ajuste botão flutuante
+    // LGPD + ajuste do banner
     const BKEY='cookieConsent';
     function setConsent(ok){
       localStorage.setItem(BKEY, ok?'granted':'denied');
@@ -678,7 +638,7 @@
       document.getElementById('cookieBanner').style.display='none';
     }
 
-    // Lazy-load Instagram quando entra na viewport
+    // Lazy-load Instagram
     const igSection = document.getElementById('instagram');
     const io = new IntersectionObserver((entries)=>{
       if(entries.some(e=>e.isIntersecting)){
@@ -689,9 +649,34 @@
       }
     },{rootMargin:"200px"});
     if (igSection) io.observe(igSection);
+
+    // WhatsApp com dados do formulário
+    const btnWhatsForm = document.getElementById('btn-whats-form');
+    btnWhatsForm?.addEventListener('click', ()=>{
+      const f = document.getElementById('form-orcamento');
+      const nome = f.nome?.value?.trim() || '';
+      const email = f.email?.value?.trim() || '';
+      const telefone = f.telefone?.value?.trim() || '';
+      const servico = f.servico?.value || '';
+      const detalhes = f.detalhes?.value?.trim() || '';
+      const texto =
+`Olá, vim do site e gostaria de um orçamento.
+
+• Nome: ${nome}
+• E-mail: ${email}
+• Telefone/Whats: ${telefone}
+• Serviço: ${servico}
+• Detalhes: ${detalhes}`;
+
+      // abre o WhatsApp com a mensagem montada
+      if (window.__openWA) window.__openWA('form_orcamento', texto);
+      // métrica opcional
+      try { gtag && gtag('event','whatsapp_click',{event_category:'Contato', source:'form_orcamento'}); } catch(e){}
+      try { fbq && fbq('trackCustom','WhatsAppClick',{source:'form_orcamento'}); } catch(e){}
+    });
   </script>
 
-  <!-- Analytics centralizado (telemetria, sem bloquear UX) -->
+  <!-- Analytics (eventos auxiliares) -->
   <script type="module">
     import { trackWhatsAppClick, trackLead, trackReviews } from './scripts/analytics.js';
     window.__analyticsModuleReady = true;
@@ -699,11 +684,8 @@
     document.querySelectorAll('[data-whats]').forEach(el=>{
       el.addEventListener('click', ()=> trackWhatsAppClick(el.dataset.source || 'cta'));
     });
-    document.querySelectorAll('[data-whats-source]').forEach(el=>{
-      el.addEventListener('click', ()=> trackWhatsAppClick(el.dataset.whatsSource || 'cta'));
-    });
 
-    // Form → lead + bloqueio tempo mínimo (3s)
+    // Form → lead + bloqueio tempo mínimo (3s) — mantém o envio por e-mail se configurado
     document.querySelectorAll('form').forEach(f=>{
       const start = Date.now();
       f.addEventListener('submit', (e)=>{
@@ -717,7 +699,7 @@
       a.addEventListener('click', trackReviews);
     });
 
-    // Abertura de imagens do portfólio (eventos)
+    // Portfolio open
     document.querySelectorAll('#portfolio img').forEach((img,i)=>{
       img.addEventListener('click', ()=>{
         gtag?.('event','portfolio_open',{index:i+1});
@@ -725,7 +707,7 @@
       });
     });
 
-    // Scroll depth simples
+    // Scroll depth
     let fired25=false;
     addEventListener('scroll', ()=>{
       const p=(scrollY/(document.body.scrollHeight-innerHeight))*100;
@@ -733,7 +715,7 @@
     });
   </script>
 
-  <!-- FAQPage Schema (rich results) -->
+  <!-- FAQPage Schema -->
   <script type="application/ld+json">
   {
    "@context":"https://schema.org",
