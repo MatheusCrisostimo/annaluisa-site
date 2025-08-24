@@ -38,7 +38,7 @@
   <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Preload do hero com nome codificado -->
+  <!-- Preload do hero -->
   <link rel="preload" as="image"
         href="images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg"
         imagesrcset="images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 800w,
@@ -90,8 +90,8 @@
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
     n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
     t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq && fbq('init', 'YOUR_PIXEL_ID');
-    fbq && fbq('track', 'PageView');
+    window.fbq && window.fbq('init', 'YOUR_PIXEL_ID');
+    window.fbq && window.fbq('track', 'PageView');
   </script>
 
   <!-- Schema.org (MakeupArtist + LocalBusiness) -->
@@ -177,7 +177,7 @@
     <div class="section flex items-center justify-between h-16">
       <a href="#" class="flex items-center gap-3 font-semibold">
         <img src="images/WhatsApp%20Image%202025-08-24%20at%2015.03.20.jpeg" alt="Logo Anna Luísa"
-             class="h-10 sm:h-12 w-auto object-contain" />
+             class="h-12 md:h-16 w-auto max-w-[220px] object-contain" />
         <span class="hidden sm:inline">Anna Luísa — Maquiadora</span>
       </a>
 
@@ -192,7 +192,6 @@
       </nav>
 
       <div class="flex items-center gap-2">
-        <!-- ficou só o Whats -->
         <button type="button"
                 class="inline-flex min-h-10 min-w-[148px] justify-center items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white
                        bg-gradient-to-r from-rose-600 to-fuchsia-600 hover:opacity-95 shadow-md
@@ -213,7 +212,8 @@
               images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 1600w"
       sizes="100vw"
       width="1600" height="900" alt="Modelo maquiada por Anna Luísa"
-      class="w-full h-[68vh] object-cover object-center" loading="eager" fetchpriority="high" decoding="async"
+      class="w-full h-[68vh] lg:h-[78vh] object-cover object-[50%_18%]"
+      loading="eager" fetchpriority="high" decoding="async"
     />
     <div class="section">
       <div class="absolute inset-0 section flex items-end pb-12">
@@ -311,7 +311,7 @@
     </div>
   </section>
 
-  <!-- Portfólio (sem corte: aspect 3:4 + object-contain) -->
+  <!-- Portfólio -->
   <section id="portfolio" class="section py-12">
     <div class="flex items-end justify-between">
       <h2 class="text-2xl md:text-3xl font-extrabold">Portfólio</h2>
@@ -321,9 +321,9 @@
 
     <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
       <figure class="group">
-        <div class="aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden flex items-center justify-center">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
           <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.53.jpeg" alt="Maquiagem social pele preta"
-               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+               class="w-full h-full object-contain rounded-2xl" loading="lazy" decoding="async" width="800" height="700"
                data-caption="Maquiagem Social — Ensaio fotográfico (mar/24)" />
         </div>
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
@@ -332,9 +332,9 @@
       </figure>
 
       <figure class="group">
-        <div class="aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden flex items-center justify-center">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
           <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.53%20%281%29.jpeg" alt="Noiva pele retinta, acabamento glow"
-               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+               class="w-full h-full object-contain rounded-2xl" loading="lazy" decoding="async" width="800" height="700"
                data-caption="Noiva — Florianópolis (mar/24)" />
         </div>
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
@@ -343,9 +343,9 @@
       </figure>
 
       <figure class="group">
-        <div class="aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden flex items-center justify-center">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
           <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.54%20%281%29.jpeg" alt="Automaquiagem pele negra"
-               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+               class="w-full h-full object-contain rounded-2xl" loading="lazy" decoding="async" width="800" height="700"
                data-caption="Aula de Automaquiagem — pele negra (abr/24)" />
         </div>
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
@@ -354,9 +354,9 @@
       </figure>
 
       <figure class="group">
-        <div class="aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden flex items-center justify-center">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
           <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.54.jpeg" alt="Maquiagem para formatura"
-               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+               class="w-full h-full object-contain rounded-2xl" loading="lazy" decoding="async" width="800" height="700"
                data-caption="Formatura — alta durabilidade (abr/24)" />
         </div>
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
@@ -365,9 +365,9 @@
       </figure>
 
       <figure class="group">
-        <div class="aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden flex items-center justify-center">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
           <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.28.39%20%281%29.jpeg" alt="Pele iluminada, olhos neutros"
-               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+               class="w-full h-full object-contain rounded-2xl" loading="lazy" decoding="async" width="800" height="700"
                data-caption="Social — pele iluminada, olhos neutros" />
         </div>
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
@@ -376,9 +376,9 @@
       </figure>
 
       <figure class="group">
-        <div class="aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden flex items-center justify-center">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
           <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.54%20%282%29.jpeg" alt="Olho marcante, pele glow"
-               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+               class="w-full h-full object-contain rounded-2xl" loading="lazy" decoding="async" width="800" height="700"
                data-caption="Evento — olho marcante, pele glow" />
         </div>
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
@@ -387,9 +387,9 @@
       </figure>
 
       <figure class="group">
-        <div class="aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden flex items-center justify-center">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
           <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.29.12.jpeg" alt="Smokey eye em pele retinta"
-               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+               class="w-full h-full object-contain rounded-2xl" loading="lazy" decoding="async" width="800" height="700"
                data-caption="Editorial — smokey eye em pele retinta" />
         </div>
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
@@ -398,9 +398,9 @@
       </figure>
 
       <figure class="group">
-        <div class="aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden flex items-center justify-center">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
           <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.29.39.jpeg" alt="Olho esfumado quente"
-               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+               class="w-full h-full object-contain rounded-2xl" loading="lazy" decoding="async" width="800" height="700"
                data-caption="Social — olho esfumado quente" />
         </div>
         <figcaption class="mt-2 text-xs text-neutral-600 group-hover:text-neutral-800">
@@ -668,9 +668,7 @@
 • Serviço: ${servico}
 • Detalhes: ${detalhes}`;
 
-      // abre o WhatsApp com a mensagem montada
       if (window.__openWA) window.__openWA('form_orcamento', texto);
-      // métrica opcional
       try { gtag && gtag('event','whatsapp_click',{event_category:'Contato', source:'form_orcamento'}); } catch(e){}
       try { fbq && fbq('trackCustom','WhatsAppClick',{source:'form_orcamento'}); } catch(e){}
     });
@@ -685,7 +683,7 @@
       el.addEventListener('click', ()=> trackWhatsAppClick(el.dataset.source || 'cta'));
     });
 
-    // Form → lead + bloqueio tempo mínimo (3s) — mantém o envio por e-mail se configurado
+    // Form → lead + bloqueio tempo mínimo (3s)
     document.querySelectorAll('form').forEach(f=>{
       const start = Date.now();
       f.addEventListener('submit', (e)=>{
