@@ -5,36 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Política de Privacidade | Anna Luísa — Maquiadora</title>
   <meta name="description" content="Política de Privacidade — Saiba como tratamos seus dados e respeitamos a LGPD no site de Anna Luísa, maquiadora em Palhoça/Florianópolis.">
-  <link rel="icon" href="favicon.ico">
+  
+  <link rel="icon" href="../favicon.ico">
+  
+  <meta name="theme-color" content="#171717">
+
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            premium: {
+              gold: '#dfc1a4',   
+              dark: '#171717',   
+              light: '#fcfbfa'   
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { background-color: #fcfbfa; color: #171717; }
+  </style>
 </head>
-<body class="bg-neutral-50 text-neutral-800 leading-relaxed">
-  <header class="bg-white border-b border-neutral-200">
-    <div class="max-w-4xl mx-auto px-4 py-6">
-      <h1 class="text-2xl md:text-3xl font-extrabold">Política de Privacidade</h1>
-      <p class="mt-2 text-neutral-600">Atualizada em 22 de agosto de 2025</p>
+
+<body class="bg-premium-light text-premium-dark antialiased leading-relaxed">
+  
+  <header class="bg-white border-b border-neutral-100">
+    <div class="max-w-4xl mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-light tracking-tight text-neutral-900">Política de Privacidade</h1>
+        <p class="mt-2 text-xs uppercase tracking-widest font-medium text-neutral-400">Atualizada em 22 de agosto de 2025</p>
+      </div>
+      <a href="../index.html" class="inline-flex items-center justify-center px-6 py-2 border border-neutral-200 rounded-full text-xs font-semibold uppercase tracking-widest text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 transition-colors">
+        Voltar ao Site Oficial
+      </a>
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto px-4 py-10 space-y-10">
+  <main class="max-w-4xl mx-auto px-6 py-12 space-y-12">
     <section>
-      <h2 class="text-xl font-semibold mb-2">1. Introdução</h2>
-      <p>Esta Política de Privacidade descreve como coletamos, utilizamos e protegemos seus dados pessoais ao utilizar o site <strong>Anna Luísa — Maquiadora</strong>, em conformidade com a <strong>Lei Geral de Proteção de Dados (LGPD - Lei 13.709/2018)</strong>.</p>
+      <h2 class="text-sm uppercase tracking-widest font-semibold text-neutral-400 mb-4">1. Introdução</h2>
+      <p class="text-sm text-neutral-600 font-light leading-loose">Esta Política de Privacidade descreve como coletamos, utilizamos e protegemos seus dados pessoais ao utilizar o site <strong class="font-medium text-neutral-900">Anna Luísa — Maquiadora</strong>, em conformidade com a <strong class="font-medium text-neutral-900">Lei Geral de Proteção de Dados (LGPD - Lei 13.709/2018)</strong>.</p>
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold mb-2">2. Dados coletados</h2>
-      <ul class="list-disc pl-6 space-y-1">
-        <li><strong>Formulário de orçamento:</strong> nome, e-mail, telefone e informações relacionadas ao serviço desejado.</li>
-        <li><strong>Cookies e métricas:</strong> usamos Google Analytics 4 (GA4) e Meta Pixel para analisar tráfego e melhorar campanhas.</li>
-        <li><strong>WhatsApp:</strong> ao clicar no botão, você é redirecionado para o WhatsApp com uma mensagem pré-preenchida.</li>
+      <h2 class="text-sm uppercase tracking-widest font-semibold text-neutral-400 mb-4">2. Dados coletados</h2>
+      <ul class="list-disc pl-5 space-y-3 text-sm text-neutral-600 font-light leading-loose marker:text-premium-gold">
+        <li><strong class="font-medium text-neutral-900">Formulário de orçamento:</strong> nome, e-mail, telefone e informações relacionadas ao serviço desejado.</li>
+        <li><strong class="font-medium text-neutral-900">Cookies e métricas:</strong> usamos Google Analytics 4 (GA4) e Meta Pixel para analisar tráfego e melhorar campanhas.</li>
+        <li><strong class="font-medium text-neutral-900">WhatsApp:</strong> ao clicar no botão, você é redirecionado para o WhatsApp com uma mensagem pré-preenchida.</li>
       </ul>
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold mb-2">3. Finalidade do uso</h2>
-      <p>Os dados coletados são usados para:</p>
-      <ul class="list-disc pl-6 space-y-1">
+      <h2 class="text-sm uppercase tracking-widest font-semibold text-neutral-400 mb-4">3. Finalidade do uso</h2>
+      <p class="text-sm text-neutral-600 font-light leading-loose mb-3">Os dados coletados são usados para:</p>
+      <ul class="list-disc pl-5 space-y-3 text-sm text-neutral-600 font-light leading-loose marker:text-premium-gold">
         <li>Responder a pedidos de orçamento e contato.</li>
         <li>Agendar atendimentos e enviar informações sobre serviços.</li>
         <li>Mensurar audiência, melhorar experiência do usuário e otimizar anúncios.</li>
@@ -42,46 +72,52 @@
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold mb-2">4. Compartilhamento de dados</h2>
-      <p>Não vendemos, trocamos ou transferimos suas informações pessoais a terceiros. Seus dados podem ser processados apenas por parceiros confiáveis para fins de:</p>
-      <ul class="list-disc pl-6 space-y-1">
-        <li>Hospedagem do site (GitHub Pages).</li>
-        <li>Ferramentas de marketing digital (Google, Meta/Facebook).</li>
+      <h2 class="text-sm uppercase tracking-widest font-semibold text-neutral-400 mb-4">4. Compartilhamento de dados</h2>
+      <p class="text-sm text-neutral-600 font-light leading-loose mb-3">Não vendemos, trocamos ou transferimos suas informações pessoais a terceiros. Seus dados podem ser processados apenas por parceiros confiáveis para fins de:</p>
+      <ul class="list-disc pl-5 space-y-3 text-sm text-neutral-600 font-light leading-loose marker:text-premium-gold">
+        <li>Hospedagem do site (GitHub Pages / Vercel).</li>
+        <li>Ferramentas de marketing digital (Google Analytics, Meta/Facebook).</li>
       </ul>
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold mb-2">5. Cookies e consentimento</h2>
-      <p>Utilizamos cookies para medir audiência e melhorar anúncios. Você pode aceitar ou rejeitar no banner de consentimento (LGPD) exibido ao acessar o site.</p>
+      <h2 class="text-sm uppercase tracking-widest font-semibold text-neutral-400 mb-4">5. Cookies e consentimento</h2>
+      <p class="text-sm text-neutral-600 font-light leading-loose">Utilizamos cookies para medir audiência e melhorar anúncios. Você pode aceitar ou rejeitar a captação de métricas no banner de consentimento (LGPD) exibido ao acessar o site pela primeira vez.</p>
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold mb-2">6. Seus direitos (LGPD)</h2>
-      <p>Você pode a qualquer momento solicitar:</p>
-      <ul class="list-disc pl-6 space-y-1">
+      <h2 class="text-sm uppercase tracking-widest font-semibold text-neutral-400 mb-4">6. Seus direitos (LGPD)</h2>
+      <p class="text-sm text-neutral-600 font-light leading-loose mb-3">Você pode a qualquer momento solicitar:</p>
+      <ul class="list-disc pl-5 space-y-3 text-sm text-neutral-600 font-light leading-loose marker:text-premium-gold">
         <li>Acesso, correção ou exclusão dos seus dados pessoais.</li>
         <li>Revogação do consentimento de uso de cookies.</li>
-        <li>Informações sobre como seus dados são tratados.</li>
+        <li>Informações detalhadas sobre como seus dados são tratados.</li>
       </ul>
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold mb-2">7. Contato</h2>
-      <p>Para exercer seus direitos ou esclarecer dúvidas, entre em contato:</p>
-      <ul class="mt-2">
-        <li><strong>E-mail:</strong> seu-email@seudominio.com</li>
-        <li><strong>WhatsApp:</strong> <a href="https://wa.me/5521995440439" class="text-rose-600 hover:underline">(21) 99544-0439</a></li>
+      <h2 class="text-sm uppercase tracking-widest font-semibold text-neutral-400 mb-4">7. Contato e Exercício de Direitos</h2>
+      <p class="text-sm text-neutral-600 font-light leading-loose mb-4">Para exercer seus direitos ou esclarecer dúvidas, entre em contato através dos nossos canais oficiais:</p>
+      <ul class="space-y-4 text-sm text-neutral-600 font-light">
+        <li class="flex items-center gap-2">
+          <strong class="font-medium text-neutral-900 uppercase tracking-widest text-xs">E-mail:</strong> 
+          <a href="mailto:amtlopesmartins@gmail.com" class="text-neutral-900 border-b border-neutral-400 pb-0.5 font-medium hover:text-neutral-500 transition-colors">amtlopesmartins@gmail.com</a>
+        </li>
+        <li class="flex items-center gap-2">
+          <strong class="font-medium text-neutral-900 uppercase tracking-widest text-xs">WhatsApp:</strong> 
+          <a href="https://wa.me/5521995440439" target="_blank" rel="noopener" class="text-neutral-900 border-b border-neutral-400 pb-0.5 font-medium hover:text-neutral-500 transition-colors">(21) 99544-0439</a>
+        </li>
       </ul>
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold mb-2">8. Alterações nesta política</h2>
-      <p>Poderemos atualizar esta Política periodicamente. Recomendamos que você a consulte sempre que acessar o site.</p>
+      <h2 class="text-sm uppercase tracking-widest font-semibold text-neutral-400 mb-4">8. Alterações nesta política</h2>
+      <p class="text-sm text-neutral-600 font-light leading-loose">Poderemos atualizar esta Política de Privacidade periodicamente para refletir mudanças legais ou tecnológicas. Recomendamos que você a consulte sempre que acessar o nosso site.</p>
     </section>
   </main>
 
-  <footer class="border-t border-neutral-200 py-8 mt-12">
-    <div class="max-w-4xl mx-auto px-4 text-sm text-neutral-500">
+  <footer class="border-t border-neutral-100 py-12 mt-8 bg-white text-center">
+    <div class="max-w-4xl mx-auto px-4 text-xs tracking-wide text-neutral-400 font-light">
       <p>© <span id="ano"></span> Anna Luísa — Maquiadora. Todos os direitos reservados.</p>
     </div>
   </footer>
