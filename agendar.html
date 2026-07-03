@@ -4,11 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="format-detection" content="telephone=no" />
-  <title>Agendar | Anna Luísa — Maquiadora em Florianópolis</title>
+  <title>Agendar Atendimento | Anna Luísa — Maquiadora</title>
   <meta name="description" content="Agende maquiagem social, noiva, aulas e corporativo. Atendimento em Palhoça/Florianópolis — SC." />
   <meta name="robots" content="index, follow" />
 
-  <!-- Open Graph -->
   <meta property="og:title" content="Agendar horário | Anna Luísa" />
   <meta property="og:description" content="Agende maquiagem social, noiva, aulas e corporativo." />
   <meta property="og:type" content="website" />
@@ -18,28 +17,48 @@
   <meta property="og:locale" content="pt_BR" />
 
   <link rel="icon" href="favicon.ico" />
-  <link rel="canonical" href="https://MatheusCrisostimo.github.io/annaluisa-site/agendar.html">
-  <meta name="theme-color" content="#e11d48">
+  <link rel="canonical" href="https://annaluisamakeup.vercel.app/agendar.html">
+  
+  <meta name="theme-color" content="#171717">
 
-  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            premium: {
+              gold: '#dfc1a4',   
+              dark: '#171717',   
+              light: '#fcfbfa'   
+            }
+          }
+        }
+      }
+    }
+  </script>
 
   <style>
-    .btn { display:inline-flex; align-items:center; justify-content:center; padding:10px 16px; border-radius:9999px; font-weight:600; transition:.2s; }
-    .btn-primary { color:#fff; background-image:linear-gradient(90deg,#e11d48,#c026d3); }
-    .btn-primary:hover { opacity:.95; }
-    .btn-outline { border:1px solid #d1d5db; }
-    .btn-outline:hover { background:#f9fafb; }
+    body { background-color: #fcfbfa; color: #171717; }
+    
+    /* Botões atualizados para a estética Luxo/Sóbria */
+    .btn { display:inline-flex; align-items:center; justify-content:center; padding:10px 22px; border-radius:9999px; font-weight:600; transition:.2s; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+    .btn-primary { color:#fff; background-color:#171717; }
+    .btn-primary:hover { background-color:#333333; }
+    .btn-outline { border:1px solid #171717; color:#171717; background: transparent; }
+    .btn-outline:hover { background:#171717; color:#fff; }
+    
     .section { max-width:56rem; margin:0 auto; padding:0 1rem; }
     @media (min-width:640px){ .section { padding:0 1.5rem; } }
     @media (min-width:1024px){ .section { padding:0 2rem; } }
+    
+    .shadow-soft { box-shadow: 0 10px 40px rgba(0,0,0,.04); }
   </style>
 
-  <!-- Safety‑net WhatsApp (funciona mesmo sem analytics.js) -->
   <script>
   (function(){
     const PHONE='5521995440439';
-    const DEFAULT_MSG='Olá, vim do site e quero agendar maquiagem.';
+    const DEFAULT_MSG='Olá Anna Luísa, vim do site e gostaria de agendar um atendimento.';
     function openWA(source, text){
       const msg = encodeURIComponent(text || DEFAULT_MSG);
       const url = `https://wa.me/${PHONE}?text=${msg}&utm_source=site&utm_medium=cta&utm_campaign=whatsapp&src=${encodeURIComponent(source||'agendar')}`;
@@ -64,93 +83,89 @@
   </script>
 </head>
 
-<body class="bg-neutral-50 text-neutral-800">
-  <!-- Header simples -->
-  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-neutral-200">
-    <div class="section flex items-center justify-between h-16">
-      <a href="index.html" class="flex items-center gap-3 font-semibold">
-        <img src="images/logo.png" alt="Logo Anna Luísa" class="h-8 w-8" />
-        <span>Anna Luísa — Maquiadora</span>
+<body class="bg-premium-light text-premium-dark antialiased">
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-neutral-100">
+    <div class="section flex items-center justify-between h-20">
+      <a href="index.html" class="flex items-center gap-3 font-semibold tracking-wide text-xs uppercase">
+        <img src="images/WhatsApp%20Image%202025-08-24%20at%2015.03.20.jpeg" alt="Logo Anna Luísa" class="h-12 w-auto object-contain" onerror="this.src='images/logo.png'" />
+        <span class="hidden sm:inline border-l border-neutral-300 pl-3 text-neutral-500">Anna Luísa — Maquiadora</span>
       </a>
-      <nav class="hidden md:flex items-center gap-4 text-sm">
-        <a href="index.html#servicos" class="hover:text-rose-600">Serviços</a>
-        <a href="index.html#portfolio" class="hover:text-rose-600">Portfólio</a>
-        <a href="index.html#contato" class="hover:text-rose-600">Contato</a>
+      <nav class="hidden md:flex items-center gap-6 text-xs uppercase tracking-wider font-medium text-neutral-600">
+        <a href="index.html#servicos" class="hover:text-neutral-900 transition-colors">Serviços</a>
+        <a href="index.html#portfolio" class="hover:text-neutral-900 transition-colors">Portfólio</a>
+        <a href="index.html#contato" class="hover:text-neutral-900 transition-colors">Contato</a>
       </nav>
-      <div class="flex items-center gap-2">
-        <a href="index.html" class="btn btn-outline">Voltar ao site</a>
-        <button class="btn btn-primary" data-whats data-source="agendar_top">Agendar no Whats</button>
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-xs uppercase tracking-wider font-semibold text-neutral-500 hover:text-neutral-900 transition-colors hidden sm:inline">Voltar ao site</a>
+        <button class="btn btn-primary" data-whats data-source="agendar_top">WhatsApp Rápido</button>
       </div>
     </div>
   </header>
 
-  <!-- Hero curto -->
-  <section class="section py-10">
-    <h1 class="text-3xl md:text-4xl font-extrabold">Agendar</h1>
-    <p class="mt-2 text-neutral-700">Preencha os campos abaixo para agilizar o atendimento — respondo mais rápido pelo WhatsApp.</p>
+  <section class="section py-12">
+    <h2 class="text-xs uppercase tracking-widest font-semibold text-neutral-400 mb-2">Atendimento Exclusivo</h2>
+    <h1 class="text-3xl md:text-4xl font-light tracking-tight text-neutral-900">Agendar Horário</h1>
+    <p class="mt-3 text-neutral-500 font-light text-sm">Preencha as informações abaixo para estruturarmos o seu atendimento. O retorno será feito imediatamente via WhatsApp.</p>
   </section>
 
-  <!-- Formulário de agendamento -->
   <section class="section pb-16">
-    <form id="agendarForm" class="bg-white rounded-xl shadow p-6 grid gap-4 md:grid-cols-2">
-      <label class="text-sm">Nome
-        <input required name="nome" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
+    <form id="agendarForm" class="bg-white rounded-xl shadow-soft p-8 border border-neutral-100 grid gap-6 md:grid-cols-2">
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Nome Completo
+        <input required name="nome" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" />
       </label>
 
-      <label class="text-sm">Telefone/WhatsApp
-        <input name="telefone" inputmode="tel" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Telefone com WhatsApp
+        <input name="telefone" inputmode="tel" placeholder="(21) 99544-0439" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" />
       </label>
 
-      <label class="text-sm">E-mail
-        <input type="email" name="email" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">E-mail
+        <input type="email" name="email" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" />
       </label>
 
-      <label class="text-sm">Tipo de serviço
-        <select name="servico" class="w-full mt-1 rounded-lg border border-neutral-300 p-3">
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Modalidade de Serviço
+        <select name="servico" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors">
           <option>Maquiagem Social</option>
           <option>Noiva</option>
           <option>Aula de Automaquiagem</option>
-          <option>Empresas</option>
+          <option>Empresas / Corporativo</option>
         </select>
       </label>
 
-      <label class="text-sm">Data desejada
-        <input type="date" name="data" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Data Desejada
+        <input type="date" name="data" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" />
       </label>
 
-      <label class="text-sm">Horário aproximado
-        <input type="time" name="horario" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Horário Aproximado
+        <input type="time" name="horario" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" />
       </label>
 
-      <label class="text-sm md:col-span-2">Local do atendimento
-        <input name="local" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" placeholder="Palhoça / Florianópolis ou endereço completo" />
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500 md:col-span-2">Local do Atendimento
+        <input name="local" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" placeholder="Ex: Palhoça, Florianópolis, ou Endereço Completo do Evento" />
       </label>
 
-      <label class="text-sm md:col-span-2">Detalhes / referências
-        <textarea name="detalhes" rows="4" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" placeholder="Tipo de pele, acabamento preferido, referências etc."></textarea>
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500 md:col-span-2">Detalhes e Preferências
+        <textarea name="detalhes" rows="4" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" placeholder="Descreva o estilo do evento, tipo de pele, referências de maquiagem, etc."></textarea>
       </label>
 
-      <div class="md:col-span-2 flex flex-wrap gap-3">
-        <button type="submit" class="btn btn-primary">Enviar no WhatsApp</button>
-        <button type="button" class="btn btn-outline" data-whats data-source="agendar_atalho">Abrir WhatsApp agora</button>
+      <div class="md:col-span-2 flex flex-wrap items-center gap-4 mt-2">
+        <button type="submit" class="btn btn-primary">Concluir no WhatsApp</button>
+        <button type="button" class="btn btn-outline" data-whats data-source="agendar_atalho">Apenas tirar uma dúvida</button>
       </div>
 
-      <p class="md:col-span-2 text-xs text-neutral-500">Ao enviar, abriremos o WhatsApp com as informações preenchidas para concluir o agendamento.</p>
+      <p class="md:col-span-2 text-[10px] text-neutral-400 uppercase tracking-widest mt-2">Os dados serão organizados e enviados de forma segura para o WhatsApp oficial de atendimento.</p>
     </form>
   </section>
 
-  <!-- Rodapé compacto -->
-  <footer class="border-t border-neutral-200 py-10 mt-8">
-    <div class="section flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-neutral-500">
-      <p>© <span id="ano"></span> Anna Luísa — Maquiadora.</p>
-      <div class="flex items-center gap-4">
-        <a href="docs/politica-privacidade.html" class="hover:text-neutral-700">Política de Privacidade</a>
-        <a href="docs/termos-de-uso.html" class="hover:text-neutral-700">Termos</a>
+  <footer class="border-t border-neutral-100 py-10 bg-white">
+    <div class="section flex flex-col md:flex-row items-center justify-between gap-4 text-xs tracking-wide text-neutral-400 font-light">
+      <p>© <span id="ano"></span> Anna Luísa — Maquiadora. Todos os direitos reservados.</p>
+      <div class="flex items-center gap-6">
+        <a href="docs/politica-privacidade.html" class="hover:text-neutral-800 transition-colors">Privacidade</a>
+        <a href="docs/termos-de-uso.html" class="hover:text-neutral-800 transition-colors">Termos</a>
       </div>
     </div>
   </footer>
 
-  <!-- Scripts da página -->
   <script type="module">
     import { trackWhatsAppClick, trackLead } from './scripts/analytics.js';
     window.__analyticsModuleReady = true;
@@ -160,7 +175,7 @@
       el.addEventListener('click', ()=> trackWhatsAppClick(el.dataset.source || 'agendar'));
     });
 
-    // envia formulário -> monta mensagem e abre WhatsApp
+    // envia formulário -> monta mensagem premium e abre WhatsApp
     const f = document.getElementById('agendarForm');
     f.addEventListener('submit', (e)=>{
       e.preventDefault();
@@ -175,15 +190,19 @@
         local: data.get('local') || '',
         detalhes: data.get('detalhes') || ''
       };
+      
       const linhas = [
-        `Olá, vim do site e quero agendar: ${campos.servico}`,
-        campos.data || campos.horario ? `Para: ${campos.data || '—'} ${campos.horario || ''}` : '',
-        campos.local ? `Local: ${campos.local}` : '',
-        campos.nome ? `Nome: ${campos.nome}` : '',
-        campos.telefone ? `Telefone: ${campos.telefone}` : '',
-        campos.email ? `E-mail: ${campos.email}` : '',
-        campos.detalhes ? `Detalhes: ${campos.detalhes}` : ''
+        `Olá Anna Luísa, solicito um agendamento pelo site. Abaixo estão as informações do evento:`,
+        ``,
+        `• Serviço: ${campos.servico}`,
+        campos.data || campos.horario ? `• Data/Hora: ${campos.data || '—'} ${campos.horario || ''}` : '',
+        campos.local ? `• Local: ${campos.local}` : '',
+        campos.nome ? `• Nome da Cliente: ${campos.nome}` : '',
+        campos.telefone ? `• Telefone: ${campos.telefone}` : '',
+        campos.email ? `• E-mail: ${campos.email}` : '',
+        campos.detalhes ? `• Observações: ${campos.detalhes}` : ''
       ].filter(Boolean).join('\n');
+      
       trackLead('agendar_form');
       (window.__openWA || function(){})('agendar_form', linhas);
     });
