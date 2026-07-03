@@ -4,36 +4,57 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="format-detection" content="telephone=no" />
-  <title>Anna Luísa — Links rápidos</title>
-  <meta name="description" content="Contatos, orçamento e portfólio da maquiadora Anna Luísa. Clique para falar no WhatsApp ou agendar online." />
+  <title>Anna Luísa — Links Rápidos</title>
+  <meta name="description" content="Contatos, orçamento e portfólio da maquiadora Anna Luísa. Especialista em peles pretas e noivas." />
   <meta name="robots" content="index, follow" />
   <link rel="icon" href="favicon.ico" />
   <link rel="canonical" href="https://annaluisamakeup.vercel.app/links" />
-  <meta name="theme-color" content="#e11d48">
+  
+  <meta name="theme-color" content="#171717">
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Anna Luísa — Links rápidos" />
-  <meta property="og:description" content="WhatsApp, agendamento, portfólio e avaliações." />
+  <meta property="og:title" content="Anna Luísa — Atendimento Premium" />
+  <meta property="og:description" content="WhatsApp, agendamento, portfólio oficial e avaliações." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="images/og-cover.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="pt_BR" />
 
-  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            premium: {
+              gold: '#dfc1a4',   
+              dark: '#171717',   
+              light: '#fcfbfa'   
+            }
+          }
+        }
+      }
+    }
+  </script>
 
   <style>
-    .card { box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+    body { background-color: #fcfbfa; color: #171717; }
+    .card { box-shadow: 0 10px 40px rgba(0,0,0,.04); border: 1px solid rgba(23,23,23,0.05); }
+    
+    /* Botões atualizados para a estética Luxo/Sóbria */
     .btn { display:flex; align-items:center; justify-content:center; gap:.6rem;
-           padding:.9rem 1.1rem; border-radius:9999px; font-weight:700; }
-    .btn-primary { color:#fff; background-image:linear-gradient(90deg,#e11d48,#c026d3); }
-    .btn-outline { border:1px solid #d1d5db; }
-    .btn-neutral { background:#fff; border:1px solid #e5e7eb; }
-    .avatar { width:88px; height:88px; border-radius:9999px; object-fit:cover; }
+           padding:.9rem 1.1rem; border-radius:9999px; font-weight:600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; transition: 0.2s ease; }
+    .btn-primary { color:#fff; background-color:#171717; }
+    .btn-primary:hover { background-color:#333333; }
+    .btn-outline { border:1px solid #171717; color:#171717; background: transparent; }
+    .btn-outline:hover { background:#171717; color:#fff; }
+    .btn-neutral { background:#fff; border:1px solid #e5e7eb; color: #171717; }
+    .btn-neutral:hover { background:#f9fafb; }
+    
+    /* Avatar com borda dourada/nude sutil */
+    .avatar { width:96px; height:96px; border-radius:9999px; object-fit:cover; border: 2px solid #dfc1a4; padding: 2px; }
   </style>
 
-  <!-- GA4/Pixel podem ficar apenas no módulo; deixo mínimo inline opcional -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-60ZPREPJV3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -42,11 +63,11 @@
     gtag('js', new Date()); gtag('config','G-60ZPREPJV3');
   </script>
 
-  <!-- Fallback WhatsApp: funciona mesmo sem JS do módulo -->
   <script>
     (function(){
       const PHONE='5521995440439';
-      function openWA(source='links', text='Olá, vim do Instagram e quero agendar maquiagem.') {
+      // Copy atualizada para manter o tom de alto padrão
+      function openWA(source='links', text='Olá Anna Luísa, vim do Instagram e gostaria de solicitar um orçamento personalizado.') {
         const t = encodeURIComponent(text);
         const url = `https://wa.me/${PHONE}?text=${t}&utm_source=instagram&utm_medium=bio&utm_campaign=links&src=${encodeURIComponent(source)}`;
         window.open(url,'_blank','noopener,noreferrer');
@@ -62,27 +83,31 @@
     })();
   </script>
 </head>
-<body class="bg-neutral-50 text-neutral-800">
-  <main class="max-w-lg mx-auto px-4 py-10">
-    <section class="bg-white rounded-2xl p-6 md:p-8 card text-center">
-      <img src="images/logo.png" alt="Logo Anna Luísa" class="avatar mx-auto" />
-      <h1 class="mt-4 text-2xl font-extrabold">Anna Luísa — Maquiadora</h1>
-      <p class="mt-1 text-sm text-neutral-600">Palhoça / Florianópolis — SC</p>
+<body class="bg-premium-light text-premium-dark antialiased">
+  <main class="max-w-lg mx-auto px-4 py-12">
+    <section class="bg-white rounded-2xl p-8 card text-center">
+      
+      <img src="images/WhatsApp%20Image%202025-08-24%20at%2015.03.20.jpeg" alt="Logo Anna Luísa" class="avatar mx-auto" onerror="this.src='images/logo.png'" />
+      
+      <h1 class="mt-5 text-xl font-light tracking-tight text-neutral-900">Anna Luísa — Maquiadora</h1>
+      <p class="mt-1 text-xs text-neutral-500 uppercase tracking-widest font-medium">Palhoça / Florianópolis — SC</p>
 
-      <div class="mt-6 grid gap-3">
-        <!-- CTA principal -->
+      <div class="mt-8 grid gap-4">
         <button class="btn btn-primary" type="button" data-whats data-source="links_whats_top">
           💬 Falar no WhatsApp
         </button>
 
-        <a href="agendar.html" class="btn btn-neutral">🗓️ Agendar online</a>
-        <a href="https://www.instagram.com/annalluisaa/" target="_blank" rel="noopener" class="btn btn-outline">📸 Portfólio no Instagram</a>
-        <a href="https://www.google.com/maps/place/Anna+Luisa+Makeup+Artist/@-27.628773,-48.6727469,17z" target="_blank" rel="noopener" class="btn btn-outline" id="btnReviews">⭐ Avaliações / Como chegar</a>
-        <a href="docs/midia-kit.pdf" target="_blank" rel="noopener" class="btn btn-outline">📄 Mídia Kit (PDF)</a>
-        <a href="docs/politica-privacidade.html" class="btn btn-outline">🔒 Política de Privacidade</a>
+        <a href="index.html" class="btn btn-neutral">✨ Visitar Site Oficial</a>
+
+        <a href="agendar.html" class="btn btn-outline">🗓️ Agendamento Rápido</a>
+        <a href="https://www.instagram.com/annalluisaa/" target="_blank" rel="noopener" class="btn btn-outline">📸 Acompanhar no Instagram</a>
+        
+        <a href="https://www.google.com/maps/place/Anna+Luisa+Makeup+Artist/@-27.628773,-48.6727469,17z" target="_blank" rel="noopener" class="btn btn-outline" id="btnReviews">⭐ Avaliações no Google</a>
+        
+        <a href="docs/midia-kit.pdf" target="_blank" rel="noopener" class="btn btn-outline border-transparent text-neutral-500 hover:text-neutral-900 hover:bg-transparent underline decoration-1 underline-offset-4">Mídia Kit Corporativo</a>
       </div>
 
-      <p class="mt-6 text-xs text-neutral-500">© <span id="ano"></span> Anna Luísa — Maquiadora</p>
+      <p class="mt-8 text-[10px] text-neutral-400 uppercase tracking-widest">© <span id="ano"></span> Anna Luísa</p>
     </section>
   </main>
 
