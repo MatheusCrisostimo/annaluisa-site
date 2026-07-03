@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="format-detection" content="telephone=no" />
   <title>Maquiadora em Florianópolis | Anna Luísa — Beleza que Realça Você</title>
-  <meta name="description" content="Maquiagem social, noivas, empresas e aulas em Florianópolis e região. 9 anos embelezando sonhos. Agende pelo WhatsApp." />
+  <meta name="description" content="Maquiagem social, noivas, empresas e aulas em Florianópolis e região. 13 anos de experiência com foco em peles pretas." />
   <meta name="robots" content="index, follow" />
 
-  <!-- Open Graph -->
   <meta property="og:title" content="Maquiadora em Florianópolis | Anna Luísa" />
-  <meta property="og:description" content="Maquiagem social, noivas, empresas e aulas. 9 anos embelezando sonhos." />
+  <meta property="og:description" content="Maquiagem social, noivas, empresas e aulas. 13 anos embelezando sonhos." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://annaluisamakeup.vercel.app/" />
   <meta property="og:image" content="https://annaluisamakeup.vercel.app/images/og-cover.jpg" />
@@ -20,14 +19,12 @@
 
   <link rel="icon" href="favicon.ico" />
   <link rel="canonical" href="https://annaluisamakeup.vercel.app/">
-  <meta name="theme-color" content="#e11d48">
+  <meta name="theme-color" content="#171717">
 
-  <!-- PWA -->
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="images/icons/icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
 
-  <!-- Performance -->
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
   <link rel="preconnect" href="https://connect.facebook.net">
@@ -35,10 +32,23 @@
   <link rel="preconnect" href="https://www.instagram.com">
   <link rel="dns-prefetch" href="https://www.instagram.com">
 
-  <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            premium: {
+              gold: '#dfc1a4',   
+              dark: '#171717',   
+              light: '#fcfbfa'   
+            }
+          }
+        }
+      }
+    }
+  </script>
 
-  <!-- Preload do hero -->
   <link rel="preload" as="image"
         href="images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg"
         imagesrcset="images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 800w,
@@ -47,37 +57,38 @@
         imagesizes="100vw" />
 
   <style>
-    .glass { backdrop-filter: blur(10px); background: rgba(255,255,255,0.7); }
-    .shadow-soft { box-shadow: 0 10px 30px rgba(0,0,0,.08); }
-    .shadow-mdx { box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+    .glass { backdrop-filter: blur(10px); background: rgba(255,255,255,0.75); }
+    .shadow-soft { box-shadow: 0 10px 30px rgba(0,0,0,.04); }
+    .shadow-mdx { box-shadow: 0 6px 18px rgba(0,0,0,.04); }
 
-    .btn { display:inline-flex; align-items:center; justify-content:center; padding:10px 16px; border-radius:9999px; font-weight:600; transition:.2s; }
-    .btn-primary { color:#fff; background-image:linear-gradient(90deg,#e11d48,#c026d3); }
-    .btn-primary:hover { opacity:.95; }
-    .btn-outline { border:1px solid #d1d5db; }
-    .btn-outline:hover { background:#f9fafb; }
+    /* Botões atualizados para a estética luxo (Sóbrios) */
+    .btn { display:inline-flex; align-items:center; justify-content:center; padding:10px 22px; border-radius:9999px; font-weight:600; transition:.2s; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+    .btn-primary { color:#fff; background-color:#171717; }
+    .btn-primary:hover { background-color:#333333; }
+    .btn-outline { border:1px solid #171717; color:#171717; }
+    .btn-outline:hover { background:#171717; color:#fff; }
 
-    .chip { display:inline-flex; align-items:center; gap:.5rem; border-radius:9999px; padding:.25rem .75rem; font-size:.875rem; background:rgba(255,255,255,.85); box-shadow:0 10px 30px rgba(0,0,0,.08); }
+    .chip { display:inline-flex; align-items:center; gap:.5rem; border-radius:9999px; padding:.35rem .95rem; font-size:.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; background:rgba(255,255,255,.9); box-shadow:0 4px 12px rgba(0,0,0,.03); border: 1px solid rgba(23,23,23,0.05); }
 
     .section { max-width:72rem; margin:0 auto; padding:0 1rem; }
     @media (min-width:640px){ .section { padding:0 1.5rem; } }
     @media (min-width:1024px){ .section { padding:0 2rem; } }
 
     /* Lightbox */
-    .lightbox-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.8); display:none; align-items:center; justify-content:center; z-index:60; padding:2rem; }
+    .lightbox-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.9); display:none; align-items:center; justify-content:center; z-index:60; padding:2rem; backdrop-filter: blur(5px); }
     .lightbox-backdrop.active{ display:flex; }
-    .lightbox-img{ max-width:90vw; max-height:75vh; border-radius:1rem; box-shadow:0 20px 60px rgba(0,0,0,.4); }
+    .lightbox-img{ max-width:90vw; max-height:75vh; border-radius:0.5rem; box-shadow:0 20px 60px rgba(0,0,0,.6); }
 
     /* Botão WhatsApp flutuante (só mobile) */
     #waFloat{ position:fixed; bottom:1.25rem; right:1.25rem; z-index:50; }
     @media (min-width:1024px){ #waFloat{ display:none; } }
     .cookie-open #waFloat{ bottom:6rem; }
 
-    /* 🔸 Cantos arredondados para TODAS as imagens dentro de <figure> */
-    figure img { border-radius: 1rem; }
+    /* Hover no Portfólio */
+    figure img { border-radius: 0.5rem; transition: transform 0.3s ease; }
+    figure:hover img { transform: scale(1.02); }
   </style>
 
-  <!-- GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-60ZPREPJV3"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -87,7 +98,6 @@
     gtag('config', 'G-60ZPREPJV3');
   </script>
 
-  <!-- Meta Pixel (opcional; troque o ID para usar) -->
   <script>
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
@@ -97,19 +107,15 @@
     window.fbq && window.fbq('track', 'PageView');
   </script>
 
-  <!-- Schema.org (MakeupArtist + LocalBusiness) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "MakeupArtist",
     "name": "Anna Luísa — Maquiadora",
     "image": ["https://annaluisamakeup.vercel.app/images/og-cover.jpg"],
-    "description": "Maquiagem social, noivas e aulas. 9 anos de experiência.",
+    "description": "Maquiagem social, noivas e aulas. 13 anos de experiência com foco em peles pretas.",
     "url": "https://annaluisamakeup.vercel.app",
     "telephone": "+55 21 99544-0439",
-    "sameAs": ["https://www.instagram.com/annalluisaa/"],
-    "areaServed": "Brasil",
-    "openingHours": ["Mo-Su 08:00-20:00"],
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "R. Maria Emília dos Santos",
@@ -145,11 +151,10 @@
   }
   </script>
 
-  <!-- Safety-net: WhatsApp funciona mesmo sem o módulo -->
   <script>
   (function(){
-    const PHONE='5521995440439';
-    const DEFAULT_MSG='Olá, vim do site e quero agendar maquiagem. Data/ocasião: ____ .';
+    const PHONE='5521995440439'; 
+    const DEFAULT_MSG='Olá Anna Luísa, vi o seu site e gostaria de solicitar um orçamento. Data/ocasião: ____ .';
     function openWA(source, text){
       const msg = encodeURIComponent(text || DEFAULT_MSG);
       const url = `https://wa.me/${PHONE}?text=${msg}&utm_source=site&utm_medium=cta&utm_campaign=whatsapp&src=${encodeURIComponent(source||'cta')}`;
@@ -167,217 +172,215 @@
   </script>
 </head>
 
-<body class="bg-neutral-50 text-neutral-800">
+<body class="bg-premium-light text-premium-dark antialiased">
 
-  <!-- Botão flutuante WhatsApp (mobile) -->
   <button id="waFloat" data-whats data-source="botao_fixo" aria-label="Agendar no WhatsApp"
-     class="bg-green-500 hover:bg-green-600 text-white rounded-full shadow-mdx px-5 py-3 font-semibold flex items-center gap-2">
+     class="bg-neutral-900 hover:bg-neutral-800 text-white rounded-full shadow-mdx px-5 py-3 font-semibold flex items-center gap-2 text-xs uppercase tracking-wider">
     <span aria-hidden="true">💬</span> WhatsApp
   </button>
 
-  <!-- Header -->
-  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-neutral-200">
-    <div class="section flex items-center justify-between h-16">
-      <a href="#" class="flex items-center gap-3 font-semibold">
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-neutral-100">
+    <div class="section flex items-center justify-between h-20">
+      <a href="#" class="flex items-center gap-3 font-semibold tracking-wide text-xs uppercase">
         <img src="images/WhatsApp%20Image%202025-08-24%20at%2015.03.20.jpeg" alt="Logo Anna Luísa"
-             class="h-12 md:h-16 w-auto max-w-[220px] object-contain" />
-        <span class="hidden sm:inline">Anna Luísa — Maquiadora</span>
+             class="h-12 md:h-14 w-auto max-w-[200px] object-contain" />
+        <span class="hidden lg:inline border-l border-neutral-300 pl-3 text-neutral-500">Anna Luísa — Maquiadora</span>
       </a>
 
-      <nav class="hidden md:flex items-center gap-6 text-sm">
-        <a href="#servicos" class="hover:text-rose-600">Serviços</a>
-        <a href="#empresas" class="hover:text-rose-600">Para Empresas</a>
-        <a href="#portfolio" class="hover:text-rose-600">Portfólio</a>
-        <a href="#depoimentos" class="hover:text-rose-600">Depoimentos</a>
-        <a href="#instagram" class="hover:text-rose-600">Instagram</a>
-        <a href="#orcamento" class="hover:text-rose-600">Orçamento</a>
-        <a href="#contato" class="hover:text-rose-600">Contato</a>
+      <nav class="hidden md:flex items-center gap-6 text-xs uppercase tracking-wider font-medium text-neutral-600">
+        <a href="#servicos" class="hover:text-neutral-900 transition-colors">Serviços</a>
+        <a href="#empresas" class="hover:text-neutral-900 transition-colors">Para Empresas</a>
+        <a href="#portfolio" class="hover:text-neutral-900 transition-colors">Portfólio</a>
+        <a href="#depoimentos" class="hover:text-neutral-900 transition-colors">Depoimentos</a>
+        <a href="#instagram" class="hover:text-neutral-900 transition-colors">Instagram</a>
+        <a href="#orcamento" class="hover:text-neutral-900 transition-colors">Orçamento</a>
+        <a href="#contato" class="hover:text-neutral-900 transition-colors">Contato</a>
       </nav>
 
       <div class="flex items-center gap-2">
         <button type="button"
-                class="inline-flex min-h-10 min-w-[148px] justify-center items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white
-                       bg-gradient-to-r from-rose-600 to-fuchsia-600 hover:opacity-95 shadow-md
-                       focus:outline-none focus:ring-2 focus:ring-rose-300"
+                class="inline-flex min-h-10 min-w-[148px] justify-center items-center gap-2 rounded-full px-5 py-2 text-xs font-semibold text-white uppercase tracking-wider bg-premium-dark hover:bg-neutral-800 transition-colors shadow-sm"
                 data-whats data-source="header">
-          Agendar pelo WhatsApp
+          Agendar Atendimento
         </button>
       </div>
     </div>
   </header>
   
-<!-- Hero -->
-<section class="relative overflow-hidden">
-  <img
-    src="images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg"
-    srcset="
-      images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 800w,
-      images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 1200w,
-      images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 1600w"
-    sizes="100vw"
-    width="1600" height="900" alt="Modelo maquiada por Anna Luísa"
-    class="block w-full
-           h-[68svh] min-h-[420px] sm:h-[72svh] lg:h-[78svh]
-           object-cover
-           object-[50%_24%] sm:object-[52%_22%] lg:object-[55%_18%]"
-    loading="eager" fetchpriority="high" decoding="async"
-  />
-  <div class="section">
-    <div class="absolute inset-0 section flex items-end pb-12">
-      <div class="glass rounded-xl p-6 md:p-8 shadow-mdx max-w-2xl">
-        <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">
-          Beleza que realça <span class="text-rose-600">você</span>
-        </h1>
-        <p class="mt-3 text-neutral-700">
-          Maquiagem social, noivas, empresas e aulas — foco especial em peles pretas.
-        </p>
-        <div class="mt-5 flex flex-wrap gap-3">
-          <button class="btn btn-outline" type="button" data-whats data-source="hero">Agendar no Whats</button>
+  <section class="relative overflow-hidden bg-neutral-900">
+    <img
+      src="images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg"
+      srcset="
+        images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 800w,
+        images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 1200w,
+        images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 1600w"
+      sizes="100vw"
+      width="1600" height="900" alt="Modelo maquiada por Anna Luísa"
+      class="block w-full h-[70svh] min-h-[450px] sm:h-[75svh] lg:h-[82svh] object-cover object-[50%_24%] sm:object-[52%_22%] lg:object-[55%_18%] opacity-85"
+      loading="eager" fetchpriority="high" decoding="async"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+    <div class="section">
+      <div class="absolute inset-0 section flex items-end pb-16">
+        <div class="glass rounded-xl p-8 md:p-10 shadow-soft max-w-2xl border border-white/20">
+          <div class="mb-4">
+            <span class="chip bg-premium-gold/20 text-neutral-900 border-premium-gold/35 font-semibold">13 Anos de Experiência</span>
+          </div>
+          <h1 class="text-3xl md:text-5xl font-light tracking-tight text-neutral-900 leading-tight">
+            Beleza que realça <span class="font-medium italic text-neutral-950">você</span>
+          </h1>
+          <p class="mt-4 text-neutral-700 leading-relaxed font-light">
+            Maquiagem social, noivas, corporativo e consultorias individuais — com especialidade e maestria em peles pretas.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button class="btn btn-primary" type="button" data-whats data-source="hero">Agendar via WhatsApp</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
   
-  <!-- Selos -->
-  <section class="section py-12 grid gap-6 md:grid-cols-3">
-    <div class="p-6 bg-white rounded-xl shadow-mdx">
-      <h3 class="font-semibold">Atendimento Social</h3>
-      <p class="text-sm text-neutral-600 mt-2">Produtos e técnicas pensadas para realçar a beleza de sua pele.</p>
+  <section class="section py-16 grid gap-8 md:grid-cols-3">
+    <div class="p-8 bg-white rounded-xl shadow-soft border border-neutral-100">
+      <div class="text-xl mb-3">✨</div>
+      <h3 class="font-medium uppercase tracking-wider text-xs mb-2">Atendimento Social</h3>
+      <p class="text-xs text-neutral-500 leading-relaxed font-light">Produtos e técnicas pensadas para realçar a beleza de sua pele.</p>
     </div>
-    <div class="p-6 bg-white rounded-xl shadow-mdx">
-      <h3 class="font-semibold">Noivas & eventos</h3>
-      <p class="text-sm text-neutral-600 mt-2">Atendimento no local do evento — pontualidade e durabilidade.</p>
+    <div class="p-8 bg-white rounded-xl shadow-soft border border-neutral-100">
+      <div class="text-xl mb-3">👑</div>
+      <h3 class="font-medium uppercase tracking-wider text-xs mb-2">Noivas & Eventos</h3>
+      <p class="text-xs text-neutral-500 leading-relaxed font-light">Atendimento no local do evento — pontualidade e durabilidade.</p>
     </div>
-    <div class="p-6 bg-white rounded-xl shadow-mdx">
-      <h3 class="font-semibold">Aulas & consultoria</h3>
-      <p class="text-sm text-neutral-600 mt-2">Do básico ao avançado: aulas individuais e em grupo com plano de prática.</p>
+    <div class="p-8 bg-white rounded-xl shadow-soft border border-neutral-100">
+      <div class="text-xl mb-3">🎓</div>
+      <h3 class="font-medium uppercase tracking-wider text-xs mb-2">Aulas & Consultoria</h3>
+      <p class="text-xs text-neutral-500 leading-relaxed font-light">Do básico ao avançado: aulas individuais e em grupo com plano de prática.</p>
     </div>
   </section>
 
-  <!-- Serviços -->
-  <section id="servicos" class="section py-6">
-    <h2 class="text-2xl md:text-3xl font-extrabold">Serviços</h2>
-    <div class="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      <article class="bg-white rounded-xl p-6 shadow-mdx">
-        <h3 class="font-semibold">Maquiagem Social</h3>
-        <p class="text-sm text-neutral-600 mt-2">Festas, formaturas e ensaios. Preparação de pele impecável e acabamento fotográfico.</p>
-        <div class="mt-4 flex items-center justify-between">
-          <span class="text-sm text-neutral-500">60–90 min</span>
+  <section id="servicos" class="section py-8">
+    <h2 class="text-xs uppercase tracking-widest font-semibold text-neutral-400 mb-8">Nossos Serviços</h2>
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <article class="bg-white rounded-xl p-8 shadow-soft border border-neutral-100 flex flex-col justify-between">
+        <div>
+          <h3 class="font-medium text-lg text-neutral-900">Maquiagem Social</h3>
+          <p class="text-xs text-neutral-500 mt-3 leading-relaxed font-light">Festas, formaturas e ensaios. Preparação de pele impecável e acabamento fotográfico.</p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-neutral-100 flex items-center justify-between">
+          <span class="text-xs text-neutral-400 tracking-wider font-light">60–90 min</span>
           <button class="btn btn-primary" type="button" data-whats data-source="servico_social">Reservar</button>
         </div>
       </article>
-      <article class="bg-white rounded-xl p-6 shadow-mdx">
-        <h3 class="font-semibold">Noiva</h3>
-        <p class="text-sm text-neutral-600 mt-2">Prova, Pré Wedding, atendimento no grande dia e destination wedding.</p>
-        <div class="mt-4 flex items-center justify-between">
-          <span class="text-sm text-neutral-500">Sob consulta</span>
-          <button class="btn btn-primary" type="button" data-whats data-source="servico_noiva">Solicitar proposta</button>
+
+      <article class="bg-white rounded-xl p-8 shadow-soft border border-neutral-100 flex flex-col justify-between">
+        <div>
+          <h3 class="font-medium text-lg text-neutral-900">Noiva</h3>
+          <p class="text-xs text-neutral-500 mt-3 leading-relaxed font-light">Prova, Pré Wedding, atendimento no grande dia e destination wedding.</p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-neutral-100 flex items-center justify-between">
+          <span class="text-xs text-neutral-400 tracking-wider font-light">Sob consulta</span>
+          <button class="btn btn-primary" type="button" data-whats data-source="servico_noiva">Solicitar</button>
         </div>
       </article>
-      <article class="bg-white rounded-xl p-6 shadow-mdx">
-        <h3 class="font-semibold">Aula de Automaquiagem</h3>
-        <p class="text-sm text-neutral-600 mt-2">Conteúdo personalizado por tom de pele, estilo e rotina. Material de apoio incluso.</p>
-        <div class="mt-4 flex items-center justify-between">
-          <span class="text-sm text-neutral-500">2–3 horas</span>
-          <button class="btn btn-primary" type="button" data-whats data-source="servico_aula">Agendar aula</button>
+
+      <article class="bg-white rounded-xl p-8 shadow-soft border border-neutral-100 flex flex-col justify-between">
+        <div>
+          <h3 class="font-medium text-lg text-neutral-900">Aula de Automaquiagem</h3>
+          <p class="text-xs text-neutral-500 mt-3 leading-relaxed font-light">Conteúdo personalizado por tom de pele, estilo e rotina. Material de apoio incluso.</p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-neutral-100 flex items-center justify-between">
+          <span class="text-xs text-neutral-400 tracking-wider font-light">2–3 horas</span>
+          <button class="btn btn-primary" type="button" data-whats data-source="servico_aula">Agendar</button>
         </div>
       </article>
     </div>
   </section>
 
-  <!-- Para Empresas -->
-  <section id="empresas" class="section py-12">
-    <div class="bg-white rounded-xl shadow-mdx p-8">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+  <section id="empresas" class="section py-16">
+    <div class="bg-white rounded-xl shadow-soft p-8 md:p-12 border border-neutral-100">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
         <div class="max-w-2xl">
-          <h2 class="text-2xl md:text-3xl font-extrabold">Para empresas</h2>
-          <p class="mt-3 text-neutral-700">
-            Atendimento para marcas, agências e produtoras: campanhas, catálogos, editoriais, TV e eventos corporativos.
-            Logística, pontualidade e emissão de NF. Equipe parceira sob demanda.
+          <h2 class="text-xs uppercase tracking-widest font-semibold text-neutral-400 mb-4">Soluções Corporativas</h2>
+          <h3 class="text-2xl font-light text-neutral-900 mb-4">Atendimento para marcas, agências e produtoras</h3>
+          <p class="text-xs text-neutral-500 leading-relaxed font-light">
+            Campanhas, catálogos, editoriais, TV e eventos corporativos. Logística, pontualidade e emissão de NF. Equipe parceira sob demanda.
           </p>
-          <ul class="mt-4 grid sm:grid-cols-2 gap-2 text-sm text-neutral-700">
-            <li>• Briefing e cronograma profissional</li>
-            <li>• Atendimento em volume (time dedicado)</li>
-            <li>• Kit profissional completo</li>
-            <li>• Workshop in-company (automaquiagem)</li>
+          <ul class="mt-6 grid sm:grid-cols-2 gap-3 text-xs text-neutral-600 font-light">
+            <li class="flex items-center gap-2">✔ Briefing e cronograma profissional</li>
+            <li class="flex items-center gap-2">✔ Atendimento em volume (time dedicado)</li>
+            <li class="flex items-center gap-2">✔ Kit profissional completo</li>
+            <li class="flex items-center gap-2">✔ Workshop in-company (automaquiagem)</li>
           </ul>
-          <div class="mt-6 flex flex-wrap gap-3">
+          <div class="mt-8 flex flex-wrap gap-3">
             <a href="#orcamento" class="btn btn-primary">Solicitar proposta</a>
             <a href="docs/midia-kit.pdf" class="btn btn-outline" target="_blank" rel="noopener">Ver mídia kit (PDF)</a>
           </div>
         </div>
-        <!-- 🔸 as fotos laterais foram removidas conforme pedido -->
       </div>
     </div>
   </section>
 
-  <!-- Portfólio -->
   <section id="portfolio" class="section py-12">
-    <div class="flex items-end justify-between">
-      <h2 class="text-2xl md:text-3xl font-extrabold">Portfólio</h2>
+    <div class="flex items-end justify-between mb-8">
+      <div>
+        <h2 class="text-xs uppercase tracking-widest font-semibold text-neutral-400 mb-1">Galeria</h2>
+        <h3 class="text-2xl font-light text-premium-dark">Portfólio</h3>
+      </div>
       <a href="https://www.instagram.com/annalluisaa/" target="_blank" rel="noopener"
-         class="text-sm text-rose-600 hover:underline">Ver mais no Instagram</a>
+         class="text-xs tracking-wider uppercase border-b border-neutral-400 pb-1 font-medium hover:text-neutral-500 transition-colors">Ver mais no Instagram</a>
     </div>
 
     <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-      <figure class="group">
+      <figure class="group cursor-zoom-in">
         <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
           <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.53.jpeg" alt="Maquiagem social pele preta"
                class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
                data-caption="Maquiagem para ensaio profissional" />
         </div>
       </figure>
-
-      <figure class="group">
+      <figure class="group cursor-zoom-in">
         <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
           <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.53%20%281%29.jpeg" alt="Noiva pele retinta, acabamento glow"
                class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
                data-caption="Noiva — Florianópolis" />
         </div>
       </figure>
-
-      <figure class="group">
+      <figure class="group cursor-zoom-in">
         <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
           <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.54%20%281%29.jpeg" alt="Automaquiagem pele negra"
                class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
                data-caption="Maquiagem para Aniversário" />
         </div>
       </figure>
-
-      <figure class="group">
+      <figure class="group cursor-zoom-in">
         <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
           <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.54.jpeg" alt="Maquiagem para formatura"
                class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
                data-caption="Acompanhamento de Noiva" />
         </div>
       </figure>
-
-      <figure class="group">
+      <figure class="group cursor-zoom-in">
         <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
           <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.28.39%20%281%29.jpeg" alt="Pele iluminada, olhos neutros"
                class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
                data-caption="Maquiagem - Ensaio fotográfico" />
         </div>
       </figure>
-
-      <figure class="group">
+      <figure class="group cursor-zoom-in">
         <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
           <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.54%20%282%29.jpeg" alt="Olho marcante, pele glow"
                class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
                data-caption="Evento — Formatura" />
         </div>
       </figure>
-
-      <figure class="group">
+      <figure class="group cursor-zoom-in">
         <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
           <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.29.12.jpeg" alt="Smokey eye em pele retinta"
                class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
                data-caption="Editorial — Em pele retinta" />
         </div>
       </figure>
-
-      <figure class="group">
+      <figure class="group cursor-zoom-in">
         <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
           <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.29.39.jpeg" alt="Olho esfumado quente"
                class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
@@ -386,52 +389,53 @@
       </figure>
     </div>
 
-    <!-- Lightbox -->
     <div id="lightbox" class="lightbox-backdrop" role="dialog" aria-modal="true" aria-label="Visualizador de imagem" aria-hidden="true">
-      <button id="lightboxClose" class="absolute top-6 right-6 text-white text-2xl" aria-label="Fechar">✕</button>
-      <img id="lightboxImg" class="lightbox-img" alt="Imagem em destaque" />
-      <p id="lightboxCaption" class="text-white/90 mt-3 text-sm text-center max-w-2xl"></p>
+      <button id="lightboxClose" class="absolute top-6 right-6 text-white text-3xl font-light hover:opacity-70 transition-opacity" aria-label="Fechar">✕</button>
+      <div class="flex flex-col items-center">
+        <img id="lightboxImg" class="lightbox-img" alt="Imagem em destaque" />
+        <p id="lightboxCaption" class="text-white/80 mt-4 text-xs font-light tracking-wide text-center max-w-2xl"></p>
+      </div>
     </div>
   </section>
 
-  <!-- Depoimentos -->
-  <section id="depoimentos" class="section py-12">
-    <h2 class="text-2xl md:text-3xl font-extrabold">O que as clientes dizem</h2>
-    <div class="mt-6 grid gap-6 md:grid-cols-3">
-      <figure class="bg-white rounded-xl p-6 shadow-mdx">
-        <blockquote class="text-neutral-700">“Anna é aquela profissional que a gente sente no coração. Além de maquiar absurdamente bem, ela tem uma vibe tão boa que o atendimento vira uma experiência completa. Me deixou linda, segura e feliz! A gente se sente maravilhosa e à vontade do início ao fim. E, de quebra, ainda ganhei uma amiga nesse processo. Quando a energia bate e o talento é real, não tem como dar errado. Indico de olhos fechados! ❤️❤️❤️”</blockquote>
-        <figcaption class="mt-4 text-sm text-neutral-500">— Mayara G.</figcaption>
+  <section id="depoimentos" class="section py-16 bg-white/50 border border-neutral-100 rounded-2xl my-8">
+    <h2 class="text-xs uppercase tracking-widest font-semibold text-neutral-400 mb-8 text-center">O que as clientes dizem</h2>
+    <div class="grid gap-8 md:grid-cols-3">
+      <figure class="bg-white rounded-xl p-8 shadow-soft border border-neutral-100 flex flex-col justify-between">
+        <blockquote class="text-xs text-neutral-600 leading-relaxed font-light italic">“Anna é aquela profissional que a gente sente no coração. Além de maquiar absurdamente bem, ela tem uma vibe tão boa que o atendimento vira uma experiência completa. Me deixou linda, segura e feliz! A gente se sente maravilhosa e à vontade do início ao fim. E, de quebra, ainda ganhei uma amiga nesse processo. Quando a energia bate e o talento é real, não tem como dar errado. Indico de olhos fechados! ❤️❤️❤️”</blockquote>
+        <figcaption class="mt-6 text-xs uppercase tracking-wider font-semibold text-neutral-400">— Mayara G.</figcaption>
       </figure>
-      <figure class="bg-white rounded-xl p-6 shadow-mdx">
-        <blockquote class="text-neutral-700">“A Anna é incrível! Impecável no que faz, super cuidadosa aos detalhes. Gente a minha make durou horrores. E além de sempre fazer as makes de evento com ela, também fiz o curso de automake e foi uma experiência a parte. Ela realmente é a melhor das melhoressssss 🩷”</blockquote>
-        <figcaption class="mt-4 text-sm text-neutral-500">— Maysa L.</figcaption>
+      <figure class="bg-white rounded-xl p-8 shadow-soft border border-neutral-100 flex flex-col justify-between">
+        <blockquote class="text-xs text-neutral-600 leading-relaxed font-light italic">“A Anna é incrível! Impecável no que faz, super cuidadosa aos detalhes. Gente a minha make durou horrores. E além de sempre fazer as makes de evento com ela, também fiz o curso de automake e foi uma experiência a parte. Ela realmente é a melhor das melhoressssss 🩷”</blockquote>
+        <figcaption class="mt-6 text-xs uppercase tracking-wider font-semibold text-neutral-400">— Maysa L.</figcaption>
       </figure>
-      <figure class="bg-white rounded-xl p-6 shadow-mdx">
-        <blockquote class="text-neutral-700">“Apenas a melhor do mundo! Fez os meus dois dias de formanda os melhores da minha vida. Nunca me senti TÃO linda. Produtos perfeitos, inspirações maravilhosas e resultados que superam qualquer expectativa que você possa criar.A Ana é uma profissional excepcional e muito boa no que faz!Quero essa experiência muitas vezes mais 💛”</blockquote>
-        <figcaption class="mt-4 text-sm text-neutral-500">— Emily S.</figcaption>
+      <figure class="bg-white rounded-xl p-8 shadow-soft border border-neutral-100 flex flex-col justify-between">
+        <blockquote class="text-xs text-neutral-600 leading-relaxed font-light italic">“Apenas a melhor do mundo! Fez os meus dois dias de formanda os melhores da minha vida. Nunca me senti TÃO linda. Produtos perfeitos, inspirações maravilhosas e resultados que superam qualquer expectativa que você possa criar.A Ana é uma profissional excepcional e muito boa no que faz!Quero essa experiência muitas vezes mais 💛”</blockquote>
+        <figcaption class="mt-6 text-xs uppercase tracking-wider font-semibold text-neutral-400">— Emily S.</figcaption>
       </figure>
     </div>
   </section>
 
-  <!-- CTA final -->
   <section class="section py-12">
-    <div class="bg-rose-600 text-white rounded-xl p-8 md:p-12 shadow-mdx flex flex-col md:flex-row items-center justify-between gap-6">
+    <div class="bg-premium-dark text-white rounded-xl p-8 md:p-14 shadow-soft flex flex-col md:flex-row items-center justify-between gap-6 border border-white/10">
       <div>
-        <h2 class="text-2xl md:text-3xl font-extrabold">Pronta para brilhar?</h2>
-        <p class="text-white/90 mt-2">Garanta seu horário — respondo mais rápido pelo WhatsApp.</p>
+        <h2 class="text-2xl md:text-3xl font-light tracking-tight">Pronta para brilhar?</h2>
+        <p class="text-white/60 mt-2 text-xs font-light tracking-wide">Garanta seu horário — respondo mais rápido pelo WhatsApp.</p>
       </div>
       <div class="flex gap-2">
-        <button class="btn bg-white text-rose-700 hover:bg-white/90" type="button" data-whats data-source="cta_final">Agendar no Whats</button>
+        <button class="btn bg-white text-premium-dark hover:bg-neutral-100 transition-colors" type="button" data-whats data-source="cta_final">Agendar no Whats</button>
       </div>
     </div>
   </section>
 
-  <!-- Vídeos do Instagram (lazy embed) -->
   <section id="instagram" class="section py-12">
-    <div class="flex items-end justify-between">
-      <h2 class="text-2xl md:text-3xl font-extrabold">Vídeos do Instagram</h2>
+    <div class="flex items-end justify-between mb-8">
+      <div>
+        <h2 class="text-xs uppercase tracking-widest font-semibold text-neutral-400 mb-1">Mídias</h2>
+        <h3 class="text-2xl font-light text-premium-dark">Vídeos do Instagram</h3>
+      </div>
       <a href="https://www.instagram.com/annalluisaa/" target="_blank" rel="noopener"
-         class="text-sm text-rose-600 hover:underline">Ver perfil</a>
+         class="text-xs tracking-wider uppercase border-b border-neutral-400 pb-1 font-medium hover:text-neutral-500 transition-colors">Ver perfil</a>
     </div>
     <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DNoWIjoPDkz/" data-instgrm-version="14"></blockquote>
@@ -442,117 +446,125 @@
     </div>
   </section>
 
-  <!-- Orçamento -->
   <section id="orcamento" class="section py-12">
-    <h2 class="text-2xl md:text-3xl font-extrabold">Solicitar orçamento</h2>
+    <h2 class="text-xs uppercase tracking-widest font-semibold text-neutral-400 mb-6">Atendimento Customizado</h2>
+    <h3 class="text-2xl font-light text-premium-dark mb-6">Solicitar orçamento</h3>
 
     <form action="https://formsubmit.co/amtlopesmartins@gmail.com" method="POST"
           id="form-orcamento"
-          class="mt-6 grid gap-4 md:grid-cols-2 bg-white p-6 rounded-xl shadow-mdx">
+          class="grid gap-5 md:grid-cols-2 bg-white p-8 rounded-xl shadow-soft border border-neutral-100">
       <input type="hidden" name="_subject" value="Novo orçamento pelo site">
       <input type="hidden" name="_captcha" value="false">
       <input type="text" name="_honey" style="display:none">
       <input type="hidden" name="_next" value="https://annaluisamakeup.vercel.app/?enviado=1">
 
-      <label class="text-sm">Nome
-        <input required name="nome" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Nome Completo
+        <input required name="nome" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" />
       </label>
-      <label class="text-sm">E-mail
-        <input required type="email" name="email" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">E-mail
+        <input required type="email" name="email" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" />
       </label>
-      <label class="text-sm">Telefone/WhatsApp
-        <input name="telefone" class="w-full mt-1 rounded-lg border border-neutral-300 p-3" />
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Telefone com WhatsApp
+        <input name="telefone" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" />
       </label>
-      <label class="text-sm">Tipo de serviço
-        <select name="servico" class="w-full mt-1 rounded-lg border border-neutral-300 p-3">
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Tipo de serviço
+        <select name="servico" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors">
           <option>Maquiagem Social</option>
           <option>Noiva</option>
           <option>Aula de Automaquiagem</option>
           <option>Empresas</option>
         </select>
       </label>
-      <label class="text-sm md:col-span-2">Detalhes (data/ocasião, local, preferências)
-        <textarea required name="detalhes" rows="4" class="w-full mt-1 rounded-lg border border-neutral-300 p-3"></textarea>
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500 md:col-span-2">Detalhes (data/ocasião, local, preferências)
+        <textarea required name="detalhes" rows="4" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors"></textarea>
       </label>
 
-      <div class="md:col-span-2 flex items-center gap-3">
-        <button class="btn btn-primary" type="submit">Enviar</button>
+      <div class="md:col-span-2 flex flex-wrap items-center gap-4 mt-2">
+        <button class="btn btn-primary" type="submit">Enviar Formulário</button>
         <button id="btn-whats-form" type="button" class="btn btn-outline">Falar no WhatsApp</button>
       </div>
     </form>
   </section>
 
-  <!-- Contato -->
   <section id="contato" class="section py-12">
-    <div class="grid gap-8 md:grid-cols-2 items-start">
+    <div class="grid gap-12 md:grid-cols-2 items-start">
       <div>
-        <h2 class="text-2xl md:text-3xl font-extrabold">Contato</h2>
-        <ul class="mt-4 space-y-2 text-neutral-700">
-          <li><strong>WhatsApp:</strong> <a class="text-rose-600 hover:underline" href="https://wa.me/5521995440439?utm_source=site&utm_medium=cta&utm_campaign=whatsapp" target="_blank" rel="noopener">(21) 99544-0439</a></li>
-          <li><strong>Instagram:</strong> <a class="text-rose-600 hover:underline" href="https://www.instagram.com/annalluisaa/" target="_blank" rel="noopener">@annalluisaa</a></li>
-          <li><strong>Endereço:</strong> R. Maria Emília dos Santos — Jardim Coqueiros, Palhoça — SC, 88133-270</li>
-          <li><strong>Atendimento:</strong> Seg-Dom, 08h–20h (com agendamento)</li>
-          <li><strong>Região:</strong> Palhoça/Florianópolis — <em>atendo todo o Brasil</em></li>
+        <h2 class="text-xs uppercase tracking-widest font-semibold text-neutral-400 mb-6">Localização & Contato</h2>
+        <ul class="space-y-4 text-xs font-light text-neutral-600 leading-relaxed">
+          <li>
+            <strong class="font-semibold text-neutral-800 uppercase tracking-wide block mb-1">WhatsApp de Atendimento</strong> 
+            <a class="text-neutral-900 border-b border-neutral-400 pb-0.5 font-medium" href="https://wa.me/5521995440439?utm_source=site&utm_medium=cta&utm_campaign=whatsapp" target="_blank" rel="noopener">(21) 99544-0439</a>
+            <span class="text-[10px] text-neutral-400 block mt-1 italic">*DDD de origem (21), com operação e estúdio localizados em SC.</span>
+          </li>
+          <li><strong class="font-semibold text-neutral-800 uppercase tracking-wide block mb-1">Instagram</strong> <a class="text-neutral-900 border-b border-neutral-400 pb-0.5 font-medium" href="https://www.instagram.com/annalluisaa/" target="_blank" rel="noopener">@annalluisaa</a></li>
+          <li><strong class="font-semibold text-neutral-800 uppercase tracking-wide block mb-1">Espaço de Atendimento</strong> R. Maria Emília dos Santos — Jardim Coqueiros, Palhoça — SC, 88133-270</li>
+          <li><strong class="font-semibold text-neutral-800 uppercase tracking-wide block mb-1">Horários</strong> Segunda a Domingo, das 08h às 20h (Mediante agendamento prévio)</li>
+          <li><strong class="font-semibold text-neutral-800 uppercase tracking-wide block mb-1">Cobertura Geográfica</strong> Atendimento presencial fixo em Palhoça e Florianópolis — Projetos corporativos sob demanda nacional.</li>
         </ul>
-        <div class="mt-6 flex flex-wrap gap-3">
-          <button class="btn btn-primary" type="button" data-whats data-source="contato_bloco">Falar agora</button>
-          <a href="#servicos" class="btn btn-outline">Ver serviços</a>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <button class="btn btn-primary" type="button" data-whats data-source="contato_bloco">Falar Agora</button>
+          <a href="#servicos" class="btn btn-outline">Ver Serviços</a>
           <a href="https://www.google.com/maps/place/Anna+Luisa+Makeup+Artist/@-27.628773,-48.6727469,17z/data=!4m8!3m7!1s0x952735c542321539:0xf235b99e191551e7!8m2!3d-27.628773!4d-48.670172!9m1!1b1!16s%2Fg%2F11s4_ngj38"
              target="_blank" rel="noopener" class="btn btn-outline" aria-label="Ver avaliações no Google">
-            ⭐ Ver avaliações / Como chegar
+            ⭐ Avaliações no Google Maps
           </a>
         </div>
       </div>
-      <div class="bg-white rounded-xl shadow-mdx overflow-hidden">
-        <iframe title="Mapa" src="https://www.google.com/maps?q=-27.628773,-48.670172&z=16&output=embed"
-                class="w-full h-80" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="bg-white rounded-lg shadow-soft overflow-hidden border border-neutral-100">
+        <iframe title="Mapa de localização Anna Luísa" src="https://www.google.com/maps?q=-27.628773,-48.670172&z=16&output=embed"
+                class="w-full h-80 opacity-90" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
   <section id="faq" class="section py-12">
-    <h2 class="text-2xl md:text-3xl font-extrabold">Perguntas frequentes</h2>
-    <div class="mt-6 grid gap-4">
-      <details class="bg-white rounded-xl p-5 shadow-mdx">
-        <summary class="font-semibold cursor-pointer">Você atende no local do evento?</summary>
-        <p class="mt-2 text-neutral-700">Sim, atendo em Palhoça/Florianópolis e realizo deslocamentos conforme necessidade.</p>
+    <h2 class="text-xs uppercase tracking-widest font-semibold text-neutral-400 mb-8">Perguntas Frequentes</h2>
+    <div class="grid gap-4 max-w-3xl">
+      <details class="bg-white rounded-lg p-6 shadow-soft border border-neutral-100 group">
+        <summary class="text-xs uppercase tracking-wider font-semibold text-neutral-800 cursor-pointer list-none flex justify-between items-center">
+          Você atende no local do evento?
+          <span class="text-neutral-400 group-open:rotate-180 transition-transform">↓</span>
+        </summary>
+        <p class="mt-3 text-xs font-light text-neutral-500 leading-relaxed">Sim, atendo em Palhoça/Florianópolis e realizo deslocamentos conforme necessidade.</p>
       </details>
-      <details class="bg-white rounded-xl p-5 shadow-mdx">
-        <summary class="font-semibold cursor-pointer">Você emite nota fiscal?</summary>
-        <p class="mt-2 text-neutral-700">Sim, para pessoa física e jurídica.</p>
+      <details class="bg-white rounded-lg p-6 shadow-soft border border-neutral-100 group">
+        <summary class="text-xs uppercase tracking-wider font-semibold text-neutral-800 cursor-pointer list-none flex justify-between items-center">
+          Você emite nota fiscal?
+          <span class="text-neutral-400 group-open:rotate-180 transition-transform">↓</span>
+        </summary>
+        <p class="mt-3 text-xs font-light text-neutral-500 leading-relaxed">Sim, para pessoa física e jurídica.</p>
       </details>
-      <details class="bg-white rounded-xl p-5 shadow-mdx">
-        <summary class="font-semibold cursor-pointer">Como funcionam as provas de noiva?</summary>
-        <p class="mt-2 text-neutral-700">Agendamos com antecedência para definir pele, acabamento e estilo, garantindo o resultado no grande dia.</p>
+      <details class="bg-white rounded-lg p-6 shadow-soft border border-neutral-100 group">
+        <summary class="text-xs uppercase tracking-wider font-semibold text-neutral-800 cursor-pointer list-none flex justify-between items-center">
+          Como funcionam as provas de noiva?
+          <span class="text-neutral-400 group-open:rotate-180 transition-transform">↓</span>
+        </summary>
+        <p class="mt-3 text-xs font-light text-neutral-500 leading-relaxed">Agendamos com antecedência para definir pele, acabamento e estilo, garantindo o resultado no grande dia.</p>
       </details>
     </div>
   </section>
 
-  <!-- Rodapé -->
-  <footer class="border-t border-neutral-200 py-10 mt-8">
-    <div class="section flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-neutral-500">
+  <footer class="border-t border-neutral-100 py-12 mt-12 bg-white text-neutral-400">
+    <div class="section flex flex-col md:flex-row items-center justify-between gap-6 text-xs font-light tracking-wide">
       <p>© <span id="ano"></span> Anna Luísa — Maquiadora. Todos os direitos reservados.</p>
-      <div class="flex items-center gap-4">
-        <a href="docs/politica-privacidade.html" class="hover:text-neutral-700">Política de Privacidade</a>
-        <a href="docs/termos-de-uso.html" class="hover:text-neutral-700">Termos</a>
-        <a href="docs/midia-kit.pdf" class="hover:text-neutral-700" target="_blank" rel="noopener">Mídia Kit (PDF)</a>
+      <div class="flex items-center gap-6">
+        <a href="docs/politica-privacidade.html" class="hover:text-neutral-800 transition-colors">Política de Privacidade</a>
+        <a href="docs/termos-de-uso.html" class="hover:text-neutral-800 transition-colors">Termos</a>
+        <a href="docs/midia-kit.pdf" class="hover:text-neutral-800 transition-colors" target="_blank" rel="noopener">Mídia Kit (PDF)</a>
       </div>
     </div>
   </footer>
 
-  <!-- Banner LGPD -->
-  <div id="cookieBanner" class="fixed bottom-0 inset-x-0 bg-white border-t border-neutral-200 p-4 z-50">
-    <div class="section flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-      <p class="text-sm text-neutral-700">Usamos cookies/tecnologias para medir audiência e melhorar anúncios. Veja nossa <a href="docs/politica-privacidade.html" class="text-rose-600 underline">Política de Privacidade</a>.</p>
-      <div class="flex gap-2">
-        <button class="btn btn-outline" onclick="setConsent(false)">Rejeitar</button>
-        <button class="btn btn-primary" onclick="setConsent(true)">Aceitar</button>
+  <div id="cookieBanner" class="fixed bottom-0 inset-x-0 bg-white border-t border-neutral-100 p-5 z-50 shadow-soft">
+    <div class="section flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <p class="text-xs text-neutral-500 font-light leading-relaxed">Usamos cookies/tecnologias para medir audiência e melhorar anúncios. Veja nossa <a href="docs/politica-privacidade.html" class="text-neutral-900 underline font-medium">Política de Privacidade</a>.</p>
+      <div class="flex gap-2 shrink-0">
+        <button class="btn btn-outline py-2 px-4" onclick="setConsent(false)">Rejeitar</button>
+        <button class="btn btn-primary py-2 px-4" onclick="setConsent(true)">Aceitar</button>
       </div>
     </div>
   </div>
 
-  <!-- Scripts núcleo -->
   <script>
     document.getElementById('ano').textContent = new Date().getFullYear();
 
@@ -623,7 +635,7 @@
     },{rootMargin:"200px"});
     if (igSection) io.observe(igSection);
 
-    // WhatsApp com dados do formulário
+    // WhatsApp montado dinamicamente com dados do formulário - MENSAGEM PREMIUM
     const btnWhatsForm = document.getElementById('btn-whats-form');
     btnWhatsForm?.addEventListener('click', ()=>{
       const f = document.getElementById('form-orcamento');
@@ -632,14 +644,8 @@
       const telefone = f.telefone?.value?.trim() || '';
       const servico = f.servico?.value || '';
       const detalhes = f.detalhes?.value?.trim() || '';
-      const texto =
-`Olá, vim do site e gostaria de um orçamento.
-
-• Nome: ${nome}
-• E-mail: ${email}
-• Telefone/Whats: ${telefone}
-• Serviço: ${servico}
-• Detalhes: ${detalhes}`;
+      
+      const texto = `Olá Anna Luísa, solicito um orçamento personalizado pelo site.\n\n• Nome: ${nome}\n• E-mail: ${email}\n• Telefone/Whats: ${telefone}\n• Serviço: ${servico}\n• Detalhes e Datas: ${detalhes}`;
 
       if (window.__openWA) window.__openWA('form_orcamento', texto);
       try { gtag && gtag('event','whatsapp_click',{event_category:'Contato', source:'form_orcamento'}); } catch(e){}
@@ -647,7 +653,6 @@
     });
   </script>
 
-  <!-- Analytics (eventos auxiliares) -->
   <script type="module">
     import { trackWhatsAppClick, trackLead, trackReviews } from './scripts/analytics.js';
     window.__analyticsModuleReady = true;
@@ -686,7 +691,6 @@
     });
   </script>
 
-  <!-- FAQPage Schema -->
   <script type="application/ld+json">
   {
    "@context":"https://schema.org",
