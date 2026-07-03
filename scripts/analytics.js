@@ -2,7 +2,7 @@
 
 export const ANALYTICS_CFG = {
   GA4_ID: 'G-60ZPREPJV3',
-  PIXEL_ID: 'YOUR_PIXEL_ID' // TODO: troque pelo ID real do Meta Pixel
+  PIXEL_ID: 'YOUR_PIXEL_ID' // TODO: Quando tiver o Pixel da Anna Luísa, insira apenas o número aqui
 };
 
 // ---------- Boot helpers ----------
@@ -27,7 +27,7 @@ function ensureGA4() {
     analytics_storage:'granted'
   });
   window.gtag('js', new Date());
-  window.gtag('config', gid); // só roda se não havia gtag antes
+  window.gtag('config', gid);
 }
 
 function ensurePixel() {
@@ -68,7 +68,13 @@ if (document.readyState === 'loading') {
 // ---------- Eventos utilitários ----------
 export function trackWhatsAppClick(source = 'cta') {
   try { window.gtag && window.gtag('event','whatsapp_click',{event_category:'Contato', source}); } catch {}
-  try { window.fbq && window.fbq('trackCustom','WhatsAppClick',{source}); } catch {}
+  try { 
+    if (window.fbq) {
+      window.fbq('trackCustom','WhatsAppClick',{source}); 
+      // Adicionado: Evento Padrão do Meta Ads para otimizar campanhas de conversão focadas em Orçamento
+      window.fbq('track', 'Contact'); 
+    }
+  } catch {}
 }
 
 export function trackLead(formId = 'form') {
@@ -81,10 +87,12 @@ export function trackReviews() {
   try { window.fbq && window.fbq('trackCustom','ReviewsClick'); } catch {}
 }
 
+// ---------- Utilitários de Redirecionamento ----------
 // (opcional) abrir WhatsApp programaticamente
 export function openWhatsApp({
   phone='5521995440439',
-  text='Olá, vim do site e quero agendar maquiagem.',
+  // Atualizado: Linguagem Premium e Corporativa
+  text='Olá Anna Luísa, visitei o seu site e gostaria de solicitar um orçamento personalizado.',
   source='cta'
 } = {}) {
   const msg = encodeURIComponent(text);
