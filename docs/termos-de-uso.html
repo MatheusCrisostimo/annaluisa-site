@@ -5,70 +5,106 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Termos de Uso | Anna Luísa — Maquiadora</title>
   <meta name="description" content="Termos de Uso do site de Anna Luísa, maquiadora em Palhoça/Florianópolis. Saiba como utilizar o site de forma correta e segura.">
-  <link rel="icon" href="favicon.ico">
+  
+  <link rel="icon" href="../favicon.ico">
+  
+  <meta name="theme-color" content="#171717">
+
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            premium: {
+              gold: '#dfc1a4',   
+              dark: '#171717',   
+              light: '#fcfbfa'   
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { background-color: #fcfbfa; color: #171717; }
+  </style>
 </head>
-<body class="bg-neutral-50 text-neutral-800 leading-relaxed">
-  <header class="bg-white border-b border-neutral-200">
-    <div class="max-w-4xl mx-auto px-4 py-6">
-      <h1 class="text-2xl md:text-3xl font-extrabold">Termos de Uso</h1>
-      <p class="mt-2 text-neutral-600">Atualizados em 22 de agosto de 2025</p>
+
+<body class="bg-premium-light text-premium-dark antialiased leading-relaxed">
+  
+  <header class="bg-white border-b border-neutral-100">
+    <div class="max-w-4xl mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-light tracking-tight text-neutral-900">Termos de Uso</h1>
+        <p class="mt-2 text-xs uppercase tracking-widest font-medium text-neutral-400">Atualizados em 22 de agosto de 2025</p>
+      </div>
+      <a href="../index.html" class="inline-flex items-center justify-center px-6 py-2 border border-neutral-200 rounded-full text-xs font-semibold uppercase tracking-widest text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900 transition-colors">
+        Voltar ao Site Oficial
+      </a>
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto px-4 py-10 space-y-10">
+  <main class="max-w-4xl mx-auto px-6 py-12 space-y-12">
     <section>
-      <h2 class="text-xl font-semibold mb-2">1. Aceitação dos Termos</h2>
-      <p>Ao acessar e utilizar o site <strong>Anna Luísa — Maquiadora</strong>, você concorda em cumprir estes Termos de Uso, bem como a legislação vigente no Brasil. Se não concordar, pedimos que não utilize este site.</p>
+      <h2 class="text-sm uppercase tracking-widest font-semibold text-neutral-400 mb-4">1. Aceitação dos Termos</h2>
+      <p class="text-sm text-neutral-600 font-light leading-loose">Ao acessar e utilizar o site <strong class="font-medium text-neutral-900">Anna Luísa — Maquiadora</strong>, você concorda em cumprir estes Termos de Uso, bem como a legislação vigente no Brasil. Se não concordar, pedimos que não utilize ou navegue por este site.</p>
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold mb-2">2. Uso do Site</h2>
-      <p>Este site tem caráter informativo e comercial, destinado a apresentar serviços de maquiagem social, noivas, empresas e aulas. É proibido:</p>
-      <ul class="list-disc pl-6 space-y-1">
+      <h2 class="text-sm uppercase tracking-widest font-semibold text-neutral-400 mb-4">2. Uso do Site</h2>
+      <p class="text-sm text-neutral-600 font-light leading-loose mb-3">Este site tem caráter informativo e comercial, destinado a apresentar serviços de maquiagem social, noivas, atendimento corporativo e consultorias. É estritamente proibido:</p>
+      <ul class="list-disc pl-5 space-y-3 text-sm text-neutral-600 font-light leading-loose marker:text-premium-gold">
         <li>Utilizar o site para fins ilegais ou não autorizados.</li>
-        <li>Copiar, reproduzir ou distribuir conteúdos sem autorização expressa.</li>
-        <li>Inserir códigos maliciosos ou tentar comprometer a segurança do site.</li>
+        <li>Copiar, reproduzir, fazer download ou distribuir os conteúdos do portfólio (fotos e vídeos) sem autorização expressa e documentada.</li>
+        <li>Inserir códigos maliciosos ou tentar comprometer a segurança da infraestrutura do site.</li>
       </ul>
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold mb-2">3. Propriedade Intelectual</h2>
-      <p>Todo o conteúdo deste site, incluindo textos, imagens, vídeos e identidade visual, é de propriedade de <strong>Anna Luísa — Maquiadora</strong>, sendo protegido pela legislação de direitos autorais e propriedade intelectual. O uso não autorizado poderá gerar responsabilização civil e criminal.</p>
+      <h2 class="text-sm uppercase tracking-widest font-semibold text-neutral-400 mb-4">3. Propriedade Intelectual</h2>
+      <p class="text-sm text-neutral-600 font-light leading-loose">Todo o conteúdo exposto neste site, incluindo textos descritivos, imagens de portfólio, vídeos e identidade visual, é de propriedade exclusiva de <strong class="font-medium text-neutral-900">Anna Luísa — Maquiadora</strong>, sendo integralmente protegido pela legislação de direitos autorais e propriedade intelectual aplicável. O uso não autorizado destes materiais poderá gerar responsabilização civil e criminal.</p>
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold mb-2">4. Serviços e Orçamentos</h2>
-      <p>As informações sobre serviços e preços disponíveis neste site têm caráter informativo e podem ser ajustadas a qualquer momento, sem aviso prévio. O envio de formulário de orçamento não garante a contratação, sendo necessária a confirmação por meio de contato direto.</p>
+      <h2 class="text-sm uppercase tracking-widest font-semibold text-neutral-400 mb-4">4. Serviços, Orçamentos e Reservas</h2>
+      <p class="text-sm text-neutral-600 font-light leading-loose">As descrições sobre modalidades de serviços e propostas disponíveis neste site têm caráter informativo e comercial, podendo ser ajustadas a qualquer momento, sem aviso prévio. A submissão de um formulário de orçamento <strong class="font-medium text-neutral-900">não garante a reserva de data ou contratação</strong>, sendo necessária a validação da disponibilidade, alinhamento de briefing e formalização do agendamento por meio do contato direto via WhatsApp ou E-mail.</p>
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold mb-2">5. Limitação de Responsabilidade</h2>
-      <p>Embora nos esforcemos para manter as informações corretas e atualizadas, não nos responsabilizamos por erros, omissões ou indisponibilidade temporária do site. O uso das informações aqui apresentadas é de responsabilidade do usuário.</p>
+      <h2 class="text-sm uppercase tracking-widest font-semibold text-neutral-400 mb-4">5. Limitação de Responsabilidade</h2>
+      <p class="text-sm text-neutral-600 font-light leading-loose">Embora nos esforcemos constantemente para manter a plataforma segura e com informações precisas, não nos responsabilizamos por indisponibilidades técnicas temporárias, eventuais instabilidades nos servidores de hospedagem ou links externos. O uso das informações e direcionamentos aqui apresentados é de responsabilidade do usuário.</p>
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold mb-2">6. Links Externos</h2>
-      <p>Nosso site pode conter links para páginas de terceiros (Instagram, Google Maps, etc.). Não temos controle sobre esses sites e não nos responsabilizamos por seus conteúdos, políticas de privacidade ou práticas.</p>
+      <h2 class="text-sm uppercase tracking-widest font-semibold text-neutral-400 mb-4">6. Links Externos</h2>
+      <p class="text-sm text-neutral-600 font-light leading-loose">Nosso site contém roteamentos rápidos para páginas de terceiros (como Instagram, Meta, e Google Maps). Não possuímos controle gerencial sobre as plataformas operadas por estas empresas, tampouco nos responsabilizamos pelos seus conteúdos, regras ou políticas de privacidade independentes.</p>
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold mb-2">7. Alterações nos Termos</h2>
-      <p>Reservamo-nos o direito de modificar estes Termos de Uso a qualquer momento. As alterações entram em vigor a partir da publicação neste site, sendo recomendada a leitura periódica deste documento.</p>
+      <h2 class="text-sm uppercase tracking-widest font-semibold text-neutral-400 mb-4">7. Alterações e Atualizações</h2>
+      <p class="text-sm text-neutral-600 font-light leading-loose">Reservamo-nos o direito soberano de modificar, adequar ou atualizar estes Termos de Uso a qualquer momento. Quaisquer alterações entram em vigor imediatamente após a sua publicação na plataforma, sendo recomendada a leitura periódica deste documento por parte dos usuários.</p>
     </section>
 
     <section>
-      <h2 class="text-xl font-semibold mb-2">8. Contato</h2>
-      <p>Se tiver dúvidas sobre estes Termos de Uso, entre em contato:</p>
-      <ul class="mt-2">
-        <li><strong>E-mail:</strong> seu-email@seudominio.com</li>
-        <li><strong>WhatsApp:</strong> <a href="https://wa.me/5521995440439" class="text-rose-600 hover:underline">(21) 99544-0439</a></li>
+      <h2 class="text-sm uppercase tracking-widest font-semibold text-neutral-400 mb-4">8. Contato e Suporte</h2>
+      <p class="text-sm text-neutral-600 font-light leading-loose mb-4">Em caso de dúvidas a respeito destas diretrizes de uso, sinta-se à vontade para nos contatar pelos nossos canais oficiais:</p>
+      <ul class="space-y-4 text-sm text-neutral-600 font-light">
+        <li class="flex items-center gap-2">
+          <strong class="font-medium text-neutral-900 uppercase tracking-widest text-xs">E-mail:</strong> 
+          <a href="mailto:amtlopesmartins@gmail.com" class="text-neutral-900 border-b border-neutral-400 pb-0.5 font-medium hover:text-neutral-500 transition-colors">amtlopesmartins@gmail.com</a>
+        </li>
+        <li class="flex items-center gap-2">
+          <strong class="font-medium text-neutral-900 uppercase tracking-widest text-xs">WhatsApp:</strong> 
+          <a href="https://wa.me/5521995440439" target="_blank" rel="noopener" class="text-neutral-900 border-b border-neutral-400 pb-0.5 font-medium hover:text-neutral-500 transition-colors">(21) 99544-0439</a>
+        </li>
       </ul>
     </section>
   </main>
 
-  <footer class="border-t border-neutral-200 py-8 mt-12">
-    <div class="max-w-4xl mx-auto px-4 text-sm text-neutral-500">
+  <footer class="border-t border-neutral-100 py-12 mt-8 bg-white text-center">
+    <div class="max-w-4xl mx-auto px-4 text-xs tracking-wide text-neutral-400 font-light">
       <p>© <span id="ano"></span> Anna Luísa — Maquiadora. Todos os direitos reservados.</p>
     </div>
   </footer>
