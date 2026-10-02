@@ -41,12 +41,17 @@
   <style>
     body { background-color: #fcfbfa; color: #171717; }
     
-    /* Botões atualizados para a estética Luxo/Sóbria */
-    .btn { display:inline-flex; align-items:center; justify-content:center; padding:10px 22px; border-radius:9999px; font-weight:600; transition:.2s; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+    /* Botões atualizados para a estética Luxo/Sóbria & Padrão de Tamanho Touch */
+    .btn { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:12px 24px; border-radius:9999px; font-weight:600; transition:.2s; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; box-sizing:border-box; line-height:1.2; text-align:center; }
     .btn-primary { color:#fff; background-color:#171717; }
     .btn-primary:hover { background-color:#333333; }
     .btn-outline { border:1px solid #171717; color:#171717; background: transparent; }
     .btn-outline:hover { background:#171717; color:#fff; }
+
+    @media (max-width: 639px) {
+      .btn-group-mobile { display:flex !important; flex-direction:column !important; width:100% !important; gap:0.75rem !important; }
+      .btn-group-mobile > .btn, .btn-group-mobile > a.btn, .btn-group-mobile > button.btn { width:100% !important; }
+    }
     
     .section { max-width:56rem; margin:0 auto; padding:0 1rem; }
     @media (min-width:640px){ .section { padding:0 1.5rem; } }
@@ -162,9 +167,9 @@
         <textarea name="detalhes" rows="4" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" placeholder="Descreva o estilo do evento, tipo de pele, referências de maquiagem, etc."></textarea>
       </label>
 
-      <div class="md:col-span-2 flex flex-wrap items-center gap-4 mt-2">
-        <button type="submit" class="btn btn-primary">Concluir no WhatsApp</button>
-        <button type="button" class="btn btn-outline" data-whats data-source="agendar_atalho">Apenas tirar uma dúvida</button>
+      <div class="md:col-span-2 flex flex-col sm:flex-row items-center gap-3 mt-2 btn-group-mobile">
+        <button type="submit" class="btn btn-primary w-full sm:w-auto">Concluir no WhatsApp</button>
+        <button type="button" class="btn btn-outline w-full sm:w-auto" data-whats data-source="agendar_atalho">Apenas tirar uma dúvida</button>
       </div>
 
       <p class="md:col-span-2 text-[10px] text-neutral-400 uppercase tracking-widest mt-2">Os dados serão organizados e enviados de forma segura para o WhatsApp oficial de atendimento.</p>

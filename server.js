@@ -173,6 +173,10 @@ app.get('/agendar', (req, res) => {
   res.sendFile(path.join(__dirname, 'agendar.html'));
 });
 
+app.get('/midia-kit', (req, res) => {
+  res.sendFile(path.join(__dirname, 'midia-kit.html'));
+});
+
 // Single Page fallback for extensionless routes
 app.get('*', (req, res) => {
   if (path.extname(req.path)) {

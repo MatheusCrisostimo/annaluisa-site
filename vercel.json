@@ -5,6 +5,7 @@
     { "source": "/api/(.*)", "destination": "/api" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/agendar", "destination": "/agendar.html" },
-    { "source": "/links", "destination": "/links/index.html" }
+    { "source": "/links", "destination": "/links/index.html" },
+    { "source": "/midia-kit", "destination": "/midia-kit.html" }
   ]
 }

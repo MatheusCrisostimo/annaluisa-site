@@ -61,12 +61,32 @@
     .shadow-soft { box-shadow: 0 10px 30px rgba(0,0,0,.04); }
     .shadow-mdx { box-shadow: 0 6px 18px rgba(0,0,0,.04); }
 
-    /* Botões atualizados para a estética luxo (Sóbrios) */
-    .btn { display:inline-flex; align-items:center; justify-content:center; padding:10px 22px; border-radius:9999px; font-weight:600; transition:.2s; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+    /* Botões atualizados para a estética luxo (Sóbrios) & Padrão de Tamanho Touch */
+    .btn { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:12px 24px; border-radius:9999px; font-weight:600; transition:.2s; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; text-align:center; box-sizing:border-box; line-height:1.2; }
     .btn-primary { color:#fff; background-color:#171717; }
     .btn-primary:hover { background-color:#333333; }
-    .btn-outline { border:1px solid #171717; color:#171717; }
+    .btn-outline { border:1px solid #171717; color:#171717; background-color:transparent; }
     .btn-outline:hover { background:#171717; color:#fff; }
+
+    /* Harmonização Total de Botões em Smartphones */
+    @media (max-width: 639px) {
+      .btn-group-mobile {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 0.75rem !important;
+      }
+      .btn-group-mobile > .btn,
+      .btn-group-mobile > a.btn,
+      .btn-group-mobile > button.btn {
+        width: 100% !important;
+        display: flex !important;
+      }
+      .btn-mobile-full {
+        width: 100% !important;
+        display: flex !important;
+      }
+    }
 
     .chip { display:inline-flex; align-items:center; gap:.5rem; border-radius:9999px; padding:.35rem .95rem; font-size:.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; background:rgba(255,255,255,.9); box-shadow:0 4px 12px rgba(0,0,0,.03); border: 1px solid rgba(23,23,23,0.05); }
 
@@ -368,10 +388,10 @@
           <p class="mt-4 text-neutral-700 leading-relaxed font-light">
             Maquiagem social, noivas, corporativo e consultorias individuais — com especialidade e maestria em peles pretas.
           </p>
-          <div class="mt-6 flex flex-wrap items-center gap-3">
-            <a href="#orcamento" class="btn btn-primary">Solicitar Orçamento</a>
-            <button class="btn btn-outline" type="button" data-whats data-source="hero">
-              <svg class="w-3.5 h-3.5 fill-current mr-1.5" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.303-.058.116-.087.188-.173.289l-.26.302c-.087.087-.179.182-.077.357.102.174.454.748.974 1.211.671.597 1.237.782 1.411.869.174.087.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.144.39-.086s1.011.477 1.184.564.289.13.332.202c.043.072.043.419-.101.824z"/></svg>
+          <div class="mt-6 flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto btn-group-mobile">
+            <a href="#orcamento" class="btn btn-primary w-full sm:w-auto">Solicitar Orçamento</a>
+            <button class="btn btn-outline w-full sm:w-auto" type="button" data-whats data-source="hero">
+              <svg class="w-3.5 h-3.5 fill-current mr-1.5 shrink-0" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.303-.058.116-.087.188-.173.289l-.26.302c-.087.087-.179.182-.077.357.102.174.454.748.974 1.211.671.597 1.237.782 1.411.869.174.087.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.144.39-.086s1.011.477 1.184.564.289.13.332.202c.043.072.043.419-.101.824z"/></svg>
               Conversar no WhatsApp
             </button>
           </div>
@@ -485,11 +505,11 @@
             </p>
           </div>
 
-          <div class="mt-8 flex flex-wrap items-center gap-4">
-            <button type="button" data-whats data-source="sobre_artista" class="btn btn-primary text-xs">
+          <div class="mt-8 flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto btn-group-mobile">
+            <button type="button" data-whats data-source="sobre_artista" class="btn btn-primary w-full sm:w-auto">
               Conversar com a Anna
             </button>
-            <a href="https://www.instagram.com/annalluisaa/" target="_blank" rel="noopener" class="btn btn-outline text-xs">
+            <a href="https://www.instagram.com/annalluisaa/" target="_blank" rel="noopener" class="btn btn-outline w-full sm:w-auto">
               Ver Bastidores no Instagram
             </a>
           </div>
@@ -513,9 +533,9 @@
             <li class="flex items-center gap-2">✔ Kit profissional completo</li>
             <li class="flex items-center gap-2">✔ Workshop in-company (automaquiagem)</li>
           </ul>
-          <div class="mt-8 flex flex-wrap gap-3">
-            <a href="#orcamento" class="btn btn-primary">Solicitar proposta</a>
-            <a href="docs/midia-kit.pdf" class="btn btn-outline" target="_blank" rel="noopener">Ver mídia kit (PDF)</a>
+          <div class="mt-8 flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto btn-group-mobile">
+            <a href="#orcamento" class="btn btn-primary w-full sm:w-auto">Solicitar Proposta</a>
+            <a href="/midia-kit" class="btn btn-outline w-full sm:w-auto">Acessar Mídia Kit</a>
           </div>
         </div>
       </div>
@@ -700,7 +720,7 @@
         </div>
       </div>
       <a href="https://www.instagram.com/annalluisaa/" target="_blank" rel="noopener noreferrer"
-         class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold text-white uppercase tracking-wider bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F77737] hover:opacity-90 transition-opacity shadow-sm shrink-0">
+         class="btn btn-mobile-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs font-semibold text-white uppercase tracking-wider bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F77737] hover:opacity-90 transition-opacity shadow-sm shrink-0 w-full sm:w-auto">
         <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
         <span>Seguir no Instagram</span>
       </a>
@@ -1057,9 +1077,9 @@
         <textarea required name="detalhes" rows="4" placeholder="Descreva brevemente a data pretendida, localização e estilo desejado..." class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors"></textarea>
       </label>
 
-      <div class="md:col-span-2 flex flex-wrap items-center gap-4 mt-2">
-        <button id="btn-submit-orcamento" class="btn btn-primary" type="submit">Enviar Formulário</button>
-        <button id="btn-whats-form" type="button" class="btn btn-outline">Falar no WhatsApp</button>
+      <div class="md:col-span-2 flex flex-col sm:flex-row items-center gap-3 mt-2 btn-group-mobile">
+        <button id="btn-submit-orcamento" class="btn btn-primary w-full sm:w-auto" type="submit">Enviar Formulário</button>
+        <button id="btn-whats-form" type="button" class="btn btn-outline w-full sm:w-auto">Falar no WhatsApp</button>
       </div>
     </form>
   </section>
@@ -1079,12 +1099,12 @@
           <li><strong class="font-semibold text-neutral-800 uppercase tracking-wide block mb-1">Horários</strong> Segunda a Domingo, das 08h às 20h (Mediante agendamento prévio)</li>
           <li><strong class="font-semibold text-neutral-800 uppercase tracking-wide block mb-1">Cobertura Geográfica</strong> Atendimento presencial fixo em Palhoça e Florianópolis — Projetos corporativos sob demanda nacional.</li>
         </ul>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <button class="btn btn-primary" type="button" data-whats data-source="contato_bloco">Falar Agora</button>
-          <a href="#servicos" class="btn btn-outline">Ver Serviços</a>
+        <div class="mt-8 flex flex-col sm:flex-row flex-wrap gap-3 w-full sm:w-auto btn-group-mobile">
+          <button class="btn btn-primary w-full sm:w-auto" type="button" data-whats data-source="contato_bloco">Falar no WhatsApp</button>
+          <a href="#servicos" class="btn btn-outline w-full sm:w-auto">Ver Serviços</a>
           <a href="https://www.google.com/maps/place/Anna+Luisa+Makeup+Artist/@-27.628773,-48.6727469,17z/data=!4m8!3m7!1s0x952735c542321539:0xf235b99e191551e7!8m2!3d-27.628773!4d-48.670172!9m1!1b1!16s%2Fg%2F11s4_ngj38"
-             target="_blank" rel="noopener" class="btn btn-outline" aria-label="Ver avaliações no Google">
-            ⭐ Avaliações no Google Maps
+             target="_blank" rel="noopener" class="btn btn-outline w-full sm:w-auto" aria-label="Ver avaliações no Google">
+            ⭐ Avaliações Google (5.0)
           </a>
         </div>
       </div>
@@ -1161,11 +1181,30 @@
       <div class="flex items-center gap-6">
         <a href="docs/politica-privacidade.html" class="hover:text-neutral-800 transition-colors">Política de Privacidade</a>
         <a href="docs/termos-de-uso.html" class="hover:text-neutral-800 transition-colors">Termos</a>
-        <a href="docs/midia-kit.pdf" class="hover:text-neutral-800 transition-colors" target="_blank" rel="noopener">Mídia Kit (PDF)</a>
+        <a href="/midia-kit" class="hover:text-neutral-800 transition-colors">Mídia Kit</a>
         <a href="/admin" class="hover:text-neutral-800 transition-colors opacity-60 hover:opacity-100">🔒 Painel</a>
       </div>
     </div>
   </footer>
+
+  <!-- Botão Voltar ao Topo (Desktop e Mobile) -->
+  <button id="btnBackToTop" aria-label="Voltar ao Topo"
+          class="fixed bottom-20 sm:bottom-6 left-4 sm:left-6 z-40 w-11 h-11 rounded-full bg-white/95 backdrop-blur-md border border-neutral-200 text-neutral-800 shadow-soft flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 hover:bg-neutral-900 hover:text-white hover:border-neutral-900">
+    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 4l-8 8h5v8h6v-8h5z"/></svg>
+  </button>
+
+  <!-- Barra de Ação Rápida Flutuante para Smartphone (Harmonizada & Ergonômica) -->
+  <div id="mobileBottomBar" class="sm:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-lg border-t border-neutral-200 p-3 shadow-lg transform translate-y-full transition-transform duration-300">
+    <div class="grid grid-cols-2 gap-2">
+      <a href="#simulador" class="btn btn-outline py-2.5 px-3 min-h-[44px] text-[11px] font-semibold text-center flex items-center justify-center">
+        Simulador
+      </a>
+      <button type="button" data-whats data-source="mobile_bottom_bar" class="btn btn-primary py-2.5 px-3 min-h-[44px] text-[11px] font-semibold text-center flex items-center justify-center gap-1.5 bg-[#171717] text-white">
+        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.303-.058.116-.087.188-.173.289l-.26.302c-.087.087-.179.182-.077.357.102.174.454.748.974 1.211.671.597 1.237.782 1.411.869.174.087.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.144.39-.086s1.011.477 1.184.564.289.13.332.202c.043.072.043.419-.101.824z"/></svg>
+        <span>WhatsApp</span>
+      </button>
+    </div>
+  </div>
 
   <div id="cookieBanner" class="fixed bottom-0 inset-x-0 bg-white border-t border-neutral-100 p-5 z-50 shadow-soft">
     <div class="section flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -1500,18 +1539,31 @@
       const p=(scrollY/(document.body.scrollHeight-innerHeight))*100;
       if(!fired25 && p>25){ fired25=true; gtag?.('event','scroll_25'); fbq?.('trackCustom','Scroll25'); }
     });
-  </script>
 
-  <script type="application/ld+json">
-  {
-   "@context":"https://schema.org",
-   "@type":"FAQPage",
-   "mainEntity":[
-    {"@type":"Question","name":"Você atende no local do evento?","acceptedAnswer":{"@type":"Answer","text":"Sim, atendo em Palhoça/Florianópolis e realizo deslocamentos conforme necessidade."}},
-    {"@type":"Question","name":"Você emite nota fiscal?","acceptedAnswer":{"@type":"Answer","text":"Sim, para pessoa física e jurídica."}},
-    {"@type":"Question","name":"Como funcionam as provas de noiva?","acceptedAnswer":{"@type":"Answer","text":"Agendamos com antecedência para definir pele, acabamento e estilo, garantindo o resultado no grande dia."}}
-   ]
-  }
+    // Botão Voltar ao Topo & Barra de Ação Mobile
+    const btnBackToTop = document.getElementById('btnBackToTop');
+    const mobileBottomBar = document.getElementById('mobileBottomBar');
+
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y > 500) {
+        btnBackToTop?.classList.remove('opacity-0', 'pointer-events-none');
+      } else {
+        btnBackToTop?.classList.add('opacity-0', 'pointer-events-none');
+      }
+
+      if (mobileBottomBar) {
+        if (y > 400 && !document.body.classList.contains('cookie-open')) {
+          mobileBottomBar.classList.remove('translate-y-full');
+        } else {
+          mobileBottomBar.classList.add('translate-y-full');
+        }
+      }
+    }, { passive: true });
+
+    btnBackToTop?.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   </script>
 </body>
 </html>
