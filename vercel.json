@@ -1,0 +1,10 @@
+{
+  "outputDirectory": ".",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/agendar", "destination": "/agendar.html" },
+    { "source": "/links", "destination": "/links/index.html" }
+  ]
+}
