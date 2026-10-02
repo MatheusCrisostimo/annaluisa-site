@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Painel Administrativo — Anna Luísa</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="/favicon.ico" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #fcfbfa; color: #171717; }
+  </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-neutral-900 text-white border-b border-neutral-800 sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2 font-semibold text-xs tracking-wider uppercase text-neutral-300 hover:text-white">
+          <span>← Voltar ao Site</span>
+        </a>
+        <span class="text-neutral-600">|</span>
+        <h1 class="text-xs sm:text-sm font-medium tracking-wide">Painel de Leads & Orçamentos</h1>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="btnExport" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-neutral-800 hover:bg-neutral-700 text-neutral-200 transition-colors">
+          <span>📥 Exportar CSV</span>
+        </button>
+        <button id="btnLogout" class="px-3 py-1.5 rounded-lg text-xs font-medium text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors">
+          Sair
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Login Modal Overlay -->
+  <div id="loginModal" class="fixed inset-0 bg-neutral-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 sm:p-8 shadow-2xl border border-neutral-100 text-center">
+      <div class="w-12 h-12 rounded-full bg-neutral-100 text-neutral-900 mx-auto flex items-center justify-center text-xl mb-4">
+        🔒
+      </div>
+      <h2 class="text-lg font-light text-neutral-900 mb-1">Acesso Restrito</h2>
+      <p class="text-xs text-neutral-500 mb-6 font-light">Informe a senha administrativa para consultar as mensagens recebidas pelo site.</p>
+      
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <input type="password" id="inputPass" required placeholder="Senha de acesso (padrão: anna2026)"
+                 class="w-full rounded-xl border border-neutral-200 bg-neutral-50 p-3 text-sm focus:outline-none focus:border-neutral-900 text-center" />
+        </div>
+        <p id="loginError" class="text-xs text-rose-600 hidden font-medium"></p>
+        <button type="submit" class="w-full py-3 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white text-xs uppercase tracking-wider font-semibold transition-all">
+          Acessar Painel
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-8">
+    <!-- Stat Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div class="bg-white p-5 rounded-2xl border border-neutral-100 shadow-sm">
+        <p class="text-[11px] uppercase tracking-wider font-medium text-neutral-400">Total de Leads</p>
+        <p id="statTotal" class="text-2xl sm:text-3xl font-light text-neutral-900 mt-1">0</p>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-neutral-100 shadow-sm">
+        <p class="text-[11px] uppercase tracking-wider font-medium text-neutral-400">Noivas</p>
+        <p id="statNoivas" class="text-2xl sm:text-3xl font-light text-neutral-900 mt-1">0</p>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-neutral-100 shadow-sm">
+        <p class="text-[11px] uppercase tracking-wider font-medium text-neutral-400">Sociais & Formaturas</p>
+        <p id="statSociais" class="text-2xl sm:text-3xl font-light text-neutral-900 mt-1">0</p>
+      </div>
+      <div class="bg-white p-5 rounded-2xl border border-neutral-100 shadow-sm">
+        <p class="text-[11px] uppercase tracking-wider font-medium text-neutral-400">Cursos & Empresas</p>
+        <p id="statOutros" class="text-2xl sm:text-3xl font-light text-neutral-900 mt-1">0</p>
+      </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden">
+      <div class="p-5 border-b border-neutral-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-sm font-semibold text-neutral-900">Solicitações Recebidas</h2>
+          <p class="text-xs text-neutral-500 font-light mt-0.5">Mensagens enviadas através do formulário de orçamento e agendamento.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="btnRefresh" class="text-xs px-3 py-1.5 rounded-lg border border-neutral-200 hover:bg-neutral-50 text-neutral-700 transition-colors">
+            ↻ Atualizar
+          </button>
+          <button id="btnExportMobile" class="sm:hidden text-xs px-3 py-1.5 rounded-lg bg-neutral-900 text-white transition-colors">
+            📥 CSV
+          </button>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-neutral-50 text-neutral-500 uppercase tracking-wider text-[10px] font-semibold border-b border-neutral-100">
+            <tr>
+              <th class="py-3.5 px-4">Data/Hora</th>
+              <th class="py-3.5 px-4">Cliente</th>
+              <th class="py-3.5 px-4">Serviço</th>
+              <th class="py-3.5 px-4">Contato</th>
+              <th class="py-3.5 px-4">Ação</th>
+              <th class="py-3.5 px-4">Detalhes</th>
+            </tr>
+          </thead>
+          <tbody id="leadsTableBody" class="divide-y divide-neutral-100 text-neutral-700">
+            <tr>
+              <td colspan="6" class="py-8 text-center text-neutral-400 font-light">Carregando solicitações...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const AUTH_KEY_NAME = 'anna_admin_key';
+    const loginModal = document.getElementById('loginModal');
+    const loginForm = document.getElementById('loginForm');
+    const inputPass = document.getElementById('inputPass');
+    const loginError = document.getElementById('loginError');
+    const btnLogout = document.getElementById('btnLogout');
+    const btnRefresh = document.getElementById('btnRefresh');
+    const btnExport = document.getElementById('btnExport');
+    const btnExportMobile = document.getElementById('btnExportMobile');
+    const tbody = document.getElementById('leadsTableBody');
+
+    function getKey() {
+      return sessionStorage.getItem(AUTH_KEY_NAME) || '';
+    }
+
+    function checkAuth() {
+      const key = getKey();
+      if (!key) {
+        loginModal.classList.remove('hidden');
+      } else {
+        loginModal.classList.add('hidden');
+        loadLeads(key);
+      }
+    }
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const pass = inputPass.value.trim();
+      loginError.classList.add('hidden');
+
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pass })
+        });
+        const data = await res.json();
+        if (data.success) {
+          sessionStorage.setItem(AUTH_KEY_NAME, pass);
+          loginModal.classList.add('hidden');
+          loadLeads(pass);
+        } else {
+          loginError.textContent = data.error || 'Senha incorreta.';
+          loginError.classList.remove('hidden');
+        }
+      } catch (err) {
+        loginError.textContent = 'Erro de conexão com o servidor.';
+        loginError.classList.remove('hidden');
+      }
+    });
+
+    btnLogout.addEventListener('click', () => {
+      sessionStorage.removeItem(AUTH_KEY_NAME);
+      loginModal.classList.remove('hidden');
+      inputPass.value = '';
+    });
+
+    btnRefresh.addEventListener('click', () => loadLeads(getKey()));
+
+    function exportCsv() {
+      const key = getKey();
+      if (!key) return;
+      window.location.href = `/api/admin/leads/export?key=${encodeURIComponent(key)}`;
+    }
+    btnExport.addEventListener('click', exportCsv);
+    btnExportMobile.addEventListener('click', exportCsv);
+
+    async function loadLeads(key) {
+      if (!key) return;
+      tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-neutral-400 font-light">Carregando solicitações...</td></tr>`;
+
+      try {
+        const res = await fetch(`/api/admin/leads?key=${encodeURIComponent(key)}`);
+        if (res.status === 401) {
+          sessionStorage.removeItem(AUTH_KEY_NAME);
+          loginModal.classList.remove('hidden');
+          return;
+        }
+        const data = await res.json();
+        const list = data.leads || [];
+
+        // Atualiza estatísticas
+        document.getElementById('statTotal').textContent = list.length;
+        document.getElementById('statNoivas').textContent = list.filter(l => (l.servico||'').toLowerCase().includes('noiva')).length;
+        document.getElementById('statSociais').textContent = list.filter(l => (l.servico||'').toLowerCase().includes('social') || (l.servico||'').toLowerCase().includes('formatura')).length;
+        document.getElementById('statOutros').textContent = list.filter(l => (l.servico||'').toLowerCase().includes('aula') || (l.servico||'').toLowerCase().includes('empresa') || (l.servico||'').toLowerCase().includes('corporativo')).length;
+
+        if (list.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" class="py-12 text-center text-neutral-400 font-light">Nenhuma solicitação recebida ainda. Novos contatos aparecerão aqui em tempo real.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = list.map(item => {
+          const dateStr = item.createdAt ? new Date(item.createdAt).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }) : '—';
+          const rawPhone = (item.telefone || '').replace(/\D/g, '');
+          const waLink = rawPhone ? `https://wa.me/55${rawPhone}?text=${encodeURIComponent(`Olá ${item.nome}, aqui é a Anna Luísa. Recebi sua solicitação de orçamento pelo site para o serviço de ${item.servico}!`)}` : null;
+
+          return `
+            <tr class="hover:bg-neutral-50/70 transition-colors">
+              <td class="py-3 px-4 text-neutral-500 whitespace-nowrap">${dateStr}</td>
+              <td class="py-3 px-4 font-medium text-neutral-900">${escapeHtml(item.nome || 'Sem nome')}</td>
+              <td class="py-3 px-4">
+                <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-wide ${
+                  (item.servico||'').includes('Noiva') ? 'bg-amber-100 text-amber-900' : 'bg-neutral-100 text-neutral-800'
+                }">
+                  ${escapeHtml(item.servico || 'Geral')}
+                </span>
+              </td>
+              <td class="py-3 px-4 text-neutral-600">
+                <div>${escapeHtml(item.telefone || '—')}</div>
+                <div class="text-[10px] text-neutral-400">${escapeHtml(item.email || '')}</div>
+              </td>
+              <td class="py-3 px-4 whitespace-nowrap">
+                ${waLink ? `
+                  <a href="${waLink}" target="_blank" rel="noopener noreferrer"
+                     class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-[10px] transition-colors">
+                    <span>💬 Chamar</span>
+                  </a>
+                ` : `<span class="text-neutral-400 text-[10px]">Sem Whats</span>`}
+              </td>
+              <td class="py-3 px-4 text-neutral-500 max-w-xs truncate" title="${escapeHtml(item.detalhes || '')}">
+                ${escapeHtml(item.detalhes || 'Sem observações')}
+              </td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-rose-500">Erro ao carregar os dados.</td></tr>`;
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+    }
+
+    // Inicializa
+    checkAuth();
+  </script>
+</body>
+</html>

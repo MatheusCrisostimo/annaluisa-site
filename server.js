@@ -104,6 +104,61 @@ app.post('/api/leads', (req, res) => {
   }
 });
 
+// Admin Authentication & Lead Management
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'anna2026';
+
+function verifyAdminAuth(req, res, next) {
+  const key = req.headers['x-admin-key'] || req.query.key || req.body?.key;
+  if (key !== ADMIN_PASSWORD) {
+    return res.status(401).json({ success: false, error: 'Acesso não autorizado. Chave inválida.' });
+  }
+  next();
+}
+
+app.post('/api/admin/login', (req, res) => {
+  const { password } = req.body;
+  if (password === ADMIN_PASSWORD) {
+    return res.json({ success: true, message: 'Autenticado com sucesso' });
+  }
+  return res.status(401).json({ success: false, error: 'Senha incorreta.' });
+});
+
+app.get('/api/admin/leads', verifyAdminAuth, (req, res) => {
+  res.json({
+    success: true,
+    count: leads.length,
+    leads: [...leads].reverse()
+  });
+});
+
+app.get('/api/admin/leads/export', (req, res) => {
+  const key = req.query.key;
+  if (key !== ADMIN_PASSWORD) {
+    return res.status(401).send('Não autorizado');
+  }
+
+  const headers = ['ID', 'Data_Hora', 'Nome', 'Telefone', 'Email', 'Servico', 'Detalhes'];
+  const rows = leads.map(l => [
+    l.id,
+    `"${l.createdAt}"`,
+    `"${(l.nome || '').replace(/"/g, '""')}"`,
+    `"${(l.telefone || '').replace(/"/g, '""')}"`,
+    `"${(l.email || '').replace(/"/g, '""')}"`,
+    `"${(l.servico || '').replace(/"/g, '""')}"`,
+    `"${(l.detalhes || '').replace(/"/g, '""')}"`
+  ]);
+
+  const csvContent = '\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\r\n');
+  res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+  res.setHeader('Content-Disposition', `attachment; filename=leads-annaluisa-${new Date().toISOString().slice(0, 10)}.csv`);
+  res.send(csvContent);
+});
+
+// Admin Panel Clean Routes
+app.get(['/admin', '/admin/leads'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
 // Serve static files with html extension fallback
 app.use(express.static(__dirname, {
   extensions: ['html', 'htm']
