@@ -62,7 +62,18 @@
     function openWA(source, text){
       const msg = encodeURIComponent(text || DEFAULT_MSG);
       const url = `https://wa.me/${PHONE}?text=${msg}&utm_source=site&utm_medium=cta&utm_campaign=whatsapp&src=${encodeURIComponent(source||'agendar')}`;
-      window.open(url,'_blank','noopener,noreferrer');
+      try {
+        const opened = window.open(url,'_blank','noopener,noreferrer');
+        if (!opened || opened.closed || typeof opened.closed === 'undefined') {
+          const a = document.createElement('a');
+          a.href = url;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.click();
+        }
+      } catch (e) {
+        window.location.href = url;
+      }
     }
     // expõe p/ formulário
     window.__openWA = openWA;
@@ -84,20 +95,24 @@
 </head>
 
 <body class="bg-premium-light text-premium-dark antialiased">
-  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-neutral-100">
-    <div class="section flex items-center justify-between h-20">
-      <a href="index.html" class="flex items-center gap-3 font-semibold tracking-wide text-xs uppercase">
-        <img src="images/WhatsApp%20Image%202025-08-24%20at%2015.03.20.jpeg" alt="Logo Anna Luísa" class="h-12 w-auto object-contain" onerror="this.src='images/logo.png'" />
-        <span class="hidden sm:inline border-l border-neutral-300 pl-3 text-neutral-500">Anna Luísa — Maquiadora</span>
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-100">
+    <div class="section flex items-center justify-between h-16 sm:h-20">
+      <a href="index.html" class="flex items-center gap-2.5 sm:gap-3 font-semibold tracking-wide text-xs uppercase shrink-0">
+        <img src="images/WhatsApp%20Image%202025-08-24%20at%2015.03.20.jpeg" alt="Logo Anna Luísa" class="h-10 sm:h-12 w-auto max-w-[150px] sm:max-w-[200px] object-contain" onerror="this.src='images/logo.png'" />
+        <span class="hidden sm:inline border-l border-neutral-200 pl-3 text-[11px] font-normal tracking-widest text-neutral-500">Agendamento Oficial</span>
       </a>
-      <nav class="hidden md:flex items-center gap-6 text-xs uppercase tracking-wider font-medium text-neutral-600">
-        <a href="index.html#servicos" class="hover:text-neutral-900 transition-colors">Serviços</a>
-        <a href="index.html#portfolio" class="hover:text-neutral-900 transition-colors">Portfólio</a>
-        <a href="index.html#contato" class="hover:text-neutral-900 transition-colors">Contato</a>
+      <nav class="hidden md:flex items-center gap-6 text-[11px] uppercase tracking-widest font-medium text-neutral-600">
+        <a href="index.html#servicos" class="hover:text-neutral-950 transition-colors">Serviços</a>
+        <a href="index.html#portfolio" class="hover:text-neutral-950 transition-colors">Portfólio</a>
+        <a href="index.html#contato" class="hover:text-neutral-950 transition-colors">Contato</a>
       </nav>
-      <div class="flex items-center gap-3">
-        <a href="index.html" class="text-xs uppercase tracking-wider font-semibold text-neutral-500 hover:text-neutral-900 transition-colors hidden sm:inline">Voltar ao site</a>
-        <button class="btn btn-primary" data-whats data-source="agendar_top">WhatsApp Rápido</button>
+      <div class="flex items-center gap-2 sm:gap-3">
+        <a href="index.html" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-neutral-200 text-neutral-700 text-[10px] sm:text-[11px] font-medium uppercase tracking-wider hover:border-neutral-900 hover:text-neutral-900 transition-colors">
+          <span>← Voltar</span>
+        </a>
+        <button class="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full text-[10px] sm:text-[11px] font-semibold text-white uppercase tracking-wider bg-neutral-900 hover:bg-neutral-800 transition-all shadow-sm" data-whats data-source="agendar_top">
+          WhatsApp
+        </button>
       </div>
     </div>
   </header>
@@ -175,9 +190,9 @@
       el.addEventListener('click', ()=> trackWhatsAppClick(el.dataset.source || 'agendar'));
     });
 
-    // envia formulário -> monta mensagem premium e abre WhatsApp
+    // envia formulário -> salva lead no backend, monta mensagem premium e abre WhatsApp
     const f = document.getElementById('agendarForm');
-    f.addEventListener('submit', (e)=>{
+    f.addEventListener('submit', async (e)=>{
       e.preventDefault();
       const data = new FormData(f);
       const campos = {
@@ -190,6 +205,20 @@
         local: data.get('local') || '',
         detalhes: data.get('detalhes') || ''
       };
+
+      try {
+        await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nome: campos.nome,
+            email: campos.email,
+            telefone: campos.telefone,
+            servico: campos.servico,
+            detalhes: `Data/Hora: ${campos.data} ${campos.horario} | Local: ${campos.local} | Observações: ${campos.detalhes}`
+          })
+        });
+      } catch (err) {}
       
       const linhas = [
         `Olá Anna Luísa, solicito um agendamento pelo site. Abaixo estão as informações do evento:`,

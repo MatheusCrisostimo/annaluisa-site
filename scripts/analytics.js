@@ -97,5 +97,16 @@ export function openWhatsApp({
 } = {}) {
   const msg = encodeURIComponent(text);
   const url = `https://wa.me/${phone}?text=${msg}&utm_source=site&utm_medium=cta&utm_campaign=whatsapp&src=${encodeURIComponent(source)}`;
-  window.open(url,'_blank','noopener,noreferrer');
+  try {
+    const opened = window.open(url,'_blank','noopener,noreferrer');
+    if (!opened || opened.closed || typeof opened.closed === 'undefined') {
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.click();
+    }
+  } catch (e) {
+    window.location.href = url;
+  }
 }

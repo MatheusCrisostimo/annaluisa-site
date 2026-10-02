@@ -1,29 +1,68 @@
-// sw.js
-const CACHE = 'anna-pwa-v1';
-const ASSETS = [
-  '/', '/index.html',
-  '/images/hero-800.webp','/images/hero-1200.webp','/images/hero-1600.webp',
-  '/images/logo.png','/favicon.ico','/manifest.webmanifest'
+// sw.js - Service Worker Resiliente com Cache Offline Stale-While-Revalidate
+const CACHE_NAME = 'anna-pwa-v2';
+const CORE_ASSETS = [
+  '/',
+  '/index.html',
+  '/agendar.html',
+  '/links.html',
+  '/links/index.html',
+  '/images/logo.png',
+  '/images/og-cover.jpg',
+  '/images/hero-800.webp',
+  '/images/icons/icon-192.png',
+  '/favicon.ico',
+  '/manifest.webmanifest'
 ];
 
-self.addEventListener('install', (e)=>{
-  e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)));
-});
-
-self.addEventListener('activate', (e)=>{
-  e.waitUntil(
-    caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return Promise.allSettled(
+        CORE_ASSETS.map((url) =>
+          cache.add(url).catch((err) => {
+            console.warn(`[SW] Could not pre-cache: ${url}`, err);
+          })
+        )
+      );
+    }).then(() => self.skipWaiting())
   );
 });
 
-self.addEventListener('fetch', (e)=>{
-  const req = e.request;
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(
+        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+      )
+    ).then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  const req = event.request;
   if (req.method !== 'GET') return;
-  e.respondWith(
-    caches.match(req).then(cached => cached || fetch(req).then(res=>{
-      const copy = res.clone();
-      caches.open(CACHE).then(c=>c.put(req, copy));
-      return res;
-    }).catch(()=> caches.match('/index.html')))
+
+  const url = new URL(req.url);
+  // Não intercepta chamadas de API internas ou scripts de terceiros
+  if (url.pathname.startsWith('/api/') || url.origin !== self.location.origin) {
+    return;
+  }
+
+  event.respondWith(
+    caches.match(req).then((cached) => {
+      const fetchPromise = fetch(req).then((networkRes) => {
+        if (networkRes && networkRes.status === 200) {
+          const clone = networkRes.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(req, clone));
+        }
+        return networkRes;
+      }).catch(() => {
+        if (req.mode === 'navigate') {
+          return caches.match('/index.html');
+        }
+      });
+
+      return cached || fetchPromise;
+    })
   );
 });

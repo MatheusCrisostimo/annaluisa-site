@@ -1,0 +1,8 @@
+{
+  "name": "Anna Luísa — Maquiadora",
+  "description": "Maquiagem social, noivas, empresas e aulas em Florianópolis e região. Beleza que Realça Você.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

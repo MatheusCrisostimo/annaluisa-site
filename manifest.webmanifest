@@ -3,8 +3,8 @@
   "short_name": "Anna Luísa",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fcfbfa", /* Off-white premium */
-  "theme_color": "#171717", /* Preto absoluto do header */
+  "background_color": "#fcfbfa",
+  "theme_color": "#171717",
   "icons": [
     {
       "src": "images/icons/icon-192.png",

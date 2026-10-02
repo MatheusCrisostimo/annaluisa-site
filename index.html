@@ -50,10 +50,10 @@
   </script>
 
   <link rel="preload" as="image"
-        href="images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg"
-        imagesrcset="images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 800w,
-                     images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 1200w,
-                     images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 1600w"
+        href="images/hero-1200.webp" type="image/webp"
+        imagesrcset="images/hero-800.webp 800w,
+                     images/hero-1200.webp 1200w,
+                     images/hero-1600.webp 1600w"
         imagesizes="100vw" />
 
   <style>
@@ -79,14 +79,14 @@
     .lightbox-backdrop.active{ display:flex; }
     .lightbox-img{ max-width:90vw; max-height:75vh; border-radius:0.5rem; box-shadow:0 20px 60px rgba(0,0,0,.6); }
 
-    /* Botão WhatsApp flutuante (só mobile) */
-    #waFloat{ position:fixed; bottom:1.25rem; right:1.25rem; z-index:50; }
-    @media (min-width:1024px){ #waFloat{ display:none; } }
-    .cookie-open #waFloat{ bottom:6rem; }
+    /* Botão WhatsApp flutuante inteligente */
+    #waFloatContainer { position:fixed; bottom:1.25rem; right:1.25rem; z-index:50; transition: bottom 0.3s ease; }
+    .cookie-open #waFloatContainer { bottom:6.5rem; }
 
-    /* Hover no Portfólio */
-    figure img { border-radius: 0.5rem; transition: transform 0.3s ease; }
-    figure:hover img { transform: scale(1.02); }
+    /* Hover e transição no Portfólio */
+    figure img { border-radius: 0.5rem; transition: transform 0.4s ease; }
+    figure:hover img { transform: scale(1.03); }
+    .portfolio-filter-btn { transition: all 0.2s ease; }
   </style>
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-60ZPREPJV3"></script>
@@ -158,7 +158,18 @@
     function openWA(source, text){
       const msg = encodeURIComponent(text || DEFAULT_MSG);
       const url = `https://wa.me/${PHONE}?text=${msg}&utm_source=site&utm_medium=cta&utm_campaign=whatsapp&src=${encodeURIComponent(source||'cta')}`;
-      window.open(url,'_blank','noopener,noreferrer');
+      try {
+        const opened = window.open(url,'_blank','noopener,noreferrer');
+        if (!opened || opened.closed || typeof opened.closed === 'undefined') {
+          const a = document.createElement('a');
+          a.href = url;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.click();
+        }
+      } catch (e) {
+        window.location.href = url;
+      }
     }
     function bindWA(){
       document.querySelectorAll('[data-whats]').forEach(el=>{
@@ -174,51 +185,106 @@
 
 <body class="bg-premium-light text-premium-dark antialiased">
 
-  <button id="waFloat" data-whats data-source="botao_fixo" aria-label="Agendar no WhatsApp"
-     class="bg-neutral-900 hover:bg-neutral-800 text-white rounded-full shadow-mdx px-5 py-3 font-semibold flex items-center gap-2 text-xs uppercase tracking-wider">
-    <span aria-hidden="true">💬</span> WhatsApp
-  </button>
+  <!-- Botão WhatsApp Flutuante Premium com tooltip suave (visível e equilibrado em todos os dispositivos) -->
+  <aside id="waFloatContainer" class="flex items-center gap-2.5 group">
+    <div class="hidden md:block opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-neutral-900/90 text-white text-[11px] py-1.5 px-3.5 rounded-full shadow-lg pointer-events-none backdrop-blur-sm whitespace-nowrap">
+      Fale com Anna Luísa
+    </div>
+    <button id="waFloat" data-whats data-source="botao_fixo" aria-label="Falar no WhatsApp oficial"
+       class="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-emerald-300/40">
+      <svg class="w-7 h-7 fill-white" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.303-.058.116-.087.188-.173.289l-.26.302c-.087.087-.179.182-.077.357.102.174.454.748.974 1.211.671.597 1.237.782 1.411.869.174.087.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.144.39-.086s1.011.477 1.184.564.289.13.332.202c.043.072.043.419-.101.824z"/></svg>
+    </button>
+  </aside>
 
-  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-neutral-100">
-    <div class="section flex items-center justify-between h-20">
-      <a href="#" class="flex items-center gap-3 font-semibold tracking-wide text-xs uppercase">
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-neutral-100 transition-all duration-300">
+    <div class="section flex items-center justify-between h-16 sm:h-20">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-2.5 sm:gap-3 font-semibold tracking-wide text-xs uppercase shrink-0">
         <img src="images/WhatsApp%20Image%202025-08-24%20at%2015.03.20.jpeg" alt="Logo Anna Luísa"
-             class="h-12 md:h-14 w-auto max-w-[200px] object-contain" />
-        <span class="hidden lg:inline border-l border-neutral-300 pl-3 text-neutral-500">Anna Luísa — Maquiadora</span>
+             class="h-10 sm:h-12 w-auto max-w-[150px] sm:max-w-[200px] object-contain" />
+        <span class="hidden lg:inline border-l border-neutral-200 pl-3 text-[11px] font-normal tracking-widest text-neutral-500">Beleza & Sofisticação</span>
       </a>
 
-      <nav class="hidden md:flex items-center gap-6 text-xs uppercase tracking-wider font-medium text-neutral-600">
-        <a href="#servicos" class="hover:text-neutral-900 transition-colors">Serviços</a>
-        <a href="#empresas" class="hover:text-neutral-900 transition-colors">Para Empresas</a>
-        <a href="#portfolio" class="hover:text-neutral-900 transition-colors">Portfólio</a>
-        <a href="#depoimentos" class="hover:text-neutral-900 transition-colors">Depoimentos</a>
-        <a href="#instagram" class="hover:text-neutral-900 transition-colors">Instagram</a>
-        <a href="#orcamento" class="hover:text-neutral-900 transition-colors">Orçamento</a>
-        <a href="#contato" class="hover:text-neutral-900 transition-colors">Contato</a>
+      <!-- Desktop Nav -->
+      <nav class="hidden lg:flex items-center gap-6 xl:gap-8 text-[11px] uppercase tracking-widest font-medium text-neutral-600">
+        <a href="#servicos" class="hover:text-neutral-950 transition-colors">Serviços</a>
+        <a href="#portfolio" class="hover:text-neutral-950 transition-colors">Portfólio</a>
+        <a href="#empresas" class="hover:text-neutral-950 transition-colors">Corporativo</a>
+        <a href="#depoimentos" class="hover:text-neutral-950 transition-colors">Depoimentos</a>
+        <a href="#faq" class="hover:text-neutral-950 transition-colors">Dúvidas</a>
+        <a href="#orcamento" class="hover:text-neutral-950 transition-colors">Orçamento</a>
       </nav>
 
-      <div class="flex items-center gap-2">
+      <!-- Right Actions (Adaptive: Mobile, Tablet, Notebook, Desktop) -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Direct WhatsApp CTA (Tablet/Desktop) -->
         <button type="button"
-                class="inline-flex min-h-10 min-w-[148px] justify-center items-center gap-2 rounded-full px-5 py-2 text-xs font-semibold text-white uppercase tracking-wider bg-premium-dark hover:bg-neutral-800 transition-colors shadow-sm"
-                data-whats data-source="header">
-          Agendar Atendimento
+                data-whats data-source="header"
+                class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-neutral-200 text-neutral-800 text-[11px] font-medium uppercase tracking-wider hover:border-neutral-900 hover:bg-neutral-900 hover:text-white transition-all duration-200">
+          <svg class="w-3.5 h-3.5 fill-emerald-600" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.303-.058.116-.087.188-.173.289l-.26.302c-.087.087-.179.182-.077.357.102.174.454.748.974 1.211.671.597 1.237.782 1.411.869.174.087.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.144.39-.086s1.011.477 1.184.564.289.13.332.202c.043.072.043.419-.101.824z"/></svg>
+          <span>WhatsApp</span>
         </button>
+
+        <!-- CTA Principal de Orçamento -->
+        <a href="#orcamento"
+           class="inline-flex items-center justify-center px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-[11px] font-semibold text-white uppercase tracking-wider bg-neutral-900 hover:bg-neutral-800 transition-all shadow-sm">
+          Solicitar Orçamento
+        </a>
+
+        <!-- Hamburger Button (Mobile & Tablet) -->
+        <button id="mobileMenuBtn" type="button" aria-label="Abrir menu de navegação" aria-expanded="false"
+                class="lg:hidden p-1.5 text-neutral-700 hover:text-neutral-950 focus:outline-none rounded-lg hover:bg-neutral-100 transition-colors">
+          <svg id="menuIconClosed" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="menuIconOpen" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer / Menu Dropdown -->
+    <div id="mobileMenu" class="hidden lg:hidden border-t border-neutral-100 bg-white/98 backdrop-blur-md px-6 py-6 space-y-4 shadow-xl transition-all">
+      <nav class="flex flex-col space-y-3 text-xs uppercase tracking-widest font-medium text-neutral-700">
+        <a href="#servicos" class="mobile-nav-link py-2 border-b border-neutral-50 hover:text-neutral-950 transition-colors">Serviços</a>
+        <a href="#portfolio" class="mobile-nav-link py-2 border-b border-neutral-50 hover:text-neutral-950 transition-colors">Portfólio & Galeria</a>
+        <a href="#empresas" class="mobile-nav-link py-2 border-b border-neutral-50 hover:text-neutral-950 transition-colors">Soluções Corporativas</a>
+        <a href="#depoimentos" class="mobile-nav-link py-2 border-b border-neutral-50 hover:text-neutral-950 transition-colors">Depoimentos</a>
+        <a href="#faq" class="mobile-nav-link py-2 border-b border-neutral-50 hover:text-neutral-950 transition-colors">Perguntas Frequentes</a>
+        <a href="#contato" class="mobile-nav-link py-2 border-b border-neutral-50 hover:text-neutral-950 transition-colors">Localização & Contato</a>
+      </nav>
+      <div class="pt-2 flex flex-col gap-2.5">
+        <button type="button" data-whats data-source="mobile_menu" class="btn btn-primary w-full py-3 text-xs flex items-center justify-center gap-2">
+          <span>💬 Conversar no WhatsApp</span>
+        </button>
+        <a href="agendar.html" class="btn btn-outline w-full py-3 text-xs text-center">
+          Agendamento Detalhado
+        </a>
       </div>
     </div>
   </header>
   
   <section class="relative overflow-hidden bg-neutral-900">
-    <img
-      src="images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg"
-      srcset="
-        images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 800w,
-        images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 1200w,
-        images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 1600w"
-      sizes="100vw"
-      width="1600" height="900" alt="Modelo maquiada por Anna Luísa"
-      class="block w-full h-[70svh] min-h-[450px] sm:h-[75svh] lg:h-[82svh] object-cover object-[50%_24%] sm:object-[52%_22%] lg:object-[55%_18%] opacity-85"
-      loading="eager" fetchpriority="high" decoding="async"
-    />
+    <picture>
+      <source type="image/webp"
+              srcset="
+                images/hero-800.webp 800w,
+                images/hero-1200.webp 1200w,
+                images/hero-1600.webp 1600w"
+              sizes="100vw">
+      <img
+        src="images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg"
+        srcset="
+          images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 800w,
+          images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 1200w,
+          images/WhatsApp%20Image%202025-08-24%20at%2015.58.24.jpeg 1600w"
+        sizes="100vw"
+        width="1600" height="900" alt="Modelo maquiada por Anna Luísa"
+        class="block w-full h-[70svh] min-h-[450px] sm:h-[75svh] lg:h-[82svh] object-cover object-[50%_24%] sm:object-[52%_22%] lg:object-[55%_18%] opacity-85"
+        loading="eager" fetchpriority="high" decoding="async"
+      />
+    </picture>
     <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
     <div class="section">
       <div class="absolute inset-0 section flex items-end pb-16">
@@ -232,8 +298,12 @@
           <p class="mt-4 text-neutral-700 leading-relaxed font-light">
             Maquiagem social, noivas, corporativo e consultorias individuais — com especialidade e maestria em peles pretas.
           </p>
-          <div class="mt-6 flex flex-wrap gap-3">
-            <button class="btn btn-primary" type="button" data-whats data-source="hero">Agendar via WhatsApp</button>
+          <div class="mt-6 flex flex-wrap items-center gap-3">
+            <a href="#orcamento" class="btn btn-primary">Solicitar Orçamento</a>
+            <button class="btn btn-outline" type="button" data-whats data-source="hero">
+              <svg class="w-3.5 h-3.5 fill-current mr-1.5" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.303-.058.116-.087.188-.173.289l-.26.302c-.087.087-.179.182-.077.357.102.174.454.748.974 1.211.671.597 1.237.782 1.411.869.174.087.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.144.39-.086s1.011.477 1.184.564.289.13.332.202c.043.072.043.419-.101.824z"/></svg>
+              Conversar no WhatsApp
+            </button>
           </div>
         </div>
       </div>
@@ -320,71 +390,125 @@
     </div>
   </section>
 
-  <section id="portfolio" class="section py-12">
-    <div class="flex items-end justify-between mb-8">
+  <section id="portfolio" class="section py-16">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
       <div>
-        <h2 class="text-xs uppercase tracking-widest font-semibold text-neutral-400 mb-1">Galeria</h2>
-        <h3 class="text-2xl font-light text-premium-dark">Portfólio</h3>
+        <h2 class="text-xs uppercase tracking-widest font-semibold text-neutral-400 mb-1">Galeria Exclusiva</h2>
+        <h3 class="text-2xl sm:text-3xl font-light text-premium-dark">Portfólio & Transformações</h3>
+        <p class="text-xs text-neutral-500 font-light mt-1">Acabamentos fotográficos, durabilidade de 12h+ e maestria em peles pretas.</p>
       </div>
       <a href="https://www.instagram.com/annalluisaa/" target="_blank" rel="noopener"
-         class="text-xs tracking-wider uppercase border-b border-neutral-400 pb-1 font-medium hover:text-neutral-500 transition-colors">Ver mais no Instagram</a>
+         class="inline-flex items-center gap-1.5 text-xs tracking-wider uppercase border-b border-neutral-400 pb-1 font-medium hover:text-neutral-500 transition-colors shrink-0">
+        <span>Ver mais no Instagram</span>
+        <span>→</span>
+      </a>
     </div>
 
-    <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-      <figure class="group cursor-zoom-in">
-        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
-          <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.53.jpeg" alt="Maquiagem social pele preta"
-               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+    <!-- Filtros de Categoria Interativos -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-6 scrollbar-none text-xs">
+      <button type="button" class="portfolio-filter-btn px-4 py-2 rounded-full text-[11px] font-semibold tracking-wider uppercase transition-all bg-neutral-900 text-white shadow-sm" data-filter="all">
+        Todos (8)
+      </button>
+      <button type="button" class="portfolio-filter-btn px-4 py-2 rounded-full text-[11px] font-semibold tracking-wider uppercase transition-all bg-white text-neutral-600 border border-neutral-200 hover:border-neutral-900" data-filter="noiva">
+        Noivas
+      </button>
+      <button type="button" class="portfolio-filter-btn px-4 py-2 rounded-full text-[11px] font-semibold tracking-wider uppercase transition-all bg-white text-neutral-600 border border-neutral-200 hover:border-neutral-900" data-filter="pele-negra">
+        Pele Negra & Retinta
+      </button>
+      <button type="button" class="portfolio-filter-btn px-4 py-2 rounded-full text-[11px] font-semibold tracking-wider uppercase transition-all bg-white text-neutral-600 border border-neutral-200 hover:border-neutral-900" data-filter="social">
+        Social & Formatura
+      </button>
+      <button type="button" class="portfolio-filter-btn px-4 py-2 rounded-full text-[11px] font-semibold tracking-wider uppercase transition-all bg-white text-neutral-600 border border-neutral-200 hover:border-neutral-900" data-filter="editorial">
+        Editorial & Ensaios
+      </button>
+    </div>
+
+    <div id="portfolioGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+      <figure class="group cursor-zoom-in transition-all duration-300" data-tags="editorial social pele-negra">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center relative">
+          <img src="images/portfolio/portfolio-01.webp" alt="Maquiagem para ensaio profissional"
+               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" width="900" height="1200"
                data-caption="Maquiagem para ensaio profissional" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 sm:p-4">
+            <span class="text-[11px] font-medium text-white tracking-wide">Ensaio Profissional</span>
+          </div>
         </div>
       </figure>
-      <figure class="group cursor-zoom-in">
-        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
-          <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.53%20%281%29.jpeg" alt="Noiva pele retinta, acabamento glow"
-               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+
+      <figure class="group cursor-zoom-in transition-all duration-300" data-tags="noiva pele-negra">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center relative">
+          <img src="images/portfolio/portfolio-02.webp" alt="Noiva pele retinta com acabamento glow"
+               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" width="900" height="1200"
                data-caption="Noiva — Florianópolis" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 sm:p-4">
+            <span class="text-[11px] font-medium text-white tracking-wide">Noiva — Florianópolis</span>
+          </div>
         </div>
       </figure>
-      <figure class="group cursor-zoom-in">
-        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
-          <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.54%20%281%29.jpeg" alt="Automaquiagem pele negra"
-               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+
+      <figure class="group cursor-zoom-in transition-all duration-300" data-tags="social pele-negra">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center relative">
+          <img src="images/portfolio/portfolio-03.webp" alt="Maquiagem para festa e aniversário"
+               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" width="900" height="1200"
                data-caption="Maquiagem para Aniversário" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 sm:p-4">
+            <span class="text-[11px] font-medium text-white tracking-wide">Festa & Aniversário</span>
+          </div>
         </div>
       </figure>
-      <figure class="group cursor-zoom-in">
-        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
-          <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.54.jpeg" alt="Maquiagem para formatura"
-               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+
+      <figure class="group cursor-zoom-in transition-all duration-300" data-tags="noiva">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center relative">
+          <img src="images/portfolio/portfolio-04.webp" alt="Acompanhamento e produção de noiva"
+               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" width="900" height="1200"
                data-caption="Acompanhamento de Noiva" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 sm:p-4">
+            <span class="text-[11px] font-medium text-white tracking-wide">Produção de Noiva</span>
+          </div>
         </div>
       </figure>
-      <figure class="group cursor-zoom-in">
-        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
-          <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.28.39%20%281%29.jpeg" alt="Pele iluminada, olhos neutros"
-               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+
+      <figure class="group cursor-zoom-in transition-all duration-300" data-tags="editorial social">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center relative">
+          <img src="images/portfolio/portfolio-05.webp" alt="Pele iluminada com olhos neutros sofisticados"
+               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" width="900" height="1200"
                data-caption="Maquiagem - Ensaio fotográfico" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 sm:p-4">
+            <span class="text-[11px] font-medium text-white tracking-wide">Ensaio Fotográfico</span>
+          </div>
         </div>
       </figure>
-      <figure class="group cursor-zoom-in">
-        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
-          <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.23.54%20%282%29.jpeg" alt="Olho marcante, pele glow"
-               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+
+      <figure class="group cursor-zoom-in transition-all duration-300" data-tags="social formatura">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center relative">
+          <img src="images/portfolio/portfolio-06.webp" alt="Olho marcante e acabamento glow para formatura"
+               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" width="900" height="1200"
                data-caption="Evento — Formatura" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 sm:p-4">
+            <span class="text-[11px] font-medium text-white tracking-wide">Baile de Formatura</span>
+          </div>
         </div>
       </figure>
-      <figure class="group cursor-zoom-in">
-        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
-          <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.29.12.jpeg" alt="Smokey eye em pele retinta"
-               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+
+      <figure class="group cursor-zoom-in transition-all duration-300" data-tags="editorial pele-negra">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center relative">
+          <img src="images/portfolio/portfolio-07.webp" alt="Smokey eye sofisticado em pele retinta"
+               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" width="900" height="1200"
                data-caption="Editorial — Em pele retinta" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 sm:p-4">
+            <span class="text-[11px] font-medium text-white tracking-wide">Editorial Retinta</span>
+          </div>
         </div>
       </figure>
-      <figure class="group cursor-zoom-in">
-        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center">
-          <img src="images/WhatsApp%20Image%202025-08-24%20at%2016.29.39.jpeg" alt="Olho esfumado quente"
-               class="w-full h-full object-contain" loading="lazy" decoding="async" width="800" height="700"
+
+      <figure class="group cursor-zoom-in transition-all duration-300" data-tags="noiva formatura">
+        <div class="aspect-[3/4] bg-neutral-100 rounded-2xl overflow-hidden flex items-center justify-center relative">
+          <img src="images/portfolio/portfolio-08.webp" alt="Olho esfumado quente para casamento"
+               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" width="900" height="1200"
                data-caption="Casamento - Acompanhamento" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 sm:p-4">
+            <span class="text-[11px] font-medium text-white tracking-wide">Acompanhamento</span>
+          </div>
         </div>
       </figure>
     </div>
@@ -450,37 +574,37 @@
     <h2 class="text-xs uppercase tracking-widest font-semibold text-neutral-400 mb-6">Atendimento Customizado</h2>
     <h3 class="text-2xl font-light text-premium-dark mb-6">Solicitar orçamento</h3>
 
-    <form action="https://formsubmit.co/amtlopesmartins@gmail.com" method="POST"
+    <form action="/api/leads" method="POST"
           id="form-orcamento"
           class="grid gap-5 md:grid-cols-2 bg-white p-8 rounded-xl shadow-soft border border-neutral-100">
       <input type="hidden" name="_subject" value="Novo orçamento pelo site">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="text" name="_honey" style="display:none">
-      <input type="hidden" name="_next" value="https://annaluisamakeup.vercel.app/?enviado=1">
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+      <div id="form-feedback" class="hidden md:col-span-2 p-4 rounded-lg text-xs tracking-wide"></div>
 
       <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Nome Completo
-        <input required name="nome" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" />
+        <input required name="nome" placeholder="Seu nome completo" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" />
       </label>
       <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">E-mail
-        <input required type="email" name="email" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" />
+        <input required type="email" name="email" placeholder="seuemail@exemplo.com" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" />
       </label>
       <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Telefone com WhatsApp
-        <input name="telefone" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" />
+        <input name="telefone" inputmode="tel" placeholder="(21) 99544-0439" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" />
       </label>
       <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Tipo de serviço
         <select name="servico" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors">
-          <option>Maquiagem Social</option>
-          <option>Noiva</option>
-          <option>Aula de Automaquiagem</option>
-          <option>Empresas</option>
+          <option value="Maquiagem Social">Maquiagem Social</option>
+          <option value="Noiva">Noiva</option>
+          <option value="Aula de Automaquiagem">Aula de Automaquiagem</option>
+          <option value="Soluções Corporativas">Empresas / Corporativo</option>
         </select>
       </label>
       <label class="text-xs uppercase tracking-wider font-medium text-neutral-500 md:col-span-2">Detalhes (data/ocasião, local, preferências)
-        <textarea required name="detalhes" rows="4" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors"></textarea>
+        <textarea required name="detalhes" rows="4" placeholder="Descreva brevemente a data pretendida, localização e estilo desejado..." class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors"></textarea>
       </label>
 
       <div class="md:col-span-2 flex flex-wrap items-center gap-4 mt-2">
-        <button class="btn btn-primary" type="submit">Enviar Formulário</button>
+        <button id="btn-submit-orcamento" class="btn btn-primary" type="submit">Enviar Formulário</button>
         <button id="btn-whats-form" type="button" class="btn btn-outline">Falar no WhatsApp</button>
       </div>
     </form>
@@ -572,6 +696,65 @@
       navigator.serviceWorker.register('sw.js').catch(()=>{});
     }
 
+    // Menu Mobile Interativo (Drawer)
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuIconClosed = document.getElementById('menuIconClosed');
+    const menuIconOpen = document.getElementById('menuIconOpen');
+
+    function toggleMobileMenu() {
+      const isOpen = !mobileMenu.classList.contains('hidden');
+      if (isOpen) {
+        mobileMenu.classList.add('hidden');
+        menuIconClosed.classList.remove('hidden');
+        menuIconOpen.classList.add('hidden');
+        mobileMenuBtn?.setAttribute('aria-expanded', 'false');
+      } else {
+        mobileMenu.classList.remove('hidden');
+        menuIconClosed.classList.add('hidden');
+        menuIconOpen.classList.remove('hidden');
+        mobileMenuBtn?.setAttribute('aria-expanded', 'true');
+      }
+    }
+
+    mobileMenuBtn?.addEventListener('click', toggleMobileMenu);
+
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        if (!mobileMenu.classList.contains('hidden')) {
+          toggleMobileMenu();
+        }
+      });
+    });
+
+    // Filtros de Categoria do Portfólio
+    const filterBtns = document.querySelectorAll('.portfolio-filter-btn');
+    const portfolioFigures = document.querySelectorAll('#portfolioGrid figure');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => {
+          b.classList.remove('bg-neutral-900', 'text-white', 'shadow-sm');
+          b.classList.add('bg-white', 'text-neutral-600', 'border', 'border-neutral-200');
+        });
+        btn.classList.remove('bg-white', 'text-neutral-600', 'border', 'border-neutral-200');
+        btn.classList.add('bg-neutral-900', 'text-white', 'shadow-sm');
+
+        const filter = btn.dataset.filter;
+        portfolioFigures.forEach(fig => {
+          const tags = (fig.dataset.tags || '').split(' ');
+          if (filter === 'all' || tags.includes(filter)) {
+            fig.style.display = '';
+            setTimeout(() => { fig.style.opacity = '1'; fig.style.transform = 'scale(1)'; }, 10);
+          } else {
+            fig.style.opacity = '0';
+            fig.style.transform = 'scale(0.95)';
+            setTimeout(() => { fig.style.display = 'none'; }, 200);
+          }
+        });
+      });
+    });
+
     // Lightbox
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightboxImg');
@@ -651,23 +834,72 @@
       try { gtag && gtag('event','whatsapp_click',{event_category:'Contato', source:'form_orcamento'}); } catch(e){}
       try { fbq && fbq('trackCustom','WhatsAppClick',{source:'form_orcamento'}); } catch(e){}
     });
-  </script>
 
-  <script type="module">
-    import { trackWhatsAppClick, trackLead, trackReviews } from './scripts/analytics.js';
-    window.__analyticsModuleReady = true;
+    // Submissão assíncrona do formulário com feedback visual elegante sem alert
+    const formOrcamento = document.getElementById('form-orcamento');
+    const formFeedback = document.getElementById('form-feedback');
+    const btnSubmitOrcamento = document.getElementById('btn-submit-orcamento');
 
-    document.querySelectorAll('[data-whats]').forEach(el=>{
-      el.addEventListener('click', ()=> trackWhatsAppClick(el.dataset.source || 'cta'));
-    });
+    formOrcamento?.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-    // Form → lead + bloqueio tempo mínimo (3s)
-    document.querySelectorAll('form').forEach(f=>{
-      const start = Date.now();
-      f.addEventListener('submit', (e)=>{
-        if ((Date.now()-start)/1000 < 3) { e.preventDefault(); alert('Ops! Muito rápido 😊 Tente novamente.'); return; }
-        trackLead(f.id || 'form');
-      });
+      const nome = formOrcamento.nome?.value?.trim() || '';
+      const email = formOrcamento.email?.value?.trim() || '';
+      const telefone = formOrcamento.telefone?.value?.trim() || '';
+      const servico = formOrcamento.servico?.value || '';
+      const detalhes = formOrcamento.detalhes?.value?.trim() || '';
+      const honey = formOrcamento._honey?.value || '';
+
+      if (btnSubmitOrcamento) {
+        btnSubmitOrcamento.disabled = true;
+        btnSubmitOrcamento.textContent = 'Enviando...';
+      }
+
+      try {
+        const res = await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, email, telefone, servico, detalhes, _honey: honey })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          formFeedback.className = 'md:col-span-2 p-5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900';
+          formFeedback.innerHTML = `
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div>
+                <p class="font-semibold text-sm">✨ Pedido de orçamento recebido com sucesso!</p>
+                <p class="text-xs text-emerald-700 mt-1">Obrigada, <strong>${nome}</strong>. Seus dados foram salvos e entraremos em contato em breve.</p>
+              </div>
+              <button type="button" id="btn-acelerar-wa" class="btn bg-neutral-900 text-white hover:bg-neutral-800 text-xs shrink-0">
+                Acelerar no WhatsApp
+              </button>
+            </div>
+          `;
+          formFeedback.classList.remove('hidden');
+
+          document.getElementById('btn-acelerar-wa')?.addEventListener('click', () => {
+            const texto = `Olá Anna Luísa, acabei de enviar uma solicitação de orçamento pelo site:\n\n• Nome: ${nome}\n• E-mail: ${email}\n• Telefone/Whats: ${telefone}\n• Serviço: ${servico}\n• Detalhes e Datas: ${detalhes}`;
+            if (window.__openWA) window.__openWA('acelerar_orcamento', texto);
+          });
+
+          formOrcamento.reset();
+          if (typeof trackLead === 'function') trackLead('form-orcamento');
+        } else {
+          formFeedback.className = 'md:col-span-2 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs';
+          formFeedback.textContent = data.error || 'Não foi possível processar seu pedido. Por favor, tente novamente.';
+          formFeedback.classList.remove('hidden');
+        }
+      } catch (err) {
+        formFeedback.className = 'md:col-span-2 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 text-xs';
+        formFeedback.textContent = 'Erro de conexão. Por favor, tente novamente ou use o botão de WhatsApp abaixo.';
+        formFeedback.classList.remove('hidden');
+      } finally {
+        if (btnSubmitOrcamento) {
+          btnSubmitOrcamento.disabled = false;
+          btnSubmitOrcamento.textContent = 'Enviar Formulário';
+        }
+      }
     });
 
     // Maps/Reviews
