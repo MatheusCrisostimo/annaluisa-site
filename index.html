@@ -296,7 +296,7 @@
         <!-- CTA Principal de Orçamento -->
         <a href="#orcamento"
            class="inline-flex items-center justify-center px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-[11px] font-semibold text-white uppercase tracking-wider bg-neutral-900 hover:bg-neutral-800 transition-all shadow-sm">
-          Solicitar Orçamento
+          Consultar minha data
         </a>
 
         <!-- Hamburger Button (Mobile & Tablet) -->
@@ -349,7 +349,7 @@
           <span>💬 Falar no WhatsApp</span>
         </button>
         <a href="#orcamento" class="mobile-nav-link btn btn-outline w-full py-3.5 text-xs text-center rounded-xl">
-          Solicitar Orçamento Online
+          Consultar minha data
         </a>
       </div>
     </div>
@@ -389,7 +389,7 @@
             Maquiagem social, noivas, corporativo e consultorias individuais — com especialidade e maestria em peles pretas.
           </p>
           <div class="mt-6 flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto btn-group-mobile">
-            <a href="#orcamento" class="btn btn-primary w-full sm:w-auto">Solicitar Orçamento</a>
+            <a href="#orcamento" class="btn btn-primary w-full sm:w-auto">Consultar minha data</a>
             <button class="btn btn-outline w-full sm:w-auto" type="button" data-whats data-source="hero">
               <svg class="w-3.5 h-3.5 fill-current mr-1.5 shrink-0" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.303-.058.116-.087.188-.173.289l-.26.302c-.087.087-.179.182-.077.357.102.174.454.748.974 1.211.671.597 1.237.782 1.411.869.174.087.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.144.39-.086s1.011.477 1.184.564.289.13.332.202c.043.072.043.419-.101.824z"/></svg>
               Conversar no WhatsApp
@@ -410,7 +410,7 @@
         </div>
         <div class="mt-6 pt-4 border-t border-neutral-100 flex items-center justify-between">
           <span class="text-xs text-neutral-400 tracking-wider font-light">60–90 min</span>
-          <button class="btn btn-primary" type="button" data-whats data-source="servico_social">Reservar</button>
+          <a class="btn btn-primary" href="#orcamento" data-lead-service="Maquiagem Social">Consultar data</a>
         </div>
       </article>
 
@@ -421,7 +421,7 @@
         </div>
         <div class="mt-6 pt-4 border-t border-neutral-100 flex items-center justify-between">
           <span class="text-xs text-neutral-400 tracking-wider font-light">Sob consulta</span>
-          <button class="btn btn-primary" type="button" data-whats data-source="servico_noiva">Solicitar</button>
+          <a class="btn btn-primary" href="#orcamento" data-lead-service="Noiva">Consultar data</a>
         </div>
       </article>
 
@@ -432,7 +432,7 @@
         </div>
         <div class="mt-6 pt-4 border-t border-neutral-100 flex items-center justify-between">
           <span class="text-xs text-neutral-400 tracking-wider font-light">2–3 horas</span>
-          <button class="btn btn-primary" type="button" data-whats data-source="servico_aula">Agendar</button>
+          <a class="btn btn-primary" href="#orcamento" data-lead-service="Aula de Automaquiagem">Consultar disponibilidade</a>
         </div>
       </article>
     </div>
@@ -534,7 +534,7 @@
             <li class="flex items-center gap-2">✔ Workshop in-company (automaquiagem)</li>
           </ul>
           <div class="mt-8 flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto btn-group-mobile">
-            <a href="#orcamento" class="btn btn-primary w-full sm:w-auto">Solicitar Proposta</a>
+            <a href="#orcamento" class="btn btn-primary w-full sm:w-auto" data-lead-service="Soluções Corporativas">Solicitar Proposta</a>
             <a href="/midia-kit" class="btn btn-outline w-full sm:w-auto">Acessar Mídia Kit</a>
           </div>
         </div>
@@ -1001,7 +1001,7 @@
               <button type="button" class="sim-btn sim-local-btn active p-3 rounded-xl border border-neutral-900 bg-neutral-900 text-white text-center transition-all cursor-pointer" data-value="A Domicílio (Sua Residência)">
                 <span class="text-[11px] font-medium block">A Domicílio (Residência)</span>
               </button>
-              <button type="button" class="sim-btn sim-local-btn p-3 rounded-xl border border-neutral-200 bg-neutral-50/50 hover:border-neutral-400 text-neutral-700 text-center transition-all cursor-pointer" data-value="Hotel ou Espaço do Evento">
+              <button type="button" class="sim-btn sim-local-btn p-3 rounded-xl border border-neutral-200 bg-neutral-50/50 hover:border-neutral-400 text-neutral-700 text-center transition-all cursor-pointer" data-value="Hotel / Espaço do Evento">
                 <span class="text-[11px] font-medium block">Hotel / Espaço do Evento</span>
               </button>
             </div>
@@ -1031,13 +1031,10 @@
           </div>
 
           <div class="space-y-2.5 pt-4 border-t border-neutral-200">
-            <button id="simBtnWhats" type="button" class="btn btn-primary w-full py-3 text-xs flex items-center justify-center gap-2">
-              <svg class="w-4 h-4 fill-emerald-400" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.303-.058.116-.087.188-.173.289l-.26.302c-.087.087-.179.182-.077.357.102.174.454.748.974 1.211.671.597 1.237.782 1.411.869.174.087.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.144.39-.086s1.011.477 1.184.564.289.13.332.202c.043.072.043.419-.101.824z"/></svg>
-              <span>Enviar Simulação no WhatsApp</span>
-            </button>
-            <a href="#orcamento" id="simBtnForm" class="btn btn-outline w-full py-3 text-xs text-center">
-              Preencher Orçamento Detalhado
+            <a href="#orcamento" id="simBtnForm" class="btn btn-primary w-full py-3 text-xs text-center">
+              Consultar minha data
             </a>
+            <p class="text-xs text-neutral-500 text-center">Suas escolhas serão levadas ao formulário.</p>
           </div>
         </div>
       </div>
@@ -1045,42 +1042,82 @@
   </section>
 
   <section id="orcamento" class="section py-12">
-    <h2 class="text-xs uppercase tracking-widest font-semibold text-neutral-400 mb-6">Atendimento Customizado</h2>
-    <h3 class="text-2xl font-light text-premium-dark mb-6">Solicitar orçamento</h3>
+    <h2 class="text-2xl font-light text-premium-dark mb-2">Consultar minha data</h2>
+    <p class="text-sm text-neutral-600 mb-6">Conte como será o atendimento. A Anna vai consultar a agenda e retornar pelo WhatsApp.</p>
 
     <form action="/api/leads" method="POST"
           id="form-orcamento"
-          class="grid gap-5 md:grid-cols-2 bg-white p-8 rounded-xl shadow-soft border border-neutral-100">
-      <input type="hidden" name="_subject" value="Novo orçamento pelo site">
-      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+          class="grid gap-5 md:grid-cols-2 bg-white p-5 sm:p-8 rounded-xl shadow-soft border border-neutral-100">
+      <input type="hidden" name="origem" value="site">
+      <input type="text" name="_honey" hidden tabindex="-1" autocomplete="off">
 
-      <div id="form-feedback" class="hidden md:col-span-2 p-4 rounded-lg text-xs tracking-wide"></div>
-
-      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Nome Completo
-        <input required name="nome" placeholder="Seu nome completo" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" />
-      </label>
-      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">E-mail
-        <input required type="email" name="email" placeholder="seuemail@exemplo.com" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" />
-      </label>
-      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Telefone com WhatsApp
-        <input name="telefone" inputmode="tel" placeholder="(21) 99544-0439" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors" />
-      </label>
       <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Tipo de serviço
-        <select name="servico" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors">
+        <select required name="servico" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors">
           <option value="Maquiagem Social">Maquiagem Social</option>
           <option value="Noiva">Noiva</option>
           <option value="Aula de Automaquiagem">Aula de Automaquiagem</option>
           <option value="Soluções Corporativas">Empresas / Corporativo</option>
         </select>
       </label>
-      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500 md:col-span-2">Detalhes (data/ocasião, local, preferências)
-        <textarea required name="detalhes" rows="4" placeholder="Descreva brevemente a data pretendida, localização e estilo desejado..." class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors"></textarea>
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Data desejada
+        <input type="date" name="data" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors">
       </label>
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Cidade do atendimento
+        <input required name="cidade" placeholder="Ex.: Florianópolis" maxlength="100" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors">
+      </label>
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Horário em que precisa estar pronta <span class="normal-case">(opcional)</span>
+        <input type="time" name="horario" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors">
+      </label>
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Quantidade de pessoas
+        <select required name="pessoas" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors">
+          <option value="">Selecione</option>
+          <option>1 pessoa</option>
+          <option>2 a 3 pessoas</option>
+          <option>4 ou mais pessoas</option>
+        </select>
+      </label>
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Tipo de local <span class="normal-case">(opcional)</span>
+        <select name="tipoLocal" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors">
+          <option value="">Selecione</option>
+          <option value="A Domicílio (Sua Residência)">Residência</option>
+          <option>Hotel / Espaço do Evento</option>
+          <option>A definir</option>
+        </select>
+      </label>
+      <fieldset data-lead-bridal hidden disabled class="md:col-span-2">
+        <legend class="text-xs uppercase tracking-wider font-medium text-neutral-500">O que deseja incluir <span class="normal-case">(opcional)</span></legend>
+        <div class="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-5 text-sm text-neutral-700">
+          <label class="inline-flex items-center gap-2 py-2"><input type="checkbox" name="itensNoiva" value="Maquiagem"> Maquiagem</label>
+          <label class="inline-flex items-center gap-2 py-2"><input type="checkbox" name="itensNoiva" value="Penteado"> Penteado</label>
+          <label class="inline-flex items-center gap-2 py-2"><input type="checkbox" name="itensNoiva" value="Prévia"> Prévia</label>
+          <label class="inline-flex items-center gap-2 py-2"><input type="checkbox" name="itensNoiva" value="Acompanhamento"> Acompanhamento</label>
+        </div>
+      </fieldset>
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">Nome completo
+        <input required name="nome" autocomplete="name" minlength="2" maxlength="120" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors">
+      </label>
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">WhatsApp com DDD
+        <input required name="telefone" type="tel" autocomplete="tel-national" maxlength="16" placeholder="(48) 99999-9999" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors">
+      </label>
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500">E-mail <span class="normal-case">(opcional)</span>
+        <input type="email" name="email" autocomplete="email" maxlength="254" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors">
+      </label>
+      <label class="text-xs uppercase tracking-wider font-medium text-neutral-500 md:col-span-2">Observações <span class="normal-case">(opcional)</span>
+        <textarea name="detalhes" rows="3" maxlength="2000" placeholder="Ex.: maquiagem e penteado no hotel" class="w-full mt-2 rounded-lg border border-neutral-200 bg-neutral-50/50 p-3 text-neutral-800 text-sm focus:outline-none focus:border-neutral-400 transition-colors"></textarea>
+      </label>
+      <div class="md:col-span-2 text-sm text-neutral-600">
+        <label class="flex items-start gap-2">
+          <input type="checkbox" name="autorizaWhatsApp" value="sim" required class="mt-1">
+          <span>Aceito receber pelo WhatsApp um retorno sobre esta solicitação.</span>
+        </label>
+        <p class="mt-2 text-xs">Veja nossa <a href="/docs/politica-privacidade.html" class="underline">Política de Privacidade</a>.</p>
+      </div>
 
       <div class="md:col-span-2 flex flex-col sm:flex-row items-center gap-3 mt-2 btn-group-mobile">
-        <button id="btn-submit-orcamento" class="btn btn-primary w-full sm:w-auto" type="submit">Enviar Formulário</button>
-        <button id="btn-whats-form" type="button" class="btn btn-outline w-full sm:w-auto">Falar no WhatsApp</button>
+        <button class="btn btn-primary w-full sm:w-auto" type="submit">Enviar pedido</button>
+        <button type="button" data-whats data-source="formulario_duvida" class="btn btn-outline w-full sm:w-auto">Tirar uma dúvida no WhatsApp</button>
       </div>
+      <div data-lead-feedback hidden tabindex="-1" role="status" aria-live="polite" class="md:col-span-2 p-4 rounded-lg text-sm"></div>
     </form>
   </section>
 
@@ -1339,12 +1376,15 @@
 
     function setupSimulatorGroup(selector, key) {
       document.querySelectorAll(selector).forEach(btn => {
+        btn.setAttribute('aria-pressed', String(btn.classList.contains('active')));
         btn.addEventListener('click', () => {
           document.querySelectorAll(selector).forEach(b => {
             b.classList.remove('active', 'bg-neutral-900', 'text-white', 'border-neutral-900');
             b.classList.add('bg-neutral-50/50', 'text-neutral-700', 'border-neutral-200');
+            b.setAttribute('aria-pressed', 'false');
           });
           btn.classList.remove('bg-neutral-50/50', 'text-neutral-700', 'border-neutral-200');
+          btn.setAttribute('aria-pressed', 'true');
           btn.classList.add('active', 'bg-neutral-900', 'text-white', 'border-neutral-900');
           simData[key] = btn.dataset.value;
           updateSimulatorUI();
@@ -1356,21 +1396,31 @@
     setupSimulatorGroup('.sim-pessoas-btn', 'pessoas');
     setupSimulatorGroup('.sim-local-btn', 'local');
 
-    document.getElementById('simBtnWhats')?.addEventListener('click', () => {
-      const msg = `Olá Anna Luísa! Fiz uma simulação pelo site para: *${simData.ocasiao}* (${simData.pessoas}), local: *${simData.local}*. Gostaria de consultar disponibilidade de data!`;
-      if (typeof window.__openWA === 'function') {
-        window.__openWA('simulador', msg);
-      }
+    const formOrcamento = document.getElementById('form-orcamento');
+    const camposOrcamento = formOrcamento.elements;
+    const servicosSimulador = {
+      'Noiva': 'Noiva',
+      'Social / Formatura': 'Maquiagem Social',
+      'Automaquiagem VIP': 'Aula de Automaquiagem',
+      'Soluções Corporativas': 'Soluções Corporativas'
+    };
+
+    function prepareLeadForm(service) {
+      const field = camposOrcamento.namedItem('servico');
+      field.value = service;
+      field.dispatchEvent(new Event('change'));
+    }
+
+    document.querySelectorAll('[data-lead-service]').forEach(link => {
+      link.addEventListener('click', () => prepareLeadForm(link.dataset.leadService));
     });
 
-    document.getElementById('simBtnForm')?.addEventListener('click', () => {
-      const selectServico = document.querySelector('select[name="servico"]');
-      if (selectServico) {
-        if (simData.ocasiao === 'Noiva') selectServico.value = 'Noiva';
-        else if (simData.ocasiao.includes('Social')) selectServico.value = 'Maquiagem Social';
-        else if (simData.ocasiao.includes('Automaquiagem')) selectServico.value = 'Aula de Automaquiagem';
-        else selectServico.value = 'Soluções Corporativas';
-      }
+    document.getElementById('simBtnForm').addEventListener('click', () => {
+      prepareLeadForm(servicosSimulador[simData.ocasiao]);
+      camposOrcamento.namedItem('pessoas').value = simData.pessoas;
+      camposOrcamento.namedItem('tipoLocal').value = simData.local;
+      const origem = camposOrcamento.namedItem('origem');
+      if (origem.value === 'site') origem.value = 'simulador';
     });
 
     // Lightbox
@@ -1436,90 +1486,6 @@
     },{rootMargin:"200px"});
     if (igSection) io.observe(igSection);
 
-    // WhatsApp montado dinamicamente com dados do formulário - MENSAGEM PREMIUM
-    const btnWhatsForm = document.getElementById('btn-whats-form');
-    btnWhatsForm?.addEventListener('click', ()=>{
-      const f = document.getElementById('form-orcamento');
-      const nome = f.nome?.value?.trim() || '';
-      const email = f.email?.value?.trim() || '';
-      const telefone = f.telefone?.value?.trim() || '';
-      const servico = f.servico?.value || '';
-      const detalhes = f.detalhes?.value?.trim() || '';
-      
-      const texto = `Olá Anna Luísa, solicito um orçamento personalizado pelo site.\n\n• Nome: ${nome}\n• E-mail: ${email}\n• Telefone/Whats: ${telefone}\n• Serviço: ${servico}\n• Detalhes e Datas: ${detalhes}`;
-
-      if (window.__openWA) window.__openWA('form_orcamento', texto);
-      try { gtag && gtag('event','whatsapp_click',{event_category:'Contato', source:'form_orcamento'}); } catch(e){}
-      try { fbq && fbq('trackCustom','WhatsAppClick',{source:'form_orcamento'}); } catch(e){}
-    });
-
-    // Submissão assíncrona do formulário com feedback visual elegante sem alert
-    const formOrcamento = document.getElementById('form-orcamento');
-    const formFeedback = document.getElementById('form-feedback');
-    const btnSubmitOrcamento = document.getElementById('btn-submit-orcamento');
-
-    formOrcamento?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const nome = formOrcamento.nome?.value?.trim() || '';
-      const email = formOrcamento.email?.value?.trim() || '';
-      const telefone = formOrcamento.telefone?.value?.trim() || '';
-      const servico = formOrcamento.servico?.value || '';
-      const detalhes = formOrcamento.detalhes?.value?.trim() || '';
-      const honey = formOrcamento._honey?.value || '';
-
-      if (btnSubmitOrcamento) {
-        btnSubmitOrcamento.disabled = true;
-        btnSubmitOrcamento.textContent = 'Enviando...';
-      }
-
-      try {
-        const res = await fetch('/api/leads', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nome, email, telefone, servico, detalhes, _honey: honey })
-        });
-        const data = await res.json();
-
-        if (data.success) {
-          formFeedback.className = 'md:col-span-2 p-5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900';
-          formFeedback.innerHTML = `
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-              <div>
-                <p class="font-semibold text-sm">✨ Pedido de orçamento recebido com sucesso!</p>
-                <p class="text-xs text-emerald-700 mt-1">Obrigada, <strong>${nome}</strong>. Seus dados foram salvos e entraremos em contato em breve.</p>
-              </div>
-              <button type="button" id="btn-acelerar-wa" class="btn bg-neutral-900 text-white hover:bg-neutral-800 text-xs shrink-0">
-                Acelerar no WhatsApp
-              </button>
-            </div>
-          `;
-          formFeedback.classList.remove('hidden');
-
-          document.getElementById('btn-acelerar-wa')?.addEventListener('click', () => {
-            const texto = `Olá Anna Luísa, acabei de enviar uma solicitação de orçamento pelo site:\n\n• Nome: ${nome}\n• E-mail: ${email}\n• Telefone/Whats: ${telefone}\n• Serviço: ${servico}\n• Detalhes e Datas: ${detalhes}`;
-            if (window.__openWA) window.__openWA('acelerar_orcamento', texto);
-          });
-
-          formOrcamento.reset();
-          if (typeof trackLead === 'function') trackLead('form-orcamento');
-        } else {
-          formFeedback.className = 'md:col-span-2 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs';
-          formFeedback.textContent = data.error || 'Não foi possível processar seu pedido. Por favor, tente novamente.';
-          formFeedback.classList.remove('hidden');
-        }
-      } catch (err) {
-        formFeedback.className = 'md:col-span-2 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 text-xs';
-        formFeedback.textContent = 'Erro de conexão. Por favor, tente novamente ou use o botão de WhatsApp abaixo.';
-        formFeedback.classList.remove('hidden');
-      } finally {
-        if (btnSubmitOrcamento) {
-          btnSubmitOrcamento.disabled = false;
-          btnSubmitOrcamento.textContent = 'Enviar Formulário';
-        }
-      }
-    });
-
     // Maps/Reviews
     document.querySelectorAll('a[href*="google.com/maps"]').forEach(a=>{
       a.addEventListener('click', trackReviews);
@@ -1563,6 +1529,14 @@
 
     btnBackToTop?.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+  <script type="module">
+    import { setupLeadForm } from '/scripts/lead-form.js';
+
+    setupLeadForm(document.getElementById('form-orcamento'), {
+      origin: 'site',
+      onSuccess: () => { if (typeof trackLead === 'function') trackLead('form-orcamento'); }
     });
   </script>
 </body>

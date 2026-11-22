@@ -1,5 +1,5 @@
 // sw.js - Service Worker Resiliente com Cache Offline Stale-While-Revalidate
-const CACHE_NAME = 'anna-pwa-v2';
+const CACHE_NAME = 'anna-pwa-v3';
 const CORE_ASSETS = [
   '/',
   '/index.html',
@@ -43,8 +43,8 @@ self.addEventListener('fetch', (event) => {
   if (req.method !== 'GET') return;
 
   const url = new URL(req.url);
-  // Não intercepta chamadas de API internas ou scripts de terceiros
-  if (url.pathname.startsWith('/api/') || url.origin !== self.location.origin) {
+  if (url.pathname.startsWith('/api/') || /^\/admin(?:[/.]|$)/.test(url.pathname)
+      || url.origin !== self.location.origin) {
     return;
   }
 
