@@ -57,6 +57,8 @@ O projeto foi modernizado com foco em **arquitetura limpa**, **segurança**, **e
 - **Header Responsivo & Menu Mobile**: Navegação completa em desktop e menu drawer moderno em celulares e tablets.
 - **Painel Administrativo de Leads (`/admin`)**:
   - Fila de consultas com protocolo, dados do evento e status pendente ou respondido.
+  - Agenda com atendimentos e bloqueios. O painel verifica sobreposições incluindo o tempo de deslocamento informado.
+  - Propostas por pedido com modelos de texto editáveis, valor, validade e prévia para compartilhar.
   - Botão direto para iniciar conversa no WhatsApp da cliente com mensagem pronta.
   - Exportação completa em planilha CSV compatível com Excel e Google Sheets.
   - Acesso protegido pela senha configurada em `ADMIN_PASSWORD`.
