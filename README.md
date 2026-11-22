@@ -56,10 +56,10 @@ O projeto foi modernizado com foco em **arquitetura limpa**, **segurança**, **e
 - **Portfólio com Filtros Dinâmicos**: Navegação ágil por categorias (*Todos, Noivas, Pele Negra, Social, Editorial*) com imagens em WebP ultraleves.
 - **Header Responsivo & Menu Mobile**: Navegação completa em desktop e menu drawer moderno em celulares e tablets.
 - **Painel Administrativo de Leads (`/admin`)**:
-  - Consulta de orçamentos e agendamentos recebidos.
+  - Fila de consultas com protocolo, dados do evento e status pendente ou respondido.
   - Botão direto para iniciar conversa no WhatsApp da cliente com mensagem pronta.
   - Exportação completa em planilha CSV compatível com Excel e Google Sheets.
-  - Acesso protegido por senha (padrão: `anna2026`, configurável via variável de ambiente `ADMIN_PASSWORD`).
+  - Acesso protegido pela senha configurada em `ADMIN_PASSWORD`.
 - **API Segura de Leads (`POST /api/leads`)**:
   - Validação estrita de inputs no servidor (nome, e-mail, telefone, serviço).
   - Proteção anti-bot com campo Honeypot.
@@ -84,13 +84,15 @@ npm install
 
 ### Desenvolvimento
 ```bash
-npm run dev
+cp .env.example .env
+node --env-file=.env server.js
 ```
 A aplicação estará disponível em `http://localhost:3000`.
 
-### Painel Administrativo
-Acesse `http://localhost:3000/admin` e utilize a senha:
-```text
-anna2026
-```
-*(Para alterar a senha em produção, defina a variável `ADMIN_PASSWORD` no ambiente)*.
+### Fila de orçamentos
+
+Defina `ADMIN_PASSWORD` no ambiente para acessar `http://localhost:3000/admin`. Sem Redis, o modo local usa memória para testes e esvazia a fila ao reiniciar.
+
+No projeto Vercel, conecte um banco Redis da Upstash, configure `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` e uma senha nova em `ADMIN_PASSWORD` antes de publicar. A integração também aceita `KV_REST_API_URL` e `KV_REST_API_TOKEN`. Use um banco separado para Preview e dados fictícios. Na Vercel, o formulário confirma o pedido somente depois de salvá-lo no banco.
+
+Opcionalmente, preencha `LEAD_REPLY_TIME` com o prazo de retorno combinado com a Anna, por exemplo, `em até 1 dia útil`. A saudação do WhatsApp Business pode apontar para `https://annaluisamakeup.vercel.app/?origem=whatsapp#orcamento`.

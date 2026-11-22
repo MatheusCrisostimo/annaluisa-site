@@ -45,11 +45,11 @@
       
       <form id="loginForm" class="space-y-4">
         <div>
-          <input type="password" id="inputPass" required placeholder="Senha de acesso (padrão: anna2026)"
+          <input type="password" id="inputPass" required placeholder="Senha de acesso" aria-label="Senha de acesso" autocomplete="current-password"
                  class="w-full rounded-xl border border-neutral-200 bg-neutral-50 p-3 text-sm focus:outline-none focus:border-neutral-900 text-center" />
         </div>
-        <p id="loginError" class="text-xs text-rose-600 hidden font-medium"></p>
-        <button type="submit" class="w-full py-3 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white text-xs uppercase tracking-wider font-semibold transition-all">
+        <p id="loginError" class="text-xs text-rose-600 hidden font-medium" role="alert"></p>
+        <button id="btnLogin" type="submit" class="w-full py-3 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white text-xs uppercase tracking-wider font-semibold transition-all disabled:opacity-50">
           Acessar Painel
         </button>
       </form>
@@ -82,8 +82,8 @@
     <div class="bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden">
       <div class="p-5 border-b border-neutral-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 class="text-sm font-semibold text-neutral-900">Solicitações Recebidas</h2>
-          <p class="text-xs text-neutral-500 font-light mt-0.5">Mensagens enviadas através do formulário de orçamento e agendamento.</p>
+          <h2 class="text-sm font-semibold text-neutral-900">Fila de Solicitações</h2>
+          <p class="text-xs text-neutral-500 font-light mt-0.5"><span id="statPendentes">0</span> aguardando resposta</p>
         </div>
         <div class="flex items-center gap-2">
           <button id="btnRefresh" class="text-xs px-3 py-1.5 rounded-lg border border-neutral-200 hover:bg-neutral-50 text-neutral-700 transition-colors">
@@ -95,21 +95,22 @@
         </div>
       </div>
 
+      <div id="queueFeedback" class="hidden border-b px-5 py-3 text-xs" role="status" aria-live="polite"></div>
       <div class="overflow-x-auto">
         <table class="w-full text-left text-xs">
           <thead class="bg-neutral-50 text-neutral-500 uppercase tracking-wider text-[10px] font-semibold border-b border-neutral-100">
             <tr>
-              <th class="py-3.5 px-4">Data/Hora</th>
+              <th class="py-3.5 px-4">Recebimento</th>
               <th class="py-3.5 px-4">Cliente</th>
               <th class="py-3.5 px-4">Serviço</th>
               <th class="py-3.5 px-4">Contato</th>
-              <th class="py-3.5 px-4">Ação</th>
-              <th class="py-3.5 px-4">Detalhes</th>
+              <th class="py-3.5 px-4">Evento e detalhes</th>
+              <th class="py-3.5 px-4">Status e ações</th>
             </tr>
           </thead>
           <tbody id="leadsTableBody" class="divide-y divide-neutral-100 text-neutral-700">
             <tr>
-              <td colspan="6" class="py-8 text-center text-neutral-400 font-light">Carregando solicitações...</td>
+              <td colspan="6" class="py-8 text-center text-neutral-400 font-light">Acesse o painel para consultar as solicitações.</td>
             </tr>
           </tbody>
         </table>
@@ -119,142 +120,323 @@
 
   <script>
     const AUTH_KEY_NAME = 'anna_admin_key';
+    const ORIGEM_LABEL = {
+      site: 'Site',
+      simulador: 'Simulador',
+      whatsapp: 'WhatsApp',
+      agendar: 'Agendamento'
+    };
+    const dateTimeFormat = new Intl.DateTimeFormat('pt-BR', {
+      dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo'
+    });
+
     const loginModal = document.getElementById('loginModal');
     const loginForm = document.getElementById('loginForm');
     const inputPass = document.getElementById('inputPass');
     const loginError = document.getElementById('loginError');
+    const btnLogin = document.getElementById('btnLogin');
     const btnLogout = document.getElementById('btnLogout');
     const btnRefresh = document.getElementById('btnRefresh');
     const btnExport = document.getElementById('btnExport');
     const btnExportMobile = document.getElementById('btnExportMobile');
+    const queueFeedback = document.getElementById('queueFeedback');
     const tbody = document.getElementById('leadsTableBody');
+    let activeRequest = null;
 
     function getKey() {
       return sessionStorage.getItem(AUTH_KEY_NAME) || '';
     }
 
-    function checkAuth() {
-      const key = getKey();
-      if (!key) {
-        loginModal.classList.remove('hidden');
-      } else {
-        loginModal.classList.add('hidden');
-        loadLeads(key);
+    function showLoginError(message) {
+      loginError.textContent = message;
+      loginError.classList.toggle('hidden', !message);
+    }
+
+    function showQueueFeedback(message, isError = false) {
+      queueFeedback.textContent = message;
+      queueFeedback.className = 'border-b px-5 py-3 text-xs';
+      queueFeedback.classList.add(isError ? 'text-rose-700' : 'text-emerald-700');
+      queueFeedback.classList.toggle('hidden', !message);
+    }
+
+    function syncControls() {
+      const busy = activeRequest !== null;
+      const signedIn = Boolean(getKey());
+      btnLogin.disabled = busy;
+      btnRefresh.disabled = busy || !signedIn;
+      btnExport.disabled = busy || !signedIn;
+      btnExportMobile.disabled = busy || !signedIn;
+      tbody.querySelectorAll('button[data-lead-id]').forEach(button => {
+        button.disabled = busy || !signedIn;
+      });
+    }
+
+    function setTableMessage(message) {
+      tbody.innerHTML = '<tr><td colspan="6" class="py-8 text-center text-neutral-400 font-light"></td></tr>';
+      tbody.querySelector('td').textContent = message;
+    }
+
+    function logout(message = '') {
+      activeRequest?.abort();
+      activeRequest = null;
+      sessionStorage.removeItem(AUTH_KEY_NAME);
+      renderStats([]);
+      setTableMessage('Acesse o painel para consultar as solicitações.');
+      showQueueFeedback('');
+      loginModal.classList.remove('hidden');
+      inputPass.value = '';
+      showLoginError(message);
+      syncControls();
+      inputPass.focus();
+    }
+
+    async function runRequest(operation, onError) {
+      if (activeRequest) return;
+      const request = new AbortController();
+      activeRequest = request;
+      syncControls();
+
+      try {
+        await operation(request.signal);
+      } catch (error) {
+        if (!request.signal.aborted) onError(error);
+      } finally {
+        if (activeRequest === request) {
+          activeRequest = null;
+          syncControls();
+        }
       }
     }
 
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const pass = inputPass.value.trim();
-      loginError.classList.add('hidden');
+    async function apiRequest(url, key, signal, options = {}) {
+      const response = await fetch(url, {
+        ...options,
+        cache: 'no-store',
+        signal,
+        headers: { ...options.headers, 'x-admin-key': key }
+      });
 
-      try {
-        const res = await fetch('/api/admin/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password: pass })
-        });
-        const data = await res.json();
-        if (data.success) {
-          sessionStorage.setItem(AUTH_KEY_NAME, pass);
-          loginModal.classList.add('hidden');
-          loadLeads(pass);
-        } else {
-          loginError.textContent = data.error || 'Senha incorreta.';
-          loginError.classList.remove('hidden');
-        }
-      } catch (err) {
-        loginError.textContent = 'Erro de conexão com o servidor.';
-        loginError.classList.remove('hidden');
+      if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        const error = new Error(data?.error || 'O servidor não conseguiu concluir a solicitação.');
+        error.status = response.status;
+        throw error;
       }
+
+      return response;
+    }
+
+    async function fetchLeads(key, signal) {
+      const response = await apiRequest('/api/admin/leads', key, signal);
+      const data = await response.json();
+      if (!data.success || !Array.isArray(data.leads)) {
+        throw new Error('A resposta do servidor não contém a fila de solicitações.');
+      }
+      return data.leads;
+    }
+
+    function handleQueueError(error) {
+      if (error.status === 401) {
+        logout('Sessão encerrada. Informe a senha de acesso.');
+        return;
+      }
+      showQueueFeedback(error.message || 'Erro de conexão com o servidor. Tente novamente.', true);
+    }
+
+    function signIn(key) {
+      showLoginError('');
+      runRequest(async signal => {
+        const list = await fetchLeads(key, signal);
+        if (signal.aborted) return;
+        sessionStorage.setItem(AUTH_KEY_NAME, key);
+        inputPass.value = '';
+        loginModal.classList.add('hidden');
+        renderLeads(list);
+      }, error => {
+        if (error.status === 401) {
+          logout('Senha incorreta. Verifique e tente novamente.');
+          return;
+        }
+        showLoginError('Não foi possível acessar o painel. Tente novamente.');
+      });
+    }
+
+    loginForm.addEventListener('submit', event => {
+      event.preventDefault();
+      const key = inputPass.value.trim();
+      if (key) signIn(key);
     });
 
-    btnLogout.addEventListener('click', () => {
-      sessionStorage.removeItem(AUTH_KEY_NAME);
-      loginModal.classList.remove('hidden');
-      inputPass.value = '';
-    });
+    btnLogout.addEventListener('click', () => logout());
 
-    btnRefresh.addEventListener('click', () => loadLeads(getKey()));
+    btnRefresh.addEventListener('click', () => {
+      const key = getKey();
+      if (!key) return;
+      showQueueFeedback('');
+      runRequest(async signal => {
+        const list = await fetchLeads(key, signal);
+        if (!signal.aborted) renderLeads(list);
+      }, handleQueueError);
+    });
 
     function exportCsv() {
       const key = getKey();
       if (!key) return;
-      window.location.href = `/api/admin/leads/export?key=${encodeURIComponent(key)}`;
+      showQueueFeedback('');
+      runRequest(async signal => {
+        const response = await apiRequest('/api/admin/leads/export', key, signal);
+        if (!response.headers.get('content-type')?.includes('text/csv')) {
+          throw new Error('O servidor não retornou um arquivo CSV.');
+        }
+        const csv = await response.blob();
+        if (signal.aborted) return;
+        const url = URL.createObjectURL(csv);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `solicitacoes-annaluisa-${new Date().toISOString().slice(0, 10)}.csv`;
+        document.body.append(link);
+        link.click();
+        link.remove();
+        window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }, handleQueueError);
     }
+
     btnExport.addEventListener('click', exportCsv);
     btnExportMobile.addEventListener('click', exportCsv);
 
-    async function loadLeads(key) {
-      if (!key) return;
-      tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-neutral-400 font-light">Carregando solicitações...</td></tr>`;
+    tbody.addEventListener('click', event => {
+      const button = event.target.closest('button[data-lead-id]');
+      const key = getKey();
+      if (!button || !key) return;
+      const { leadId, status } = button.dataset;
+      showQueueFeedback('');
+      runRequest(async signal => {
+        const response = await apiRequest(`/api/admin/leads/${encodeURIComponent(leadId)}`, key, signal, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status })
+        });
+        const data = await response.json();
+        if (!data.success) throw new Error('Não foi possível atualizar a solicitação.');
+        if (signal.aborted) return;
 
-      try {
-        const res = await fetch(`/api/admin/leads?key=${encodeURIComponent(key)}`);
-        if (res.status === 401) {
-          sessionStorage.removeItem(AUTH_KEY_NAME);
-          loginModal.classList.remove('hidden');
-          return;
+        try {
+          const list = await fetchLeads(key, signal);
+          if (!signal.aborted) {
+            renderLeads(list);
+            showQueueFeedback(status === 'respondido' ? 'Solicitação marcada como respondida.' : 'Solicitação voltou para a fila.');
+          }
+        } catch (error) {
+          if (error.status === 401 || signal.aborted) throw error;
+          showQueueFeedback('Status salvo. Use Atualizar para recarregar a fila.', true);
         }
-        const data = await res.json();
-        const list = data.leads || [];
+      }, handleQueueError);
+    });
 
-        // Atualiza estatísticas
-        document.getElementById('statTotal').textContent = list.length;
-        document.getElementById('statNoivas').textContent = list.filter(l => (l.servico||'').toLowerCase().includes('noiva')).length;
-        document.getElementById('statSociais').textContent = list.filter(l => (l.servico||'').toLowerCase().includes('social') || (l.servico||'').toLowerCase().includes('formatura')).length;
-        document.getElementById('statOutros').textContent = list.filter(l => (l.servico||'').toLowerCase().includes('aula') || (l.servico||'').toLowerCase().includes('empresa') || (l.servico||'').toLowerCase().includes('corporativo')).length;
+    function renderStats(list) {
+      const services = list.map(item => (item.servico || '').toLowerCase());
+      document.getElementById('statTotal').textContent = list.length;
+      document.getElementById('statPendentes').textContent = list.filter(item => item.status !== 'respondido').length;
+      document.getElementById('statNoivas').textContent = services.filter(service => service.includes('noiva')).length;
+      document.getElementById('statSociais').textContent = services.filter(service => service.includes('social') || service.includes('formatura')).length;
+      document.getElementById('statOutros').textContent = services.filter(service => /aula|empresa|corporativ/.test(service)).length;
+    }
 
-        if (list.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="6" class="py-12 text-center text-neutral-400 font-light">Nenhuma solicitação recebida ainda. Novos contatos aparecerão aqui em tempo real.</td></tr>`;
-          return;
-        }
+    function formatDateTime(value) {
+      const date = new Date(value || '');
+      return Number.isNaN(date.getTime()) ? '' : dateTimeFormat.format(date);
+    }
 
-        tbody.innerHTML = list.map(item => {
-          const dateStr = item.createdAt ? new Date(item.createdAt).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }) : '—';
-          const rawPhone = (item.telefone || '').replace(/\D/g, '');
-          const waLink = rawPhone ? `https://wa.me/55${rawPhone}?text=${encodeURIComponent(`Olá ${item.nome}, aqui é a Anna Luísa. Recebi sua solicitação de orçamento pelo site para o serviço de ${item.servico}!`)}` : null;
+    function getWhatsAppUrl(item) {
+      const digits = String(item.telefone || '').replace(/\D/g, '');
+      const phone = /^\d{10,11}$/.test(digits) ? `55${digits}` : digits;
+      if (!/^55\d{10,11}$/.test(phone)) return '';
+      const url = new URL(`https://wa.me/${phone}`);
+      url.searchParams.set('text', `Olá, aqui é a Anna Luísa. Recebi sua solicitação com protocolo ${item.id}.`);
+      return url.href;
+    }
 
-          return `
-            <tr class="hover:bg-neutral-50/70 transition-colors">
-              <td class="py-3 px-4 text-neutral-500 whitespace-nowrap">${dateStr}</td>
-              <td class="py-3 px-4 font-medium text-neutral-900">${escapeHtml(item.nome || 'Sem nome')}</td>
-              <td class="py-3 px-4">
-                <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-wide ${
-                  (item.servico||'').includes('Noiva') ? 'bg-amber-100 text-amber-900' : 'bg-neutral-100 text-neutral-800'
-                }">
-                  ${escapeHtml(item.servico || 'Geral')}
-                </span>
-              </td>
-              <td class="py-3 px-4 text-neutral-600">
-                <div>${escapeHtml(item.telefone || '—')}</div>
-                <div class="text-[10px] text-neutral-400">${escapeHtml(item.email || '')}</div>
-              </td>
-              <td class="py-3 px-4 whitespace-nowrap">
-                ${waLink ? `
-                  <a href="${waLink}" target="_blank" rel="noopener noreferrer"
-                     class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-[10px] transition-colors">
-                    <span>💬 Chamar</span>
-                  </a>
-                ` : `<span class="text-neutral-400 text-[10px]">Sem Whats</span>`}
-              </td>
-              <td class="py-3 px-4 text-neutral-500 max-w-xs truncate" title="${escapeHtml(item.detalhes || '')}">
-                ${escapeHtml(item.detalhes || 'Sem observações')}
-              </td>
-            </tr>
-          `;
-        }).join('');
-      } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-rose-500">Erro ao carregar os dados.</td></tr>`;
+    function renderLeads(list) {
+      renderStats(list);
+      if (!list.length) {
+        setTableMessage('Nenhuma solicitação recebida.');
+        return;
       }
+
+      tbody.innerHTML = list.map(item => {
+        const replied = item.status === 'respondido';
+        const nextStatus = replied ? 'pendente' : 'respondido';
+        const repliedAt = replied ? formatDateTime(item.respondidoEm) : '';
+        const date = /^\d{4}-\d{2}-\d{2}$/.test(item.data || '') ? item.data.split('-').reverse().join('/') : item.data;
+        const origin = Object.hasOwn(ORIGEM_LABEL, item.origem) ? ORIGEM_LABEL[item.origem] : '';
+        const details = [
+          ['Data', date],
+          ['Horário', item.horario],
+          ['Cidade', item.cidade],
+          ['Pessoas', item.pessoas],
+          ['Local', item.tipoLocal],
+          ['Serviços da noiva', Array.isArray(item.itensNoiva) ? item.itensNoiva.join(', ') : '']
+        ].filter(([, value]) => value);
+        const whatsappUrl = getWhatsAppUrl(item);
+
+        return `
+          <tr class="hover:bg-neutral-50/70 transition-colors">
+            <td class="py-3 px-4 text-neutral-500 whitespace-nowrap align-top">
+              <div>${escapeHtml(formatDateTime(item.createdAt) || '—')}</div>
+              ${origin ? `<div class="mt-1 text-[10px]">${escapeHtml(origin)}</div>` : ''}
+            </td>
+            <td class="py-3 px-4 font-medium text-neutral-900 align-top">
+              <div>${escapeHtml(item.nome || 'Sem nome')}</div>
+              <div class="mt-1 text-[10px] font-normal text-neutral-500 break-all min-w-[7rem]">Protocolo ${escapeHtml(item.id || '—')}</div>
+            </td>
+            <td class="py-3 px-4 align-top">
+              <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-wide ${/noiva/i.test(item.servico || '') ? 'bg-amber-100 text-amber-900' : 'bg-neutral-100 text-neutral-800'}">
+                ${escapeHtml(item.servico || 'Geral')}
+              </span>
+            </td>
+            <td class="py-3 px-4 text-neutral-600 align-top">
+              <div class="whitespace-nowrap">${escapeHtml(item.telefone || '—')}</div>
+              <div class="text-[10px] break-all">${escapeHtml(item.email || '')}</div>
+              ${whatsappUrl ? `
+                <a href="${escapeHtml(whatsappUrl)}" target="_blank" rel="noopener noreferrer"
+                   class="inline-flex mt-2 items-center px-2.5 py-1 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-[10px] transition-colors">
+                  Chamar no WhatsApp
+                </a>
+              ` : ''}
+            </td>
+            <td class="py-3 px-4 text-neutral-600 min-w-[11rem] align-top">
+              <dl class="grid gap-1">${details.map(([label, value]) => `
+                <div><dt class="inline font-medium text-neutral-800">${label}</dt> <dd class="inline break-words">${escapeHtml(value)}</dd></div>
+              `).join('')}</dl>
+              ${item.detalhes ? `<p class="mt-1 whitespace-pre-wrap break-words">${escapeHtml(item.detalhes)}</p>` : ''}
+              ${!details.length && !item.detalhes ? '—' : ''}
+            </td>
+            <td class="py-3 px-4 whitespace-nowrap align-top">
+              <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold ${replied ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-900'}">
+                ${replied ? 'Respondido' : 'Pendente'}
+              </span>
+              ${repliedAt ? `<div class="mt-1 text-[10px] text-neutral-500">${escapeHtml(repliedAt)}</div>` : ''}
+              ${item.id ? `<div class="mt-2">
+                <button type="button" data-lead-id="${escapeHtml(item.id)}" data-status="${nextStatus}" disabled
+                        class="px-2.5 py-1 rounded-full border border-neutral-200 hover:bg-neutral-50 text-neutral-700 text-[10px] transition-colors disabled:opacity-50">
+                  ${replied ? 'Voltar para pendente' : 'Marcar como respondido'}
+                </button>
+              </div>` : ''}
+            </td>
+          </tr>
+        `;
+      }).join('');
     }
 
-    function escapeHtml(str) {
-      return String(str).replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, character => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      })[character]);
     }
 
-    // Inicializa
-    checkAuth();
+    syncControls();
+    const storedKey = getKey();
+    if (storedKey) signIn(storedKey);
   </script>
 </body>
 </html>
