@@ -134,6 +134,11 @@ async function loadProposal(leadId) {
   return result ? JSON.parse(result) : null;
 }
 
+export async function getProposal(leadId) {
+  const saved = await loadProposal(leadId);
+  return saved ? publicFields(saved) : null;
+}
+
 async function saveProposal(record, revision) {
   const { leadId, fingerprint } = record;
   if (useLocalMemory()) {
