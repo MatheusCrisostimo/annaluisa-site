@@ -2,7 +2,9 @@ import { randomUUID, timingSafeEqual } from 'node:crypto';
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { LeadStoreUnavailable, listLeads, saveLead, setLeadStatus } from './lead-store.js';
+import { LeadStoreUnavailable, getLead, listLeads, saveLead, setLeadStatus } from './lead-store.js';
+import { registerAgendaRoutes } from './agenda.js';
+import { registerProposalRoutes } from './proposals.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -236,6 +238,10 @@ app.get('/api/admin/leads/export', verifyAdminAuth, async (req, res) => {
     return leadError(res, error);
   }
 });
+
+const adminRoutes = { verifyAdminAuth, leadError, getLead };
+registerAgendaRoutes(app, adminRoutes);
+registerProposalRoutes(app, adminRoutes);
 
 // Admin Panel Clean Routes
 app.get(['/admin', '/admin/leads'], (req, res) => {

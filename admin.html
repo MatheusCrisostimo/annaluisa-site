@@ -21,7 +21,7 @@
           <span>← Voltar ao Site</span>
         </a>
         <span class="text-neutral-600">|</span>
-        <h1 class="text-xs sm:text-sm font-medium tracking-wide">Painel de Leads & Orçamentos</h1>
+        <h1 class="text-xs sm:text-sm font-medium tracking-wide">Painel de atendimento</h1>
       </div>
       <div class="flex items-center gap-2">
         <button id="btnExport" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-neutral-800 hover:bg-neutral-700 text-neutral-200 transition-colors">
@@ -41,7 +41,7 @@
         🔒
       </div>
       <h2 class="text-lg font-light text-neutral-900 mb-1">Acesso Restrito</h2>
-      <p class="text-xs text-neutral-500 mb-6 font-light">Informe a senha administrativa para consultar as mensagens recebidas pelo site.</p>
+      <p class="text-xs text-neutral-500 mb-6 font-light">Informe a senha administrativa para acessar pedidos, agenda e propostas.</p>
       
       <form id="loginForm" class="space-y-4">
         <div>
@@ -57,7 +57,17 @@
   </div>
 
   <!-- Main Content -->
-  <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-8">
+  <main id="adminWorkspace" inert class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-8">
+    <nav aria-label="Áreas do painel" class="flex flex-wrap gap-2 mb-6">
+      <button type="button" data-admin-area="pedidos" aria-controls="pedidosPane" aria-pressed="true"
+              class="rounded-full border border-neutral-200 bg-neutral-900 text-white px-4 py-2.5 text-sm font-medium">Pedidos</button>
+      <button type="button" data-admin-area="agenda" aria-controls="agendaPane" aria-pressed="false"
+              class="rounded-full border border-neutral-200 bg-white text-neutral-700 px-4 py-2.5 text-sm font-medium">Agenda</button>
+      <button type="button" data-admin-area="propostas" aria-controls="propostasPane" aria-pressed="false"
+              class="rounded-full border border-neutral-200 bg-white text-neutral-700 px-4 py-2.5 text-sm font-medium">Propostas</button>
+    </nav>
+
+    <section id="pedidosPane" aria-label="Pedidos">
     <!-- Stat Cards -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
       <div class="bg-white p-5 rounded-2xl border border-neutral-100 shadow-sm">
@@ -116,9 +126,15 @@
         </table>
       </div>
     </div>
+    </section>
+    <section id="agendaPane" aria-label="Agenda" hidden></section>
+    <section id="propostasPane" aria-label="Propostas" hidden></section>
   </main>
 
-  <script>
+  <script type="module">
+    import { mountAgenda } from '/scripts/admin-agenda.js';
+    import { mountProposals } from '/scripts/admin-proposals.js';
+
     const AUTH_KEY_NAME = 'anna_admin_key';
     const ORIGEM_LABEL = {
       site: 'Site',
@@ -141,7 +157,46 @@
     const btnExportMobile = document.getElementById('btnExportMobile');
     const queueFeedback = document.getElementById('queueFeedback');
     const tbody = document.getElementById('leadsTableBody');
+    const workspace = document.getElementById('adminWorkspace');
+    const areaButtons = [...workspace.querySelectorAll('button[data-admin-area]')];
+    const areas = {
+      pedidos: document.getElementById('pedidosPane'),
+      agenda: document.getElementById('agendaPane'),
+      propostas: document.getElementById('propostasPane')
+    };
+    const components = {
+      agenda: mountAgenda(areas.agenda, { api: workspaceApi }),
+      propostas: mountProposals(areas.propostas, { api: workspaceApi })
+    };
+
+    let leadsById = new Map();
+    let activeArea = 'pedidos';
     let activeRequest = null;
+    let session = new AbortController();
+
+    function showArea(area, lead) {
+      const changed = activeArea !== area;
+      activeArea = area;
+      for (const button of areaButtons) {
+        const selected = button.dataset.adminArea === area;
+        button.setAttribute('aria-pressed', String(selected));
+        button.classList.toggle('bg-neutral-900', selected);
+        button.classList.toggle('text-white', selected);
+        button.classList.toggle('bg-white', !selected);
+        button.classList.toggle('text-neutral-700', !selected);
+      }
+      for (const [name, pane] of Object.entries(areas)) pane.hidden = name !== area;
+      btnExport.style.display = area === 'pedidos' ? '' : 'none';
+      if (lead) {
+        window.scrollTo(0, 0);
+        components[area]?.openLead(lead);
+      }
+      else if (changed) components[area]?.enter();
+    }
+
+    for (const button of areaButtons) {
+      button.addEventListener('click', () => showArea(button.dataset.adminArea));
+    }
 
     function getKey() {
       return sessionStorage.getItem(AUTH_KEY_NAME) || '';
@@ -166,7 +221,7 @@
       btnRefresh.disabled = busy || !signedIn;
       btnExport.disabled = busy || !signedIn;
       btnExportMobile.disabled = busy || !signedIn;
-      tbody.querySelectorAll('button[data-lead-id]').forEach(button => {
+      tbody.querySelectorAll('button[data-lead-id], button[data-lead-action]').forEach(button => {
         button.disabled = busy || !signedIn;
       });
     }
@@ -179,7 +234,13 @@
     function logout(message = '') {
       activeRequest?.abort();
       activeRequest = null;
+      session.abort();
+      session = new AbortController();
       sessionStorage.removeItem(AUTH_KEY_NAME);
+      workspace.inert = true;
+      for (const component of Object.values(components)) component.reset();
+      showArea('pedidos');
+      leadsById.clear();
       renderStats([]);
       setTableMessage('Acesse o painel para consultar as solicitações.');
       showQueueFeedback('');
@@ -226,6 +287,18 @@
       return response;
     }
 
+    async function workspaceApi(url, options = {}) {
+      const signal = options.signal
+        ? AbortSignal.any([session.signal, options.signal]) : session.signal;
+      try {
+        const response = await apiRequest(url, getKey(), signal, options);
+        return await response.json();
+      } catch (error) {
+        if (!signal.aborted && error.status === 401) handleQueueError(error);
+        throw error;
+      }
+    }
+
     async function fetchLeads(key, signal) {
       const response = await apiRequest('/api/admin/leads', key, signal);
       const data = await response.json();
@@ -251,6 +324,7 @@
         sessionStorage.setItem(AUTH_KEY_NAME, key);
         inputPass.value = '';
         loginModal.classList.add('hidden');
+        workspace.inert = false;
         renderLeads(list);
       }, error => {
         if (error.status === 401) {
@@ -305,6 +379,12 @@
     btnExportMobile.addEventListener('click', exportCsv);
 
     tbody.addEventListener('click', event => {
+      const action = event.target.closest('button[data-lead-action]');
+      if (action && getKey()) {
+        const lead = leadsById.get(action.dataset.leadRef);
+        if (lead) showArea(action.dataset.leadAction, lead);
+        return;
+      }
       const button = event.target.closest('button[data-lead-id]');
       const key = getKey();
       if (!button || !key) return;
@@ -357,6 +437,7 @@
     }
 
     function renderLeads(list) {
+      leadsById = new Map(list.map(item => [item.id, item]));
       renderStats(list);
       if (!list.length) {
         setTableMessage('Nenhuma solicitação recebida.');
@@ -421,6 +502,12 @@
                         class="px-2.5 py-1 rounded-full border border-neutral-200 hover:bg-neutral-50 text-neutral-700 text-[10px] transition-colors disabled:opacity-50">
                   ${replied ? 'Voltar para pendente' : 'Marcar como respondido'}
                 </button>
+                <div class="mt-2 flex flex-wrap gap-1.5">
+                  <button type="button" data-lead-action="agenda" data-lead-ref="${escapeHtml(item.id)}" disabled
+                          class="border border-neutral-200 hover:bg-neutral-50 rounded-lg px-3 py-2 font-medium">Agenda</button>
+                  <button type="button" data-lead-action="propostas" data-lead-ref="${escapeHtml(item.id)}" disabled
+                          class="border border-neutral-200 hover:bg-neutral-50 rounded-lg px-3 py-2 font-medium">Proposta</button>
+                </div>
               </div>` : ''}
             </td>
           </tr>

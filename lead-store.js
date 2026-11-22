@@ -6,7 +6,7 @@ const localStatus = new Map();
 
 export class LeadStoreUnavailable extends Error {}
 
-async function runRedis(...command) {
+export async function runRedis(...command) {
   const url = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
 
@@ -29,7 +29,7 @@ async function runRedis(...command) {
   }
 }
 
-function useLocalMemory() {
+export function useLocalMemory() {
   return !process.env.VERCEL && process.env.NODE_ENV !== 'production'
     && !process.env.UPSTASH_REDIS_REST_URL && !process.env.KV_REST_API_URL;
 }
@@ -42,6 +42,12 @@ export async function saveLead(lead) {
   }
 
   return (await runRedis('HSETNX', LEADS_KEY, lead.id, JSON.stringify(lead))) === 1;
+}
+
+export async function getLead(id) {
+  if (useLocalMemory()) return localLeads.get(id) ?? null;
+  const record = await runRedis('HGET', LEADS_KEY, id);
+  return record ? JSON.parse(record) : null;
 }
 
 export async function listLeads() {
