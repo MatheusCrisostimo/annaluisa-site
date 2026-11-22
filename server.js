@@ -4,7 +4,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { LeadStoreUnavailable, getLead, listLeads, saveLead, setLeadStatus } from './lead-store.js';
 import { registerAgendaRoutes } from './agenda.js';
-import { registerProposalRoutes } from './proposals.js';
+import { getProposal, registerProposalRoutes } from './proposals.js';
+import { registerContractRoutes } from './contracts.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -242,6 +243,7 @@ app.get('/api/admin/leads/export', verifyAdminAuth, async (req, res) => {
 const adminRoutes = { verifyAdminAuth, leadError, getLead };
 registerAgendaRoutes(app, adminRoutes);
 registerProposalRoutes(app, adminRoutes);
+registerContractRoutes(app, { ...adminRoutes, getProposal });
 
 // Admin Panel Clean Routes
 app.get(['/admin', '/admin/leads'], (req, res) => {

@@ -59,6 +59,7 @@ O projeto foi modernizado com foco em **arquitetura limpa**, **segurança**, **e
   - Fila de consultas com protocolo, dados do evento e status pendente ou respondido.
   - Agenda com atendimentos e bloqueios. O painel verifica sobreposições incluindo o tempo de deslocamento informado.
   - Propostas por pedido com modelos de texto editáveis, valor, validade e prévia para compartilhar.
+  - Contratos vinculados a propostas prontas com aceite confirmado no painel, modelo privado editável, prévia e PDF.
   - Botão direto para iniciar conversa no WhatsApp da cliente com mensagem pronta.
   - Exportação completa em planilha CSV compatível com Excel e Google Sheets.
   - Acesso protegido pela senha configurada em `ADMIN_PASSWORD`.
@@ -98,3 +99,9 @@ Defina `ADMIN_PASSWORD` no ambiente para acessar `http://localhost:3000/admin`. 
 No projeto Vercel, conecte um banco Redis da Upstash, configure `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` e uma senha nova em `ADMIN_PASSWORD` antes de publicar. A integração também aceita `KV_REST_API_URL` e `KV_REST_API_TOKEN`. Use um banco separado para Preview e dados fictícios. Na Vercel, o formulário confirma o pedido somente depois de salvá-lo no banco.
 
 Opcionalmente, preencha `LEAD_REPLY_TIME` com o prazo de retorno combinado com a Anna, por exemplo, `em até 1 dia útil`. A saudação do WhatsApp Business pode apontar para `https://annaluisamakeup.vercel.app/?origem=whatsapp#orcamento`.
+
+### Preparar um contrato
+
+Em **Contratos**, carregue a estrutura inicial ou cole o texto revisado da sua minuta. Use os campos de preenchimento indicados no painel para que o modelo fique reutilizável. Salve o modelo no ambiente em que será usado. Ele é privado e usa o Redis já conectado ao projeto.
+
+Abra a proposta pronta ou o pedido correspondente e escolha a ação de contrato. Confirme o aceite, preencha os campos da minuta, revise a prévia e baixe o PDF. Os dados preenchidos nessa etapa e o PDF ficam fora da fila e não são gravados no Redis. Guarde o arquivo baixado.

@@ -54,7 +54,7 @@ function previewText(proposal, edits) {
   return lines.filter(Boolean).join('\n');
 }
 
-export function mountProposals(root, { api }) {
+export function mountProposals(root, { api, onContract }) {
   let generation = 0;
   let view = 'idle';
 
@@ -178,6 +178,7 @@ export function mountProposals(root, { api }) {
             <label for="proposal-preview" class="text-sm font-semibold text-neutral-900">Prévia em texto</label>
             <textarea id="proposal-preview" readonly rows="15" class="mt-2 w-full rounded-lg border border-neutral-200 bg-white p-3 text-sm text-neutral-800"></textarea>
             <button type="button" data-proposal-copy class="${buttonClass} mt-2 bg-white">Copiar proposta</button>
+            <button type="button" data-proposal-contract class="${buttonClass} mt-2 bg-white" hidden>Preparar contrato</button>
             <p data-copy-hint class="mt-1 text-xs text-neutral-600"></p>
           </div>
         </div>
@@ -190,6 +191,7 @@ export function mountProposals(root, { api }) {
     const status = root.querySelector('[data-proposal-status]');
     const preview = root.querySelector('#proposal-preview');
     const copy = root.querySelector('[data-proposal-copy]');
+    const contract = root.querySelector('[data-proposal-contract]');
     const copyHint = root.querySelector('[data-copy-hint]');
     const feedback = root.querySelector('[data-proposal-feedback]');
     const field = name => form.elements.namedItem(name);
@@ -216,6 +218,8 @@ export function mountProposals(root, { api }) {
       status.textContent = saved.revision ? statusText(saved) : 'Rascunho ainda não salvo';
       preview.value = previewText(saved, values);
       copy.disabled = submitting || changed || saved.status !== 'pronta' || isExpired(saved);
+      contract.hidden = !onContract || saved.status !== 'pronta';
+      contract.disabled = submitting || changed;
       copyHint.textContent = copy.disabled && !submitting
         ? 'Salve a versão atual como pronta, com validade vigente, para copiar a proposta.'
         : '';
@@ -284,6 +288,7 @@ export function mountProposals(root, { api }) {
         showFeedback('Selecione a opção de copiar do seu dispositivo.');
       }
     });
+    contract.addEventListener('click', () => onContract?.(saved.leadId));
     refresh();
   }
 
