@@ -61,6 +61,7 @@ O projeto foi modernizado com foco em **arquitetura limpa**, **segurança**, **e
   - Propostas por pedido com modelos de texto editáveis, valor, validade e prévia para compartilhar.
   - Contratos vinculados a propostas prontas com aceite confirmado no painel, modelo privado editável, prévia e PDF.
   - Acompanhamento por pedido do envio e da assinatura do contrato, do sinal e do saldo, com rascunhos de lembrete.
+  - Diagnóstico do webhook e da primeira resposta automática do WhatsApp.
   - Botão direto para iniciar conversa no WhatsApp da cliente com mensagem pronta.
   - Exportação completa em planilha CSV compatível com Excel e Google Sheets.
   - Acesso protegido pela senha configurada em `ADMIN_PASSWORD`.
@@ -108,3 +109,14 @@ Em **Contratos**, carregue a estrutura inicial ou cole o texto revisado da sua m
 Abra a proposta pronta ou o pedido correspondente e escolha a ação de contrato. Confirme o aceite, preencha os campos da minuta, revise a prévia e baixe o PDF. Os dados preenchidos nessa etapa e o PDF ficam fora da fila e não são gravados no Redis. Guarde o arquivo baixado.
 
 Depois de preparar o contrato, abra **Acompanhamento** pelo pedido ou pelo contrato. Registre a situação da assinatura, os vencimentos e o total já recebido, incluindo o sinal. Se a negociação não tiver sinal separado, informe zero no campo do sinal. Os lembretes podem ser revisados no painel e enviados manualmente pelo WhatsApp.
+
+### Configurar a triagem do WhatsApp
+
+1. Use um número de teste da Meta para simular o primeiro contato. Para o número da Anna, confirme que a equipe consegue continuar a conversa recebida no WhatsApp Business com Coexistência, quando elegível, ou na caixa de entrada do provedor.
+2. Configure `WHATSAPP_APP_SECRET`, `WHATSAPP_WEBHOOK_VERIFY_TOKEN` e `WHATSAPP_PHONE_NUMBER_ID` nas variáveis privadas do ambiente escolhido. Mantenha `WHATSAPP_AUTOREPLY_ENABLED=false` ao verificar o webhook. Configure na Meta o campo `messages` e uma URL acessível pela Meta terminada em `/api/whatsapp/webhook`. Para produção, use `https://annaluisamakeup.vercel.app/api/whatsapp/webhook`. Prévias protegidas pelo login da Vercel não recebem chamadas da Meta diretamente.
+3. Depois de confirmar a data do último evento no painel em **WhatsApp**, configure `WHATSAPP_ACCESS_TOKEN` com a permissão `whatsapp_business_messaging` e `WHATSAPP_API_VERSION` com a versão suportada no seu app da Meta, no formato `v27.0`. No ambiente de teste, habilite a saudação e use outro telefone de destinatário cadastrado para simular um primeiro contato.
+4. Para ativar, defina `WHATSAPP_AUTOREPLY_ENABLED=true` e faça um redeploy. A triagem responde ao primeiro texto após 14 dias sem contato e oferece o formulário de consulta. Ela reconhece protocolos, pedidos de atendimento humano e comandos de descadastramento. Consulte na aba **WhatsApp** o retorno da API.
+
+A integração reaproveita o Redis. Os registros da triagem usam identificadores protegidos e datas de atividade. O painel apresenta os horários do webhook e o retorno da API.
+
+[Webhooks do WhatsApp](https://developers.facebook.com/documentation/business-messaging/whatsapp/webhooks/overview) · [Onboarding com Coexistência](https://developers.facebook.com/documentation/business-messaging/whatsapp/embedded-signup/onboarding-business-app-users) · [Tokens da Cloud API](https://developers.facebook.com/documentation/business-messaging/whatsapp/access-tokens)

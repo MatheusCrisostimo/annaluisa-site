@@ -69,6 +69,8 @@
               class="rounded-full border border-neutral-200 bg-white text-neutral-700 px-4 py-2.5 text-sm font-medium">Contratos</button>
       <button type="button" data-admin-area="acompanhamento" aria-controls="acompanhamentoPane" aria-pressed="false"
               class="rounded-full border border-neutral-200 bg-white text-neutral-700 px-4 py-2.5 text-sm font-medium">Acompanhamento</button>
+      <button type="button" data-admin-area="whatsapp" aria-controls="whatsappPane" aria-pressed="false"
+              class="rounded-full border border-neutral-200 bg-white text-neutral-700 px-4 py-2.5 text-sm font-medium">WhatsApp</button>
     </nav>
 
     <section id="pedidosPane" aria-label="Pedidos">
@@ -135,6 +137,7 @@
     <section id="propostasPane" aria-label="Propostas" hidden></section>
     <section id="contratosPane" aria-label="Contratos" hidden></section>
     <section id="acompanhamentoPane" aria-label="Acompanhamento" hidden></section>
+    <section id="whatsappPane" aria-label="WhatsApp" hidden></section>
   </main>
 
   <script type="module">
@@ -142,6 +145,7 @@
     import { mountProposals } from '/scripts/admin-proposals.js';
     import { mountContracts } from '/scripts/admin-contracts.js';
     import { mountFollowup } from '/scripts/admin-followup.js';
+    import { mountWhatsApp } from '/scripts/admin-whatsapp.js';
 
     const AUTH_KEY_NAME = 'anna_admin_key';
     const ORIGEM_LABEL = {
@@ -172,7 +176,8 @@
       agenda: document.getElementById('agendaPane'),
       propostas: document.getElementById('propostasPane'),
       contratos: document.getElementById('contratosPane'),
-      acompanhamento: document.getElementById('acompanhamentoPane')
+      acompanhamento: document.getElementById('acompanhamentoPane'),
+      whatsapp: document.getElementById('whatsappPane')
     };
     const components = {
       agenda: mountAgenda(areas.agenda, { api: workspaceApi }),
@@ -185,7 +190,8 @@
         download: workspaceDownload,
         onFollowup: leadId => showArea('acompanhamento', { id: leadId })
       }),
-      acompanhamento: mountFollowup(areas.acompanhamento, { api: workspaceApi })
+      acompanhamento: mountFollowup(areas.acompanhamento, { api: workspaceApi }),
+      whatsapp: mountWhatsApp(areas.whatsapp, { api: workspaceApi })
     };
 
     let leadsById = new Map();
