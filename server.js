@@ -6,6 +6,7 @@ import { LeadStoreUnavailable, getLead, listLeads, saveLead, setLeadStatus } fro
 import { registerAgendaRoutes } from './agenda.js';
 import { getProposal, registerProposalRoutes } from './proposals.js';
 import { registerContractRoutes } from './contracts.js';
+import { registerFollowupRoutes } from './followup.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -244,6 +245,7 @@ const adminRoutes = { verifyAdminAuth, leadError, getLead };
 registerAgendaRoutes(app, adminRoutes);
 registerProposalRoutes(app, adminRoutes);
 registerContractRoutes(app, { ...adminRoutes, getProposal });
+registerFollowupRoutes(app, { ...adminRoutes, getProposal });
 
 // Admin Panel Clean Routes
 app.get(['/admin', '/admin/leads'], (req, res) => {

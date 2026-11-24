@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { runRedis, useLocalMemory } from './lead-store.js';
 
-const PROPOSALS_KEY = 'annaluisa:propostas:v1';
+export const PROPOSALS_KEY = 'annaluisa:propostas:v1';
 const localProposals = new Map();
 const BRT_DATE = new Intl.DateTimeFormat('sv-SE', { timeZone: 'America/Sao_Paulo' });
 const EDITABLE_TEXT_FIELDS = {
@@ -129,9 +129,13 @@ const SAVE_PROPOSAL_SCRIPT = `
 `;
 
 async function loadProposal(leadId) {
-  if (useLocalMemory()) return localProposals.get(leadId) ?? null;
+  if (useLocalMemory()) return getLocalProposal(leadId);
   const result = await runRedis('HGET', PROPOSALS_KEY, leadId);
   return result ? JSON.parse(result) : null;
+}
+
+export function getLocalProposal(leadId) {
+  return localProposals.get(leadId) ?? null;
 }
 
 export async function getProposal(leadId) {

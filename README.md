@@ -60,6 +60,7 @@ O projeto foi modernizado com foco em **arquitetura limpa**, **segurança**, **e
   - Agenda com atendimentos e bloqueios. O painel verifica sobreposições incluindo o tempo de deslocamento informado.
   - Propostas por pedido com modelos de texto editáveis, valor, validade e prévia para compartilhar.
   - Contratos vinculados a propostas prontas com aceite confirmado no painel, modelo privado editável, prévia e PDF.
+  - Acompanhamento por pedido do envio e da assinatura do contrato, do sinal e do saldo, com rascunhos de lembrete.
   - Botão direto para iniciar conversa no WhatsApp da cliente com mensagem pronta.
   - Exportação completa em planilha CSV compatível com Excel e Google Sheets.
   - Acesso protegido pela senha configurada em `ADMIN_PASSWORD`.
@@ -105,3 +106,5 @@ Opcionalmente, preencha `LEAD_REPLY_TIME` com o prazo de retorno combinado com a
 Em **Contratos**, carregue a estrutura inicial ou cole o texto revisado da sua minuta. Use os campos de preenchimento indicados no painel para que o modelo fique reutilizável. Salve o modelo no ambiente em que será usado. Ele é privado e usa o Redis já conectado ao projeto.
 
 Abra a proposta pronta ou o pedido correspondente e escolha a ação de contrato. Confirme o aceite, preencha os campos da minuta, revise a prévia e baixe o PDF. Os dados preenchidos nessa etapa e o PDF ficam fora da fila e não são gravados no Redis. Guarde o arquivo baixado.
+
+Depois de preparar o contrato, abra **Acompanhamento** pelo pedido ou pelo contrato. Registre a situação da assinatura, os vencimentos e o total já recebido, incluindo o sinal. Se a negociação não tiver sinal separado, informe zero no campo do sinal. Os lembretes podem ser revisados no painel e enviados manualmente pelo WhatsApp.

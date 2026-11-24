@@ -67,6 +67,8 @@
               class="rounded-full border border-neutral-200 bg-white text-neutral-700 px-4 py-2.5 text-sm font-medium">Propostas</button>
       <button type="button" data-admin-area="contratos" aria-controls="contratosPane" aria-pressed="false"
               class="rounded-full border border-neutral-200 bg-white text-neutral-700 px-4 py-2.5 text-sm font-medium">Contratos</button>
+      <button type="button" data-admin-area="acompanhamento" aria-controls="acompanhamentoPane" aria-pressed="false"
+              class="rounded-full border border-neutral-200 bg-white text-neutral-700 px-4 py-2.5 text-sm font-medium">Acompanhamento</button>
     </nav>
 
     <section id="pedidosPane" aria-label="Pedidos">
@@ -132,12 +134,14 @@
     <section id="agendaPane" aria-label="Agenda" hidden></section>
     <section id="propostasPane" aria-label="Propostas" hidden></section>
     <section id="contratosPane" aria-label="Contratos" hidden></section>
+    <section id="acompanhamentoPane" aria-label="Acompanhamento" hidden></section>
   </main>
 
   <script type="module">
     import { mountAgenda } from '/scripts/admin-agenda.js';
     import { mountProposals } from '/scripts/admin-proposals.js';
     import { mountContracts } from '/scripts/admin-contracts.js';
+    import { mountFollowup } from '/scripts/admin-followup.js';
 
     const AUTH_KEY_NAME = 'anna_admin_key';
     const ORIGEM_LABEL = {
@@ -167,7 +171,8 @@
       pedidos: document.getElementById('pedidosPane'),
       agenda: document.getElementById('agendaPane'),
       propostas: document.getElementById('propostasPane'),
-      contratos: document.getElementById('contratosPane')
+      contratos: document.getElementById('contratosPane'),
+      acompanhamento: document.getElementById('acompanhamentoPane')
     };
     const components = {
       agenda: mountAgenda(areas.agenda, { api: workspaceApi }),
@@ -175,7 +180,12 @@
         api: workspaceApi,
         onContract: leadId => showArea('contratos', { id: leadId })
       }),
-      contratos: mountContracts(areas.contratos, { api: workspaceApi, download: workspaceDownload })
+      contratos: mountContracts(areas.contratos, {
+        api: workspaceApi,
+        download: workspaceDownload,
+        onFollowup: leadId => showArea('acompanhamento', { id: leadId })
+      }),
+      acompanhamento: mountFollowup(areas.acompanhamento, { api: workspaceApi })
     };
 
     let leadsById = new Map();
@@ -529,6 +539,8 @@
                           class="border border-neutral-200 hover:bg-neutral-50 rounded-lg px-3 py-2 font-medium">Proposta</button>
                   <button type="button" data-lead-action="contratos" data-lead-ref="${escapeHtml(item.id)}" disabled
                           class="border border-neutral-200 hover:bg-neutral-50 rounded-lg px-3 py-2 font-medium">Contrato</button>
+                  <button type="button" data-lead-action="acompanhamento" data-lead-ref="${escapeHtml(item.id)}" disabled
+                          class="border border-neutral-200 hover:bg-neutral-50 rounded-lg px-3 py-2 font-medium">Acompanhar</button>
                 </div>
               </div>` : ''}
             </td>
