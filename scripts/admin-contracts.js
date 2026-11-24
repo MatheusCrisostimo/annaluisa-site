@@ -24,7 +24,7 @@ function readableValue(value, kind) {
     : value;
 }
 
-export function mountContracts(root, { api, download }) {
+export function mountContracts(root, { api, download, onFollowup }) {
   let generation = 0;
   let view = 'idle';
 
@@ -220,7 +220,10 @@ export function mountContracts(root, { api, download }) {
           </div>
           <div class="flex flex-wrap gap-2">
             <button type="button" data-contract-reload class="${buttonClass}">Recarregar dados</button>
+          <div class="flex flex-wrap gap-2">
             <button type="button" data-contract-model class="${buttonClass}">Editar modelo</button>
+            ${onFollowup ? `<button type="button" data-contract-followup class="${buttonClass}">Acompanhar assinatura e pagamentos</button>` : ''}
+          </div>
           </div>
         </div>
         <div class="grid items-start gap-5 lg:grid-cols-2">
@@ -269,6 +272,7 @@ export function mountContracts(root, { api, download }) {
     const pdfButton = root.querySelector('[data-contract-pdf]');
     const previewNote = root.querySelector('[data-contract-preview-note]');
     const modelButton = root.querySelector('[data-contract-model]');
+    const followupButton = root.querySelector('[data-contract-followup]');
     const reloadButton = root.querySelector('[data-contract-reload]');
     const field = name => form.elements.namedItem(name);
     let busy = false;
@@ -278,6 +282,7 @@ export function mountContracts(root, { api, download }) {
     function refresh() {
       fields.disabled = busy;
       modelButton.disabled = busy;
+      if (followupButton) followupButton.disabled = busy;
       reloadButton.disabled = busy;
       pdfButton.disabled = busy || !previewPayload;
     }
@@ -298,6 +303,7 @@ export function mountContracts(root, { api, download }) {
       refresh();
     });
     modelButton.addEventListener('click', () => openModel(lead));
+    followupButton?.addEventListener('click', () => onFollowup(leadId));
     reloadButton.addEventListener('click', () => openLead(lead));
 
     form.addEventListener('submit', async event => {
