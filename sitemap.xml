@@ -6,8 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://annaluisamakeup.vercel.app/agendar.html</loc>
+    <loc>https://annaluisamakeup.vercel.app/agendar</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://annaluisamakeup.vercel.app/noivas</loc>
   </url>
 </urlset>

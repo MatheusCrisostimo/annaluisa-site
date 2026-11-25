@@ -1,3 +1,5 @@
+import { getCampaignAttribution } from './attribution.js';
+
 export function setupLeadForm(form, { origin, onSuccess }) {
   const feedback = form.querySelector('[data-lead-feedback]');
   const submit = form.querySelector('button[type="submit"]');
@@ -79,10 +81,11 @@ export function setupLeadForm(form, { origin, onSuccess }) {
     let receipt;
 
     try {
+      const campanha = getCampaignAttribution();
       const response = await fetch(form.action, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...payload, submissionId }),
+        body: JSON.stringify({ ...payload, submissionId, ...(campanha ? { campanha } : {}) }),
         signal: AbortSignal.timeout(15000)
       });
       const data = await response.json();
@@ -104,7 +107,7 @@ export function setupLeadForm(form, { origin, onSuccess }) {
       syncServiceFields();
       lastPayload = undefined;
       showFeedback('Pedido recebido. A data ainda está sob consulta.', receipt);
-      onSuccess?.();
+      onSuccess?.(receipt);
     }
   });
 }

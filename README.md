@@ -127,3 +127,9 @@ A integração reaproveita o Redis. Os registros da triagem usam identificadores
 O período usa a data de entrada de cada pedido no fuso de São Paulo. As etapas mostram a situação atual desses pedidos. Cada pedido com um ou mais atendimentos confirmados conta uma vez nesse indicador.
 
 O tempo de retorno usa a primeira vez que o pedido foi marcado como respondido. Respostas antigas entram na mediana quando o registro ainda tem a data de retorno. Os indicadores de agenda, propostas e contratos acompanham os registros do painel.
+
+### Página de noivas e conversões
+
+A rota `/noivas` leva ao formulário com o serviço **Noiva** selecionado. Para atribuir uma campanha, use `utm_source`, `utm_medium` e `utm_campaign` na URL da campanha. Após a autorização de métricas, a campanha acompanha o pedido na mesma aba de navegação e aparece na fila e no CSV.
+
+Valide no GA4 o evento `generate_lead` de um pedido salvo antes de importá-lo como conversão principal no Google Ads. `whatsapp_click` indica a abertura do canal e pode ser usado como ação secundária. As tags habilitadas carregam no domínio público após autorização de métricas.

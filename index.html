@@ -25,12 +25,6 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
 
-  <link rel="preconnect" href="https://www.googletagmanager.com">
-  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-  <link rel="preconnect" href="https://connect.facebook.net">
-  <link rel="dns-prefetch" href="https://connect.facebook.net">
-  <link rel="preconnect" href="https://www.instagram.com">
-  <link rel="dns-prefetch" href="https://www.instagram.com">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -109,43 +103,6 @@
     .portfolio-filter-btn { transition: all 0.2s ease; }
   </style>
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-60ZPREPJV3"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('consent','default',{ ad_user_data:'denied', ad_personalization:'denied', ad_storage:'denied', analytics_storage:'granted' });
-    gtag('js', new Date());
-    gtag('config', 'G-60ZPREPJV3');
-  </script>
-
-  <script>
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    window.fbq && window.fbq('init', 'YOUR_PIXEL_ID');
-    window.fbq && window.fbq('track', 'PageView');
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "MakeupArtist",
-    "name": "Anna Luísa — Maquiadora",
-    "image": ["https://annaluisamakeup.vercel.app/images/og-cover.jpg"],
-    "description": "Maquiagem social, noivas e aulas. 13 anos de experiência com foco em peles pretas.",
-    "url": "https://annaluisamakeup.vercel.app",
-    "telephone": "+55 21 99544-0439",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "R. Maria Emília dos Santos",
-      "addressLocality": "Palhoça",
-      "addressRegion": "SC",
-      "postalCode": "88133-270",
-      "addressCountry": "BR"
-    }
-  }
-  </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -226,6 +183,7 @@
     function openWA(source, text){
       const msg = encodeURIComponent(text || DEFAULT_MSG);
       const url = `https://wa.me/${PHONE}?text=${msg}&utm_source=site&utm_medium=cta&utm_campaign=whatsapp&src=${encodeURIComponent(source||'cta')}`;
+      document.dispatchEvent(new CustomEvent('anna:whatsapp', { detail: source || 'cta' }));
       try {
         const opened = window.open(url,'_blank','noopener,noreferrer');
         if (!opened || opened.closed || typeof opened.closed === 'undefined') {
@@ -418,6 +376,7 @@
         <div>
           <h3 class="font-medium text-lg text-neutral-900">Noiva</h3>
           <p class="text-xs text-neutral-500 mt-3 leading-relaxed font-light">Prova, Pré Wedding, atendimento no grande dia e destination wedding.</p>
+          <a href="/noivas" class="mt-3 inline-block text-xs font-medium text-neutral-800 underline underline-offset-4">Conhecer o atendimento para noivas</a>
         </div>
         <div class="mt-6 pt-4 border-t border-neutral-100 flex items-center justify-between">
           <span class="text-xs text-neutral-400 tracking-wider font-light">Sob consulta</span>
@@ -1215,8 +1174,9 @@
   <footer class="border-t border-neutral-100 py-12 mt-12 bg-white text-neutral-400">
     <div class="section flex flex-col md:flex-row items-center justify-between gap-6 text-xs font-light tracking-wide">
       <p>© <span id="ano"></span> Anna Luísa — Maquiadora. Todos os direitos reservados.</p>
-      <div class="flex items-center gap-6">
+      <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
         <a href="docs/politica-privacidade.html" class="hover:text-neutral-800 transition-colors">Política de Privacidade</a>
+        <button type="button" data-cookie-preferences class="text-left hover:text-neutral-800 transition-colors">Preferências de cookies</button>
         <a href="docs/termos-de-uso.html" class="hover:text-neutral-800 transition-colors">Termos</a>
         <a href="/midia-kit" class="hover:text-neutral-800 transition-colors">Mídia Kit</a>
         <a href="/admin" class="hover:text-neutral-800 transition-colors opacity-60 hover:opacity-100">🔒 Painel</a>
@@ -1240,16 +1200,6 @@
         <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.303-.058.116-.087.188-.173.289l-.26.302c-.087.087-.179.182-.077.357.102.174.454.748.974 1.211.671.597 1.237.782 1.411.869.174.087.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.144.39-.086s1.011.477 1.184.564.289.13.332.202c.043.072.043.419-.101.824z"/></svg>
         <span>WhatsApp</span>
       </button>
-    </div>
-  </div>
-
-  <div id="cookieBanner" class="fixed bottom-0 inset-x-0 bg-white border-t border-neutral-100 p-5 z-50 shadow-soft">
-    <div class="section flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-      <p class="text-xs text-neutral-500 font-light leading-relaxed">Usamos cookies/tecnologias para medir audiência e melhorar anúncios. Veja nossa <a href="docs/politica-privacidade.html" class="text-neutral-900 underline font-medium">Política de Privacidade</a>.</p>
-      <div class="flex gap-2 shrink-0">
-        <button class="btn btn-outline py-2 px-4" onclick="setConsent(false)">Rejeitar</button>
-        <button class="btn btn-primary py-2 px-4" onclick="setConsent(true)">Aceitar</button>
-      </div>
     </div>
   </div>
 
@@ -1453,59 +1403,6 @@
     lb?.addEventListener('click', (e)=>{ if(e.target === lb) closeLb(); });
     window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeLb(); });
 
-    // LGPD
-    const BKEY='cookieConsent';
-    function setConsent(ok){
-      localStorage.setItem(BKEY, ok?'granted':'denied');
-      document.getElementById('cookieBanner').style.display='none';
-      document.body.classList.remove('cookie-open');
-      if (typeof gtag!=='undefined') {
-        gtag('consent','update',{
-          ad_user_data: ok?'granted':'denied',
-          ad_personalization: ok?'granted':'denied',
-          ad_storage: ok?'granted':'denied',
-          analytics_storage: ok?'granted':'denied'
-        });
-      }
-    }
-    if (!localStorage.getItem(BKEY)) {
-      document.body.classList.add('cookie-open');
-    } else {
-      document.getElementById('cookieBanner').style.display='none';
-    }
-
-    // Lazy-load Instagram
-    const igSection = document.getElementById('instagram');
-    const io = new IntersectionObserver((entries)=>{
-      if(entries.some(e=>e.isIntersecting)){
-        const s = document.createElement('script');
-        s.src = "https://www.instagram.com/embed.js"; s.async = true;
-        document.body.appendChild(s);
-        io.disconnect();
-      }
-    },{rootMargin:"200px"});
-    if (igSection) io.observe(igSection);
-
-    // Maps/Reviews
-    document.querySelectorAll('a[href*="google.com/maps"]').forEach(a=>{
-      a.addEventListener('click', trackReviews);
-    });
-
-    // Portfolio open
-    document.querySelectorAll('#portfolio img').forEach((img,i)=>{
-      img.addEventListener('click', ()=>{
-        gtag?.('event','portfolio_open',{index:i+1});
-        fbq?.('trackCustom','PortfolioOpen',{index:i+1});
-      });
-    });
-
-    // Scroll depth
-    let fired25=false;
-    addEventListener('scroll', ()=>{
-      const p=(scrollY/(document.body.scrollHeight-innerHeight))*100;
-      if(!fired25 && p>25){ fired25=true; gtag?.('event','scroll_25'); fbq?.('trackCustom','Scroll25'); }
-    });
-
     // Botão Voltar ao Topo & Barra de Ação Mobile
     const btnBackToTop = document.getElementById('btnBackToTop');
     const mobileBottomBar = document.getElementById('mobileBottomBar');
@@ -1532,11 +1429,28 @@
     });
   </script>
   <script type="module">
+    import { setupConsent, trackLead, trackPortfolioOpen, trackReviews, trackScrollDepth } from '/scripts/analytics.js';
     import { setupLeadForm } from '/scripts/lead-form.js';
+
+    setupConsent();
+    document.querySelectorAll('a[href*="google.com/maps"]').forEach(link => {
+      link.addEventListener('click', trackReviews);
+    });
+    document.querySelectorAll('#portfolio img').forEach((image, index) => {
+      image.addEventListener('click', () => trackPortfolioOpen(index + 1));
+    });
+    let recordedScroll = false;
+    window.addEventListener('scroll', () => {
+      const depth = scrollY / (document.body.scrollHeight - innerHeight);
+      if (!recordedScroll && depth > 0.25) {
+        recordedScroll = true;
+        trackScrollDepth();
+      }
+    }, { passive: true });
 
     setupLeadForm(document.getElementById('form-orcamento'), {
       origin: 'site',
-      onSuccess: () => { if (typeof trackLead === 'function') trackLead('form-orcamento'); }
+      onSuccess: receipt => trackLead('form-orcamento', receipt.leadId)
     });
   </script>
 </body>

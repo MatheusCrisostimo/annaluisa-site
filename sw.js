@@ -1,11 +1,10 @@
 // sw.js - Service Worker Resiliente com Cache Offline Stale-While-Revalidate
-const CACHE_NAME = 'anna-pwa-v3';
+const CACHE_NAME = 'anna-pwa-v4';
 const CORE_ASSETS = [
   '/',
-  '/index.html',
-  '/agendar.html',
-  '/links.html',
-  '/links/index.html',
+  '/agendar',
+  '/noivas',
+  '/links',
   '/images/logo.png',
   '/images/og-cover.jpg',
   '/images/hero-800.webp',
@@ -48,21 +47,29 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  event.respondWith(
-    caches.match(req).then((cached) => {
-      const fetchPromise = fetch(req).then((networkRes) => {
-        if (networkRes && networkRes.status === 200) {
-          const clone = networkRes.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(req, clone));
-        }
-        return networkRes;
-      }).catch(() => {
-        if (req.mode === 'navigate') {
-          return caches.match('/index.html');
-        }
-      });
+  const fetchAndCache = async () => {
+    const response = await fetch(req);
+    if (response.ok && !url.search) {
+      const copy = response.clone();
+      await caches.open(CACHE_NAME).then(cache => cache.put(req, copy)).catch(() => {});
+    }
+    return response;
+  };
 
-      return cached || fetchPromise;
-    })
-  );
+  // Load the latest consent and conversion code. Keep an offline copy of untagged pages.
+  if (req.mode === 'navigate' || ['/scripts/analytics.js', '/scripts/attribution.js', '/scripts/lead-form.js'].includes(url.pathname)) {
+    event.respondWith(fetchAndCache().catch(async () => {
+      const cached = await caches.match(url.pathname);
+      if (cached) return cached;
+      if (req.mode === 'navigate') {
+        return (await caches.match('/')) || Response.error();
+      }
+      return Response.error();
+    }));
+    return;
+  }
+
+  const refresh = fetchAndCache();
+  event.waitUntil(refresh.catch(() => {}));
+  event.respondWith(caches.match(req).then(cached => cached || refresh));
 });

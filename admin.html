@@ -498,7 +498,10 @@
           ['Cidade', item.cidade],
           ['Pessoas', item.pessoas],
           ['Local', item.tipoLocal],
-          ['Serviços da noiva', Array.isArray(item.itensNoiva) ? item.itensNoiva.join(', ') : '']
+          ['Serviços da noiva', Array.isArray(item.itensNoiva) ? item.itensNoiva.join(', ') : ''],
+          ['Campanha', item.campanha?.utm_campaign],
+          ['Origem da campanha', [item.campanha?.utm_source, item.campanha?.utm_medium].filter(Boolean).join(' / ')],
+          ['Página de entrada', item.campanha?.paginaEntrada]
         ].filter(([, value]) => value);
         const whatsappUrl = getWhatsAppUrl(item);
 

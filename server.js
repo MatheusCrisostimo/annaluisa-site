@@ -9,6 +9,7 @@ import { registerContractRoutes } from './contracts.js';
 import { registerFollowupRoutes } from './followup.js';
 import { registerWhatsAppAdmin, registerWhatsAppWebhook } from './whatsapp.js';
 import { registerIndicatorRoutes } from './indicators.js';
+import { normalizeCampaign } from './scripts/attribution.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -95,6 +96,7 @@ app.post('/api/leads', async (req, res) => {
     : [];
   const autorizouWhatsApp = ['sim', 'on'].includes(body.autorizaWhatsApp);
   const submissionId = clean(body.submissionId);
+  const campanha = normalizeCampaign(body.campanha);
   const invalid = error => res.status(400).json({ success: false, error });
 
   if (nome.length < 2 || nome.length > 120) return invalid('Informe seu nome completo.');
@@ -134,6 +136,7 @@ app.post('/api/leads', async (req, res) => {
     createdAt: new Date().toISOString(),
     nome, email, telefone, servico, detalhes,
     origem: origem || 'site',
+    ...(campanha ? { campanha } : {}),
     data, horario, cidade, pessoas, tipoLocal, itensNoiva,
     autorizaWhatsApp: origem ? autorizouWhatsApp : null
   };
@@ -227,14 +230,15 @@ app.get('/api/admin/leads/export', verifyAdminAuth, async (req, res) => {
     const headers = [
       'ID', 'Data_Hora', 'Nome', 'Telefone', 'Email', 'Servico', 'Detalhes', 'Data_Evento',
       'Hora_Evento', 'Cidade', 'Pessoas', 'Tipo_Local', 'Itens_Noiva', 'Origem', 'Status',
-      'Respondido_Em', 'Autoriza_WhatsApp'
+      'Respondido_Em', 'Autoriza_WhatsApp', 'UTM_Origem', 'UTM_Meio', 'UTM_Campanha', 'Pagina_Entrada'
     ];
     const rows = leads.map(lead => [
       lead.id, lead.createdAt, lead.nome, lead.telefone, lead.email, lead.servico, lead.detalhes,
       lead.data, lead.horario, lead.cidade, lead.pessoas, lead.tipoLocal,
       Array.isArray(lead.itensNoiva) ? lead.itensNoiva.join(', ') : '',
       lead.origem, lead.status, lead.respondidoEm,
-      lead.autorizaWhatsApp === true ? 'Sim' : ''
+      lead.autorizaWhatsApp === true ? 'Sim' : '', lead.campanha?.utm_source, lead.campanha?.utm_medium,
+      lead.campanha?.utm_campaign, lead.campanha?.paginaEntrada
     ].map(csvCell).join(','));
 
     const csvContent = '\uFEFF' + [headers.join(','), ...rows].join('\r\n');
@@ -277,12 +281,12 @@ app.get('/midia-kit', (req, res) => {
   res.sendFile(path.join(__dirname, 'midia-kit.html'));
 });
 
-// Single Page fallback for extensionless routes
-app.get('*', (req, res) => {
-  if (path.extname(req.path)) {
-    return res.status(404).send('Not Found');
-  }
-  res.sendFile(path.join(__dirname, 'index.html'));
+app.get('/noivas', (req, res) => {
+  res.sendFile(path.join(__dirname, 'noivas.html'));
+});
+
+app.use((_req, res) => {
+  res.status(404).type('text/plain').send('Página não encontrada.');
 });
 
 // Start server only when directly run (e.g. node server.js) and not in serverless (Vercel)
