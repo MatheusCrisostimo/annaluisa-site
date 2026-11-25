@@ -7,6 +7,7 @@ import { registerAgendaRoutes } from './agenda.js';
 import { getProposal, registerProposalRoutes } from './proposals.js';
 import { registerContractRoutes } from './contracts.js';
 import { registerFollowupRoutes } from './followup.js';
+import { registerWhatsAppAdmin, registerWhatsAppWebhook } from './whatsapp.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,6 +23,9 @@ app.use((req, res, next) => {
   res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   next();
 });
+
+// Meta signs the original bytes, so its webhook owns its request parser.
+registerWhatsAppWebhook(app);
 
 // Parsers for JSON and URL-encoded forms
 app.use(express.json({ limit: '100kb' }));
@@ -246,6 +250,7 @@ registerAgendaRoutes(app, adminRoutes);
 registerProposalRoutes(app, adminRoutes);
 registerContractRoutes(app, { ...adminRoutes, getProposal });
 registerFollowupRoutes(app, { ...adminRoutes, getProposal });
+registerWhatsAppAdmin(app, adminRoutes);
 
 // Admin Panel Clean Routes
 app.get(['/admin', '/admin/leads'], (req, res) => {
