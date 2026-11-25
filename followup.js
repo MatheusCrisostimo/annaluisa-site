@@ -58,7 +58,7 @@ async function loadFollowup(leadId) {
   return result ? JSON.parse(result) : null;
 }
 
-async function listFollowups() {
+export async function listFollowups() {
   if (useLocalMemory()) return [...localFollowups.values()];
   const records = await runRedis('HVALS', FOLLOWUPS_KEY);
   return records.map(record => JSON.parse(record));

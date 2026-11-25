@@ -83,17 +83,25 @@ export async function setLeadStatus(id, status) {
     if (!localLeads.has(id)) return null;
     const current = localStatus.get(id);
     if (current?.status === status) return current;
+    update.primeiroRespondidoEm = current?.primeiroRespondidoEm || current?.respondidoEm || update.respondidoEm;
     localStatus.set(id, update);
     return update;
   }
 
-  // Keep the first response time when the same action is retried.
+  // Preserve the first response even if the request returns to the queue.
   const script = `
     if redis.call('HEXISTS', KEYS[1], ARGV[1]) == 0 then return false end
-    local current = redis.call('HGET', KEYS[2], ARGV[1])
-    if current and cjson.decode(current).status == ARGV[2] then return current end
-    redis.call('HSET', KEYS[2], ARGV[1], ARGV[3])
-    return ARGV[3]
+    local raw = redis.call('HGET', KEYS[2], ARGV[1])
+    local current = raw and cjson.decode(raw) or {}
+    if current.status == ARGV[2] then return raw end
+    local update = cjson.decode(ARGV[3])
+    local firstAt = current.primeiroRespondidoEm
+    if type(firstAt) ~= 'string' then firstAt = current.respondidoEm end
+    if type(firstAt) ~= 'string' then firstAt = update.respondidoEm end
+    update.primeiroRespondidoEm = firstAt
+    local saved = cjson.encode(update)
+    redis.call('HSET', KEYS[2], ARGV[1], saved)
+    return saved
   `;
   const result = await runRedis('EVAL', script, 2, LEADS_KEY, STATUS_KEY, id, status, JSON.stringify(update));
   return result ? JSON.parse(result) : null;

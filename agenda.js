@@ -57,7 +57,7 @@ function overlapping(first, second) {
     && second.inicioMinutos < first.fimComDeslocamentoMinutos;
 }
 
-async function listAgenda() {
+export async function listAgenda() {
   if (useLocalMemory()) return [...localAgenda.values()];
   const records = await runRedis('HVALS', AGENDA_KEY);
   return records.map(record => JSON.parse(record));

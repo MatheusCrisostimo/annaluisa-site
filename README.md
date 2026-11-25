@@ -62,6 +62,7 @@ O projeto foi modernizado com foco em **arquitetura limpa**, **segurança**, **e
   - Contratos vinculados a propostas prontas com aceite confirmado no painel, modelo privado editável, prévia e PDF.
   - Acompanhamento por pedido do envio e da assinatura do contrato, do sinal e do saldo, com rascunhos de lembrete.
   - Diagnóstico do webhook e da primeira resposta automática do WhatsApp.
+  - Indicadores por período com origem dos pedidos, dados do evento, tempo até o retorno e andamento comercial.
   - Botão direto para iniciar conversa no WhatsApp da cliente com mensagem pronta.
   - Exportação completa em planilha CSV compatível com Excel e Google Sheets.
   - Acesso protegido pela senha configurada em `ADMIN_PASSWORD`.
@@ -120,3 +121,9 @@ Depois de preparar o contrato, abra **Acompanhamento** pelo pedido ou pelo contr
 A integração reaproveita o Redis. Os registros da triagem usam identificadores protegidos e datas de atividade. O painel apresenta os horários do webhook e o retorno da API.
 
 [Webhooks do WhatsApp](https://developers.facebook.com/documentation/business-messaging/whatsapp/webhooks/overview) · [Onboarding com Coexistência](https://developers.facebook.com/documentation/business-messaging/whatsapp/embedded-signup/onboarding-business-app-users) · [Tokens da Cloud API](https://developers.facebook.com/documentation/business-messaging/whatsapp/access-tokens)
+
+### Indicadores
+
+O período usa a data de entrada de cada pedido no fuso de São Paulo. As etapas mostram a situação atual desses pedidos. Cada pedido com um ou mais atendimentos confirmados conta uma vez nesse indicador.
+
+O tempo de retorno usa a primeira vez que o pedido foi marcado como respondido. Respostas antigas entram na mediana quando o registro ainda tem a data de retorno. Os indicadores de agenda, propostas e contratos acompanham os registros do painel.

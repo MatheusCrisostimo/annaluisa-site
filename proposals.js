@@ -162,13 +162,16 @@ function publicFields({ fingerprint, ...proposal }) {
   return proposal;
 }
 
+export async function listProposals() {
+  if (useLocalMemory()) return [...localProposals.values()];
+  return (await runRedis('HVALS', PROPOSALS_KEY)).map(record => JSON.parse(record));
+}
+
 export function registerProposalRoutes(app, { verifyAdminAuth, leadError, getLead }) {
   const path = '/api/admin/propostas';
   app.get(path, verifyAdminAuth, async (req, res) => {
     try {
-      const records = useLocalMemory()
-        ? [...localProposals.values()]
-        : (await runRedis('HVALS', PROPOSALS_KEY)).map(record => JSON.parse(record));
+      const records = await listProposals();
       records.sort((first, second) => second.updatedAt.localeCompare(first.updatedAt));
       const proposals = records.map(({ leadId, nome, servico, status, updatedAt, validade, precoCentavos }) => ({
         leadId, nome, servico, status, updatedAt, validade, precoCentavos

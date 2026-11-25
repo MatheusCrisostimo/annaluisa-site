@@ -8,6 +8,7 @@ import { getProposal, registerProposalRoutes } from './proposals.js';
 import { registerContractRoutes } from './contracts.js';
 import { registerFollowupRoutes } from './followup.js';
 import { registerWhatsAppAdmin, registerWhatsAppWebhook } from './whatsapp.js';
+import { registerIndicatorRoutes } from './indicators.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -251,6 +252,7 @@ registerProposalRoutes(app, adminRoutes);
 registerContractRoutes(app, { ...adminRoutes, getProposal });
 registerFollowupRoutes(app, { ...adminRoutes, getProposal });
 registerWhatsAppAdmin(app, adminRoutes);
+registerIndicatorRoutes(app, adminRoutes);
 
 // Admin Panel Clean Routes
 app.get(['/admin', '/admin/leads'], (req, res) => {
