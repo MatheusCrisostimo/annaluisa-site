@@ -128,6 +128,8 @@ O período usa a data de entrada de cada pedido no fuso de São Paulo. As etapas
 
 O tempo de retorno usa a primeira vez que o pedido foi marcado como respondido. Respostas antigas entram na mediana quando o registro ainda tem a data de retorno. Os indicadores de agenda, propostas e contratos acompanham os registros do painel.
 
+Em **Pedidos por campanha**, compare os pedidos recebidos, a completude dos dados do evento e as etapas comerciais de cada combinação de `utm_source`, `utm_medium` e `utm_campaign`. A taxa de confirmação divide os pedidos com atendimento confirmado pelo total de pedidos da campanha no período. A linha **Sem UTMs** reúne os pedidos sem atribuição registrada.
+
 ### Página de noivas e conversões
 
 A rota `/noivas` leva ao formulário com o serviço **Noiva** selecionado. Para atribuir uma campanha, use `utm_source`, `utm_medium` e `utm_campaign` na URL da campanha. Após a autorização de métricas, a campanha acompanha o pedido na mesma aba de navegação e aparece na fila e no CSV.
