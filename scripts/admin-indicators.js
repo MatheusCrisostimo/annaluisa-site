@@ -55,6 +55,50 @@ function breakdown(title, values, total) {
   `;
 }
 
+function campaignRow(campaign) {
+  const { utm_source: source, utm_medium: medium, utm_campaign: name } = campaign;
+  const label = name ?? (source || medium ? 'Campanha sem nome' : 'Sem UTMs');
+  const origin = source || medium ? `${source ?? '—'} / ${medium ?? '—'}` : '';
+  const confirmed = wholeNumber.format(campaign.atendimentosConfirmados);
+  const rate = percentage.format(campaign.atendimentosConfirmados / campaign.pedidos);
+  const counts = [
+    ['Pedidos', wholeNumber.format(campaign.pedidos)],
+    ['Com dados do evento', wholeNumber.format(campaign.comDadosEvento)],
+    ['Propostas prontas', wholeNumber.format(campaign.propostasProntas)],
+    ['Contratos assinados', wholeNumber.format(campaign.contratosAssinados)],
+    ['Atendimentos confirmados', `${confirmed} (${rate})`]
+  ];
+
+  return `
+    <li class="grid min-w-0 gap-3 rounded-xl border border-neutral-200 p-3 sm:p-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,3fr)]">
+      <div class="min-w-0">
+        <h4 class="break-words text-sm font-semibold text-neutral-900">${escapeHtml(label)}</h4>
+        ${origin ? `<p class="mt-1 break-words text-xs text-neutral-600">${escapeHtml(origin)}</p>` : ''}
+      </div>
+      <dl class="grid grid-cols-2 gap-x-3 gap-y-2 sm:grid-cols-5">
+        ${counts.map(([title, value]) => `
+          <div>
+            <dt class="text-xs text-neutral-600">${title}</dt>
+            <dd class="mt-0.5 text-sm font-semibold tabular-nums text-neutral-900">${value}</dd>
+          </div>
+        `).join('')}
+      </dl>
+    </li>
+  `;
+}
+
+function campaignBreakdown(campaigns) {
+  return `
+    <section class="min-w-0 rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm sm:p-5">
+      <h3 class="text-sm font-semibold text-neutral-900">Pedidos por campanha</h3>
+      ${campaigns.length ? `
+        <p class="mt-1 text-xs text-neutral-600">As UTMs são registradas quando a visita traz os parâmetros e aceita cookies de métricas.</p>
+        <ul class="mt-4 grid gap-2">${campaigns.map(campaignRow).join('')}</ul>
+      ` : '<p class="mt-2 text-sm text-neutral-600">Sem pedidos no período.</p>'}
+    </section>
+  `;
+}
+
 export function mountIndicators(root, { api }) {
   let generation = 0;
   let chosenPeriod = null;
@@ -113,7 +157,7 @@ export function mountIndicators(root, { api }) {
     feedback.hidden = !text;
   }
 
-  function renderResult({ periodo, pedidos, retorno, etapas, origens, servicos }) {
+  function renderResult({ periodo, pedidos, retorno, etapas, origens, servicos, campanhas = [] }) {
     const result = root.querySelector('[data-indicators-results]');
     const received = pedidos.recebidos;
     const sample = retorno.amostra;
@@ -146,6 +190,8 @@ export function mountIndicators(root, { api }) {
         <p class="mt-1 text-xs text-neutral-600">Um pedido pode aparecer em mais de uma etapa.</p>
         ${rowsFor(counts, received)}
       </section>
+
+      ${campaignBreakdown(campanhas)}
 
       <div class="grid gap-4 lg:grid-cols-2">
         ${breakdown('Origem dos pedidos', origens, received)}

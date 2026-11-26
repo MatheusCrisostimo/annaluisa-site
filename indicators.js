@@ -2,12 +2,14 @@ import { listAgenda } from './agenda.js';
 import { listFollowups } from './followup.js';
 import { listLeads } from './lead-store.js';
 import { listProposals } from './proposals.js';
+import { normalizeCampaign } from './scripts/attribution.js';
 
 const SAO_PAULO_DATE = new Intl.DateTimeFormat('sv-SE', { timeZone: 'America/Sao_Paulo' });
 const DATE_PATTERN = /^(?!0000)\d{4}-\d{2}-\d{2}$/;
 const TIME_PATTERN = /T(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)$/;
 const GROUPS = new Set(['1 pessoa', '2 a 3 pessoas', '4 ou mais pessoas']);
 const EVENT_DATE_SERVICES = new Set(['Noiva', 'Maquiagem Social']);
+const NO_CAMPAIGN_KEY = JSON.stringify([null, null, null]);
 const ORIGIN_LABELS = {
   site: 'Site', simulador: 'Simulador', whatsapp: 'WhatsApp', agendar: 'Agendamento', outros: 'Outras origens'
 };
@@ -71,15 +73,40 @@ function medianMinutes(durations) {
   return (left + (right - left) / 2) / 60_000;
 }
 
-function countStage(records, leadIds, predicate) {
+function collectStageLeadIds(records, leadIds, predicate) {
   return new Set(records.filter(record => leadIds.has(record.leadId) && predicate(record))
-    .map(record => record.leadId)).size;
+    .map(record => record.leadId));
+}
+
+function campaignRow(rows, storedCampaign) {
+  const campaign = normalizeCampaign(storedCampaign);
+  const utm_source = campaign?.utm_source ?? null;
+  const utm_medium = campaign?.utm_medium ?? null;
+  const utm_campaign = campaign?.utm_campaign ?? null;
+  const key = JSON.stringify([utm_source, utm_medium, utm_campaign]);
+  if (!rows.has(key)) {
+    rows.set(key, {
+      utm_source, utm_medium, utm_campaign,
+      pedidos: 0, comDadosEvento: 0, propostasProntas: 0, contratosAssinados: 0, atendimentosConfirmados: 0
+    });
+  }
+  return rows.get(key);
+}
+
+function sortedCampaigns(rows) {
+  return [...rows.entries()].sort(([leftKey, left], [rightKey, right]) => {
+    const untaggedOrder = Number(leftKey === NO_CAMPAIGN_KEY) - Number(rightKey === NO_CAMPAIGN_KEY);
+    if (untaggedOrder) return untaggedOrder;
+    if (left.pedidos !== right.pedidos) return right.pedidos - left.pedidos;
+    return leftKey < rightKey ? -1 : Number(leftKey > rightKey);
+  }).map(([, row]) => row);
 }
 
 function calculate(periodo, leads, proposals, contracts, agenda) {
   const originCounts = new Map();
   const serviceCounts = new Map();
-  const leadIds = new Set();
+  const campaigns = new Map();
+  const campaignByLeadId = new Map();
   const durations = [];
   const pedidos = { recebidos: 0, pendentes: 0, comDadosEvento: 0 };
   for (const lead of leads) {
@@ -88,26 +115,39 @@ function calculate(periodo, leads, proposals, contracts, agenda) {
     const localDate = SAO_PAULO_DATE.format(created);
     if (localDate < periodo.de || localDate > periodo.ate) continue;
 
-    leadIds.add(lead.id);
+    const row = campaignRow(campaigns, lead.campanha);
+    campaignByLeadId.set(lead.id, row);
+    row.pedidos++;
     pedidos.recebidos++;
     if (lead.status === 'pendente') pedidos.pendentes++;
-    if (completeEvent(lead)) pedidos.comDadosEvento++;
+    if (completeEvent(lead)) {
+      pedidos.comDadosEvento++;
+      row.comDadosEvento++;
+    }
     const repliedAt = parseTimestamp(lead.primeiroRespondidoEm || lead.respondidoEm);
     if (repliedAt !== null && repliedAt >= created) durations.push(repliedAt - created);
     countIn(originCounts, Object.hasOwn(ORIGIN_LABELS, lead.origem) ? lead.origem : 'outros');
     countIn(serviceCounts, SERVICE_KEYS.get(lead.servico) ?? 'outros');
   }
 
+  const stageLeadIds = {
+    propostasProntas: collectStageLeadIds(proposals, campaignByLeadId, record => record.status === 'pronta'),
+    contratosAssinados: collectStageLeadIds(contracts, campaignByLeadId, record => record.contratoStatus === 'assinado'),
+    atendimentosConfirmados: collectStageLeadIds(agenda, campaignByLeadId, record => record.tipo === 'atendimento' && record.status === 'confirmado')
+  };
+  const etapas = {};
+  for (const [stage, ids] of Object.entries(stageLeadIds)) {
+    etapas[stage] = ids.size;
+    for (const id of ids) campaignByLeadId.get(id)[stage]++;
+  }
+
   return {
     pedidos,
     retorno: { amostra: durations.length, medianaMinutos: medianMinutes(durations) },
-    etapas: {
-      propostasProntas: countStage(proposals, leadIds, record => record.status === 'pronta'),
-      contratosAssinados: countStage(contracts, leadIds, record => record.contratoStatus === 'assinado'),
-      atendimentosConfirmados: countStage(agenda, leadIds, record => record.tipo === 'atendimento' && record.status === 'confirmado')
-    },
+    etapas,
     origens: buildCounts(originCounts, ORIGIN_LABELS),
-    servicos: buildCounts(serviceCounts, SERVICE_LABELS)
+    servicos: buildCounts(serviceCounts, SERVICE_LABELS),
+    campanhas: sortedCampaigns(campaigns)
   };
 }
 
