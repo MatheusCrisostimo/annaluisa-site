@@ -130,6 +130,8 @@ O tempo de retorno usa a primeira vez que o pedido foi marcado como respondido. 
 
 Em **Pedidos por campanha**, compare os pedidos recebidos, a completude dos dados do evento e as etapas comerciais de cada combinação de `utm_source`, `utm_medium` e `utm_campaign`. A taxa de confirmação divide os pedidos com atendimento confirmado pelo total de pedidos da campanha no período. A linha **Sem UTMs** reúne os pedidos sem atribuição registrada.
 
+Para acompanhar custos, aplique as mesmas datas do relatório de anúncios e use **Informar valor** na linha da campanha. Se ela ainda não tiver pedidos, use **Registrar investimento** com as UTMs do anúncio. Informe o gasto total em reais. O valor fica salvo para a combinação de UTMs e o intervalo exato, e pode ser editado depois. O painel divide o gasto pelos pedidos atribuídos e pelos pedidos com atendimento confirmado daquela campanha. Quando ainda não houver pedidos ou confirmações, o custo correspondente aparece como `—`.
+
 ### Página de noivas e conversões
 
 A rota `/noivas` leva ao formulário com o serviço **Noiva** selecionado. Para atribuir uma campanha, use `utm_source`, `utm_medium` e `utm_campaign` na URL da campanha. Após a autorização de métricas, a campanha acompanha o pedido na mesma aba de navegação e aparece na fila e no CSV.

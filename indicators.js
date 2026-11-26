@@ -1,4 +1,5 @@
 import { listAgenda } from './agenda.js';
+import { CAMPAIGN_FIELDS, campaignKey, listCampaignInvestments, saveCampaignInvestment } from './campaign-investment.js';
 import { listFollowups } from './followup.js';
 import { listLeads } from './lead-store.js';
 import { listProposals } from './proposals.js';
@@ -9,7 +10,8 @@ const DATE_PATTERN = /^(?!0000)\d{4}-\d{2}-\d{2}$/;
 const TIME_PATTERN = /T(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)$/;
 const GROUPS = new Set(['1 pessoa', '2 a 3 pessoas', '4 ou mais pessoas']);
 const EVENT_DATE_SERVICES = new Set(['Noiva', 'Maquiagem Social']);
-const NO_CAMPAIGN_KEY = JSON.stringify([null, null, null]);
+const NO_CAMPAIGN_KEY = campaignKey(null);
+const MAX_INVESTMENT_CENTS = 99_999_999_999;
 const ORIGIN_LABELS = {
   site: 'Site', simulador: 'Simulador', whatsapp: 'WhatsApp', agendar: 'Agendamento', outros: 'Outras origens'
 };
@@ -40,6 +42,11 @@ function parseTimestamp(value) {
   return Number.isFinite(timestamp) ? timestamp : null;
 }
 
+function explicitPeriod({ de, ate }) {
+  if (!validDate(de) || !validDate(ate) || de > ate) return null;
+  return { de, ate };
+}
+
 function selectedPeriod({ de, ate }) {
   if (de === undefined && ate === undefined) {
     const today = SAO_PAULO_DATE.format(new Date());
@@ -47,8 +54,17 @@ function selectedPeriod({ de, ate }) {
     start.setUTCDate(start.getUTCDate() - 29);
     return { de: start.toISOString().slice(0, 10), ate: today };
   }
-  if (!validDate(de) || !validDate(ate) || de > ate) return null;
-  return { de, ate };
+  return explicitPeriod({ de, ate });
+}
+
+function investmentCampaign(values) {
+  const campaign = normalizeCampaign(values);
+  if (!campaign) return null;
+  const valid = CAMPAIGN_FIELDS.every(field => {
+    const value = values[field];
+    return value == null || (typeof value === 'string' && (!value.trim() || Object.hasOwn(campaign, field)));
+  });
+  return valid ? campaign : null;
 }
 
 function completeEvent(lead) {
@@ -83,11 +99,12 @@ function campaignRow(rows, storedCampaign) {
   const utm_source = campaign?.utm_source ?? null;
   const utm_medium = campaign?.utm_medium ?? null;
   const utm_campaign = campaign?.utm_campaign ?? null;
-  const key = JSON.stringify([utm_source, utm_medium, utm_campaign]);
+  const key = campaignKey(campaign);
   if (!rows.has(key)) {
     rows.set(key, {
       utm_source, utm_medium, utm_campaign,
-      pedidos: 0, comDadosEvento: 0, propostasProntas: 0, contratosAssinados: 0, atendimentosConfirmados: 0
+      pedidos: 0, comDadosEvento: 0, propostasProntas: 0, contratosAssinados: 0, atendimentosConfirmados: 0,
+      investimentoCentavos: null
     });
   }
   return rows.get(key);
@@ -102,7 +119,7 @@ function sortedCampaigns(rows) {
   }).map(([, row]) => row);
 }
 
-function calculate(periodo, leads, proposals, contracts, agenda) {
+function calculate(periodo, leads, proposals, contracts, agenda, investments) {
   const originCounts = new Map();
   const serviceCounts = new Map();
   const campaigns = new Map();
@@ -141,6 +158,10 @@ function calculate(periodo, leads, proposals, contracts, agenda) {
     for (const id of ids) campaignByLeadId.get(id)[stage]++;
   }
 
+  for (const investment of investments) {
+    campaignRow(campaigns, investment).investimentoCentavos = investment.investimentoCentavos;
+  }
+
   return {
     pedidos,
     retorno: { amostra: durations.length, medianaMinutos: medianMinutes(durations) },
@@ -152,16 +173,41 @@ function calculate(periodo, leads, proposals, contracts, agenda) {
 }
 
 export function registerIndicatorRoutes(app, { verifyAdminAuth, leadError }) {
-  app.get('/api/admin/indicadores', verifyAdminAuth, async (req, res) => {
+  const path = '/api/admin/indicadores';
+  app.get(path, verifyAdminAuth, async (req, res) => {
     const periodo = selectedPeriod(req.query);
     if (!periodo) {
       return res.status(400).json({ success: false, error: 'Informe uma data inicial e uma data final válidas em ordem.' });
     }
     try {
-      const [leads, proposals, contracts, agenda] = await Promise.all([
-        listLeads(), listProposals(), listFollowups(), listAgenda()
+      const [leads, proposals, contracts, agenda, investments] = await Promise.all([
+        listLeads(), listProposals(), listFollowups(), listAgenda(), listCampaignInvestments(periodo)
       ]);
-      return res.json({ success: true, periodo, ...calculate(periodo, leads, proposals, contracts, agenda) });
+      return res.json({ success: true, periodo, ...calculate(periodo, leads, proposals, contracts, agenda, investments) });
+    } catch (error) {
+      return leadError(res, error);
+    }
+  });
+
+  app.put(`${path}/investimento`, verifyAdminAuth, async (req, res) => {
+    const body = req.body ?? {};
+    const periodo = explicitPeriod(body.periodo ?? {});
+    const campanha = investmentCampaign(body.campanha);
+    const { investimentoCentavos } = body;
+    if (!periodo) {
+      return res.status(400).json({ success: false, error: 'Informe o período exato do investimento, com datas válidas em ordem.' });
+    }
+    if (!campanha) {
+      return res.status(400).json({ success: false, error: 'Informe pelo menos uma UTM válida e revise os campos preenchidos.' });
+    }
+    if (investimentoCentavos !== null && (!Number.isSafeInteger(investimentoCentavos)
+      || investimentoCentavos < 0 || investimentoCentavos > MAX_INVESTMENT_CENTS)) {
+      return res.status(400).json({ success: false, error: 'Informe o investimento em centavos inteiros, entre R$ 0,00 e R$ 999.999.999,99.' });
+    }
+
+    try {
+      await saveCampaignInvestment(periodo, campanha, investimentoCentavos);
+      return res.json({ success: true });
     } catch (error) {
       return leadError(res, error);
     }

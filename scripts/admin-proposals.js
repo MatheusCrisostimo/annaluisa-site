@@ -1,3 +1,5 @@
+import { parseMoneyCents } from './admin-money.js';
+
 const API_PATH = '/api/admin/propostas';
 const currencyFormat = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 const moneyInputFormat = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -23,18 +25,6 @@ function isExpired(proposal) {
 function statusText(proposal) {
   if (proposal.status !== 'pronta') return 'Rascunho';
   return isExpired(proposal) ? 'Validade vencida' : 'Pronta para envio';
-}
-
-function priceCents(raw) {
-  let normalized = raw.trim().replace(/^R\$\s*/, '');
-  if (!normalized) return null;
-  if (/^\d{1,3}(\.\d{3})+(,\d{1,2})?$/.test(normalized)) {
-    normalized = normalized.replaceAll('.', '');
-  }
-  if (!/^\d+([.,]\d{1,2})?$/.test(normalized)) return NaN;
-  const [whole, decimals = ''] = normalized.split(/[.,]/);
-  const cents = Number(whole) * 100 + Number(decimals.padEnd(2, '0'));
-  return Number.isSafeInteger(cents) ? cents : NaN;
 }
 
 function previewText(proposal, edits) {
@@ -203,7 +193,7 @@ export function mountProposals(root, { api, onContract }) {
 
     function edits() {
       const values = Object.fromEntries(editable.map(name => [name, field(name).value.trim()]));
-      return { ...values, precoCentavos: priceCents(field('preco').value) };
+      return { ...values, precoCentavos: parseMoneyCents(field('preco').value) };
     }
 
     function showFeedback(message, isError = false) {

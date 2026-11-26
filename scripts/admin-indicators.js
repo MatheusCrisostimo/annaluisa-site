@@ -1,7 +1,14 @@
+import { parseMoneyCents } from './admin-money.js';
+
 const API_PATH = '/api/admin/indicadores';
 const wholeNumber = new Intl.NumberFormat('pt-BR');
 const minutes = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
 const percentage = new Intl.NumberFormat('pt-BR', { style: 'percent', maximumFractionDigits: 1 });
+const currency = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+const moneyInput = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const campaignFields = [
+  ['utm_campaign', 'Campanha'], ['utm_source', 'Fonte'], ['utm_medium', 'Mídia']
+];
 const inputClass = 'mt-1 block w-full min-h-11 rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm font-normal text-neutral-900';
 const buttonClass = 'min-h-11 rounded-lg border border-neutral-200 px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 disabled:opacity-50';
 const primaryButtonClass = 'min-h-11 rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-800 disabled:opacity-50';
@@ -55,34 +62,51 @@ function breakdown(title, values, total) {
   `;
 }
 
-function campaignRow(campaign) {
+function campaignMetrics(metrics, layout) {
+  return `
+    <dl class="grid grid-cols-2 gap-x-3 gap-y-2 ${layout}">
+      ${metrics.map(([title, value]) => `
+        <div class="min-w-0">
+          <dt class="text-xs text-neutral-600">${title}</dt>
+          <dd class="mt-0.5 break-words text-sm font-semibold tabular-nums text-neutral-900">${value}</dd>
+        </div>
+      `).join('')}
+    </dl>`;
+}
+
+function campaignRow(campaign, index) {
   const { utm_source: source, utm_medium: medium, utm_campaign: name } = campaign;
   const label = name ?? (source || medium ? 'Campanha sem nome' : 'Sem UTMs');
   const origin = source || medium ? `${source ?? '—'} / ${medium ?? '—'}` : '';
+  const hasInvestment = Number.isSafeInteger(campaign.investimentoCentavos);
+  const investment = campaign.investimentoCentavos / 100;
   const confirmed = wholeNumber.format(campaign.atendimentosConfirmados);
-  const rate = percentage.format(campaign.atendimentosConfirmados / campaign.pedidos);
+  const rate = campaign.pedidos ? percentage.format(campaign.atendimentosConfirmados / campaign.pedidos) : '';
   const counts = [
     ['Pedidos', wholeNumber.format(campaign.pedidos)],
     ['Com dados do evento', wholeNumber.format(campaign.comDadosEvento)],
     ['Propostas prontas', wholeNumber.format(campaign.propostasProntas)],
     ['Contratos assinados', wholeNumber.format(campaign.contratosAssinados)],
-    ['Atendimentos confirmados', `${confirmed} (${rate})`]
+    ['Atendimentos confirmados', rate ? `${confirmed} (${rate})` : confirmed]
   ];
+  const costs = hasInvestment ? [
+    ['Investimento informado', currency.format(investment)],
+    ['Custo por pedido atribuído', campaign.pedidos ? currency.format(investment / campaign.pedidos) : '—'],
+    ['Custo por atendimento confirmado', campaign.atendimentosConfirmados
+      ? currency.format(investment / campaign.atendimentosConfirmados) : '—']
+  ] : [];
 
   return `
     <li class="grid min-w-0 gap-3 rounded-xl border border-neutral-200 p-3 sm:p-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,3fr)]">
       <div class="min-w-0">
         <h4 class="break-words text-sm font-semibold text-neutral-900">${escapeHtml(label)}</h4>
         ${origin ? `<p class="mt-1 break-words text-xs text-neutral-600">${escapeHtml(origin)}</p>` : ''}
+        ${name || source || medium ? `<button type="button" data-edit-investment="${index}" class="${buttonClass} mt-2">${hasInvestment ? 'Editar valor' : 'Informar valor'}</button>` : ''}
       </div>
-      <dl class="grid grid-cols-2 gap-x-3 gap-y-2 sm:grid-cols-5">
-        ${counts.map(([title, value]) => `
-          <div>
-            <dt class="text-xs text-neutral-600">${title}</dt>
-            <dd class="mt-0.5 text-sm font-semibold tabular-nums text-neutral-900">${value}</dd>
-          </div>
-        `).join('')}
-      </dl>
+      <div class="min-w-0">
+        ${campaignMetrics(counts, 'sm:grid-cols-5')}
+        ${hasInvestment ? `<div class="mt-3 border-t border-neutral-100 pt-3">${campaignMetrics(costs, 'sm:grid-cols-3')}</div>` : ''}
+      </div>
     </li>
   `;
 }
@@ -90,13 +114,43 @@ function campaignRow(campaign) {
 function campaignBreakdown(campaigns) {
   return `
     <section class="min-w-0 rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm sm:p-5">
-      <h3 class="text-sm font-semibold text-neutral-900">Pedidos por campanha</h3>
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <h3 id="campaign-indicators-title" tabindex="-1" class="text-sm font-semibold text-neutral-900">Pedidos por campanha</h3>
+        <button type="button" data-edit-investment="new" class="${buttonClass}">Registrar investimento</button>
+      </div>
       ${campaigns.length ? `
-        <p class="mt-1 text-xs text-neutral-600">As UTMs são registradas quando a visita traz os parâmetros e aceita cookies de métricas.</p>
+        <p class="mt-1 text-xs text-neutral-600">Os custos consideram pedidos com UTMs registradas após o aceite de cookies de métricas.</p>
         <ul class="mt-4 grid gap-2">${campaigns.map(campaignRow).join('')}</ul>
       ` : '<p class="mt-2 text-sm text-neutral-600">Sem pedidos no período.</p>'}
     </section>
   `;
+}
+
+function investmentDialog() {
+  return `
+    <dialog data-investment-dialog aria-labelledby="investment-title" class="m-auto max-h-[90vh] w-[calc(100%-2rem)] max-w-lg overflow-y-auto rounded-2xl border border-neutral-200 bg-white p-5 shadow-xl backdrop:bg-neutral-900/50 sm:p-6">
+      <h3 id="investment-title" class="text-lg font-semibold text-neutral-900">Investimento da campanha</h3>
+      <p data-investment-period class="mt-1 text-sm font-medium text-neutral-700"></p>
+      <p class="mt-1 text-sm text-neutral-600">Use as mesmas UTMs do anúncio e o gasto total nessas datas.</p>
+      <form data-investment-form class="mt-4">
+        <fieldset class="grid min-w-0 gap-3 sm:grid-cols-2">
+          ${campaignFields.map(([name, label]) => `
+            <label class="min-w-0 text-xs font-medium text-neutral-700">${label} (${name})
+              <input name="${name}" type="text" maxlength="80" class="${inputClass} read-only:bg-neutral-100">
+            </label>
+          `).join('')}
+          <label class="min-w-0 text-xs font-medium text-neutral-700">Investimento (R$)
+            <input name="valor" type="text" inputmode="decimal" required class="${inputClass}" placeholder="0,00" autofocus>
+          </label>
+          <div class="flex flex-wrap gap-2 sm:col-span-2">
+            <button type="submit" class="${primaryButtonClass}">Salvar investimento</button>
+            <button type="button" data-investment-remove class="${buttonClass}">Remover valor</button>
+            <button type="button" data-investment-close class="${buttonClass}">Cancelar</button>
+          </div>
+        </fieldset>
+        <p data-investment-error class="mt-2 text-sm text-rose-700" role="status" hidden></p>
+      </form>
+    </dialog>`;
 }
 
 export function mountIndicators(root, { api }) {
@@ -104,6 +158,7 @@ export function mountIndicators(root, { api }) {
   let chosenPeriod = null;
   let mounted = false;
   let loading = false;
+  let investmentPeriod = null;
 
   function render() {
     root.innerHTML = `
@@ -130,6 +185,7 @@ export function mountIndicators(root, { api }) {
         </form>
 
         <div data-indicators-results class="grid gap-4" hidden></div>
+        ${investmentDialog()}
       </section>
     `;
     const form = root.querySelector('[data-indicators-filter]');
@@ -146,6 +202,23 @@ export function mountIndicators(root, { api }) {
       load({ de: from.value, ate: to.value });
     });
     root.querySelector('[data-indicators-default]').addEventListener('click', () => load(null));
+    const dialog = root.querySelector('[data-investment-dialog]');
+    const investmentForm = dialog.querySelector('[data-investment-form]');
+    investmentForm.addEventListener('submit', event => {
+      event.preventDefault();
+      const cents = parseMoneyCents(investmentForm.elements.valor.value);
+      if (!Number.isSafeInteger(cents)) {
+        investmentError(dialog, 'Informe um valor em reais, como 120,50.');
+        investmentForm.elements.valor.focus();
+        return;
+      }
+      saveInvestment(dialog, cents, 'Investimento salvo.');
+    });
+    dialog.querySelector('[data-investment-remove]').addEventListener('click', () => {
+      saveInvestment(dialog, null, 'Investimento removido.');
+    });
+    dialog.querySelector('[data-investment-close]').addEventListener('click', () => dialog.close());
+    dialog.addEventListener('cancel', event => { if (loading) event.preventDefault(); });
     mounted = true;
   }
 
@@ -155,6 +228,63 @@ export function mountIndicators(root, { api }) {
     feedback.classList.toggle('text-rose-700', isError);
     feedback.classList.toggle('text-neutral-600', !isError);
     feedback.hidden = !text;
+  }
+
+  function investmentError(dialog, text) {
+    const feedback = dialog.querySelector('[data-investment-error]');
+    feedback.textContent = text;
+    feedback.hidden = !text;
+  }
+
+  function openInvestment(periodo, campaign) {
+    if (loading) return;
+    const dialog = root.querySelector('[data-investment-dialog]');
+    const form = dialog.querySelector('[data-investment-form]');
+    const hasInvestment = Number.isSafeInteger(campaign?.investimentoCentavos);
+    investmentPeriod = periodo;
+    dialog.querySelector('[data-investment-period]').textContent = `${formatDate(periodo.de)} a ${formatDate(periodo.ate)}`;
+    for (const [name] of campaignFields) {
+      form.elements[name].value = campaign?.[name] ?? '';
+      form.elements[name].readOnly = Boolean(campaign);
+    }
+    form.elements.valor.value = hasInvestment ? moneyInput.format(campaign.investimentoCentavos / 100) : '';
+    dialog.querySelector('[data-investment-remove]').hidden = !hasInvestment;
+    investmentError(dialog, '');
+    dialog.showModal();
+    form.elements[campaign ? 'valor' : 'utm_campaign'].focus();
+  }
+
+  async function saveInvestment(dialog, investimentoCentavos, doneMessage) {
+    if (loading || !investmentPeriod) return;
+    const periodo = investmentPeriod;
+    const form = dialog.querySelector('[data-investment-form]');
+    const campanha = Object.fromEntries(campaignFields.map(([name]) => [name, form.elements[name].value.trim()]));
+    const fields = form.querySelector('fieldset');
+    const token = ++generation;
+    loading = true;
+    fields.disabled = true;
+    investmentError(dialog, '');
+    try {
+      await api(`${API_PATH}/investimento`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ periodo, campanha, investimentoCentavos })
+      });
+      if (token !== generation) return;
+      dialog.close();
+    } catch (error) {
+      if (token === generation) {
+        const failure = error.status >= 500 ? 'Não foi possível salvar o investimento. Tente novamente.' : error.message;
+        investmentError(dialog, failure || 'Não foi possível salvar o investimento.');
+      }
+      return;
+    } finally {
+      if (token === generation) {
+        fields.disabled = false;
+        loading = false;
+      }
+    }
+    await load(periodo, doneMessage);
   }
 
   function renderResult({ periodo, pedidos, retorno, etapas, origens, servicos, campanhas = [] }) {
@@ -198,10 +328,13 @@ export function mountIndicators(root, { api }) {
         ${breakdown('Serviços solicitados', servicos, received)}
       </div>
     `;
+    for (const button of result.querySelectorAll('[data-edit-investment]')) {
+      button.addEventListener('click', () => openInvestment(periodo, campanhas[button.dataset.editInvestment]));
+    }
     result.hidden = false;
   }
 
-  async function load(period) {
+  async function load(period, doneMessage = '') {
     if (loading) return;
     if (!mounted) render();
     const token = ++generation;
@@ -217,10 +350,12 @@ export function mountIndicators(root, { api }) {
       root.querySelector('#indicators-from').value = result.periodo.de;
       root.querySelector('#indicators-to').value = result.periodo.ate;
       chosenPeriod = period;
-      message('');
+      message(doneMessage);
+      if (doneMessage) root.querySelector('#campaign-indicators-title').focus({ preventScroll: true });
     } catch (error) {
       if (token !== generation) return;
-      message(error.message || 'Não foi possível carregar os indicadores. Tente novamente.', true);
+      const failure = error.message || 'Não foi possível carregar os indicadores. Tente novamente.';
+      message([doneMessage, failure].filter(Boolean).join(' '), true);
     } finally {
       if (token === generation) {
         controls.disabled = false;
@@ -236,6 +371,7 @@ export function mountIndicators(root, { api }) {
     reset() {
       generation += 1;
       chosenPeriod = null;
+      investmentPeriod = null;
       mounted = false;
       loading = false;
       root.replaceChildren();
