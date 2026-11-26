@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maquiagem e penteado para noivas em Florianópolis | Anna Luísa</title>
+  <meta name="description" content="Maquiagem e penteado para noivas em Florianópolis, Palhoça e São José. Consulte sua data para prova, produção no casamento e acompanhamento.">
+  <meta name="theme-color" content="#fcfbfa">
+  <link rel="canonical" href="https://annaluisamakeup.vercel.app/noivas">
+  <link rel="icon" href="/favicon.ico">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:url" content="https://annaluisamakeup.vercel.app/noivas">
+  <meta property="og:title" content="Maquiagem e penteado para noivas em Florianópolis | Anna Luísa">
+  <meta property="og:description" content="Prova e produção no dia do casamento em Florianópolis, Palhoça e São José. Consulte sua data com a Anna Luísa.">
+  <meta property="og:image" content="https://annaluisamakeup.vercel.app/images/portfolio/portfolio-08.webp">
+  <meta property="og:image:width" content="900">
+  <meta property="og:image:height" content="1350">
+  <meta property="og:image:alt" content="Noiva de cabelo preso com buquê no portfólio da Anna Luísa">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #fcfbfa;
+      --ink: #241c1b;
+      --muted: #5f504c;
+      --accent: #76504f;
+      --warm: #f4ebe6;
+      --line: #ded1ca;
+      --gutter: clamp(1rem, 4vw, 3rem);
+      --section-space: clamp(3.5rem, 8vw, 7rem);
+      --serif: Georgia, 'Times New Roman', serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 1rem/1.65 system-ui, -apple-system, 'Segoe UI', sans-serif;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+    h1, h2, h3, p, figure { margin: 0; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 400; }
+    h1 { max-width: 16ch; font-size: clamp(2.5rem, 5vw, 4.4rem); line-height: 1.04; letter-spacing: -.055em; text-wrap: balance; }
+    h1 em { font-weight: inherit; color: var(--accent); white-space: nowrap; }
+    h2 { font-size: clamp(2.15rem, 4.5vw, 3.45rem); letter-spacing: -.045em; line-height: 1.12; }
+    h3 { font-size: 1.55rem; line-height: 1.2; letter-spacing: -.025em; }
+    .shell { width: min(74rem, calc(100% - 2 * var(--gutter))); margin-inline: auto; }
+    .skip-link { position: absolute; z-index: 3; top: .75rem; left: var(--gutter); padding: .5rem 1rem; background: var(--paper); transform: translateY(-160%); }
+    .skip-link:focus { transform: translateY(0); }
+    .site-header { border-bottom: 1px solid var(--line); }
+    .header-inner, .site-nav, .footer-inner, .footer-links { display: flex; align-items: center; }
+    .header-inner { min-height: 4.4rem; justify-content: space-between; gap: .65rem; }
+    .wordmark { font-family: var(--serif); font-size: clamp(1.4rem, 3.25vw, 1.85rem); line-height: 1.12; text-decoration: none; white-space: nowrap; }
+    .site-nav { gap: clamp(.65rem, 3vw, 2rem); }
+    .site-nav a, .footer-links a, .footer-links button {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      font: 500 .875rem/1.2 system-ui, -apple-system, 'Segoe UI', sans-serif;
+      text-decoration: none;
+    }
+    .site-nav a:hover, .footer-links a:hover, .footer-links button:hover { text-decoration: underline; text-underline-offset: .2em; }
+    .button, .header-action {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      padding: .7rem 1.3rem;
+      border: 1px solid var(--ink);
+      border-radius: 2px;
+      font-size: .92rem;
+      font-weight: 600;
+      line-height: 1.3;
+      text-align: center;
+      text-decoration: none;
+    }
+    .button { background: var(--ink); color: var(--paper); }
+    .button:hover { background: #45302e; }
+    .header-action { min-height: 44px; }
+    .header-action:hover { background: var(--warm); }
+    .hero { display: grid; gap: clamp(2rem, 6vw, 6rem); align-items: center; padding-block: clamp(2.25rem, 5vw, 5rem) var(--section-space); }
+    .hero-copy p { max-width: 46ch; margin-block: 1.4rem 1.65rem; color: var(--muted); font-size: clamp(1rem, 1.45vw, 1.125rem); }
+    .hero-photo { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 39%; background: var(--warm); }
+    .process { border-block: 1px solid var(--line); background: var(--warm); padding-block: var(--section-space); }
+    .steps {
+      display: grid;
+      gap: 1.35rem;
+      margin: 2rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .steps li { padding-top: 1rem; border-top: 1px solid var(--line); }
+    .steps p { max-width: 38ch; margin-top: .6rem; color: var(--muted); }
+    .portfolio { padding-block: var(--section-space); }
+    .photos { display: grid; gap: clamp(1rem, 4vw, 2.5rem); margin-top: 1.85rem; }
+    .photos img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 40%; background: var(--warm); }
+    figcaption { margin-top: .6rem; color: var(--muted); font-size: .88rem; }
+    .questions { border-top: 1px solid var(--line); padding-block: var(--section-space); }
+    .questions h2 { margin-bottom: 1.35rem; }
+    .faq-list { max-width: 52rem; }
+    details { border-bottom: 1px solid var(--line); }
+    summary { min-height: 48px; padding: .85rem .1rem; cursor: pointer; font-weight: 600; }
+    details p { max-width: 65ch; padding: 0 .1rem 1.05rem; color: var(--muted); }
+    .reserve { background: var(--warm); padding-block: clamp(2.6rem, 6vw, 4.75rem); }
+    .reserve-inner { display: grid; align-items: center; gap: 1.4rem; }
+    .reserve p { max-width: 56ch; margin-top: .75rem; color: var(--muted); }
+    .reserve .button { justify-self: start; }
+    .footer-inner { min-height: 6rem; flex-wrap: wrap; gap: .5rem 2.5rem; justify-content: space-between; padding-block: 1.3rem; }
+    .footer-links { flex-wrap: wrap; gap: .25rem 1.1rem; color: var(--muted); }
+    .footer-links button { padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; }
+    #cookieBanner {
+      position: fixed;
+      z-index: 5;
+      inset: auto 0 0;
+      max-height: 60vh;
+      overflow: auto;
+      padding: 1rem var(--gutter);
+      border-top: 1px solid var(--line);
+      background: var(--paper);
+      box-shadow: 0 -.25rem 1.5rem #241c1b14;
+    }
+    #cookieBanner > div { display: flex; align-items: center; justify-content: space-between; gap: .75rem; flex-wrap: wrap; max-width: 74rem; margin: auto; }
+    #cookieBanner h2 { font: 600 .94rem/1.3 system-ui, sans-serif; letter-spacing: normal; }
+    #cookieBanner p { margin-top: .25rem; color: var(--muted); font-size: .88rem; }
+    #cookieBanner button {
+      min-height: 44px;
+      min-width: 6rem;
+      padding: .55rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      color: var(--ink);
+      background: transparent;
+      cursor: pointer;
+      font: 600 .88rem/1.2 system-ui, sans-serif;
+    }
+
+    @media (min-width: 42rem) {
+      .photos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
+    }
+    @media (min-width: 55rem) {
+      .hero { grid-template-columns: minmax(0, 1.07fr) minmax(0, 1fr); }
+      .reserve-inner { grid-template-columns: 1fr auto; }
+    }
+    @media (max-width: 47.99rem) {
+      .header-action, .site-nav .process-link { display: none; }
+    }
+    @media (max-width: 25rem) {
+      .hero .button, .reserve .button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="wordmark" href="/">Anna Luísa</a>
+      <nav class="site-nav" aria-label="Nesta página">
+        <a class="process-link" href="#atendimento">Atendimento</a>
+        <a href="#portfolio-noivas">Portfólio</a>
+        <a href="#duvidas">Dúvidas</a>
+      </nav>
+      <a class="header-action" href="/agendar?servico=noiva#consulta">Consultar minha data</a>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section class="shell hero" aria-labelledby="titulo-noivas">
+      <div class="hero-copy">
+        <h1 id="titulo-noivas">Maquiagem e penteado <em>para noivas</em> em Florianópolis e região</h1>
+        <p>Produção no local do casamento ou onde você for se arrumar, com atenção ao seu estilo e especialidade em peles pretas e retintas. Atendimento em Florianópolis, Palhoça e São José.</p>
+        <a class="button" href="/agendar?servico=noiva#consulta">Consultar minha data</a>
+      </div>
+      <img class="hero-photo" src="/images/portfolio/portfolio-08.webp" width="900" height="1350"
+        alt="Noiva de coque alto e maquiagem em tons suaves segurando um buquê" fetchpriority="high" decoding="async">
+    </section>
+
+    <section id="atendimento" class="process" aria-labelledby="titulo-atendimento">
+      <div class="shell">
+        <h2 id="titulo-atendimento">Como funciona o atendimento</h2>
+        <ol class="steps" role="list">
+          <li>
+            <h3>Prova</h3>
+            <p>Na prova, você e a Anna alinham a maquiagem e o penteado com o vestido e as referências que você escolheu.</p>
+          </li>
+          <li>
+            <h3>Dia do casamento</h3>
+            <p>A produção é feita no local combinado, com o cronograma organizado a partir da hora em que você precisa estar pronta.</p>
+          </li>
+          <li>
+            <h3>Acompanhamento</h3>
+            <p>Se quiser retoques de maquiagem ou ajustes no penteado durante o evento, marque essa opção na consulta para combinar os detalhes.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="portfolio-noivas" class="shell portfolio" aria-labelledby="titulo-portfolio">
+      <h2 id="titulo-portfolio">Portfólio de noivas</h2>
+      <div class="photos">
+        <figure>
+          <img src="/images/portfolio/portfolio-02.webp" width="900" height="1350"
+            alt="Noiva com véu e penteado trançado a caminho da cerimônia, em fotografia em preto e branco" loading="lazy" decoding="async">
+          <figcaption>Casamento em Florianópolis</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/portfolio/portfolio-04.webp" width="900" height="1350"
+            alt="Noiva de perfil enquanto recebe o acabamento do penteado com flores" loading="lazy" decoding="async">
+          <figcaption>Finalização do penteado</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="duvidas" class="questions" aria-labelledby="titulo-duvidas">
+      <div class="shell">
+        <h2 id="titulo-duvidas">Dúvidas sobre a produção</h2>
+        <div class="faq-list">
+          <details>
+            <summary>Onde posso me arrumar?</summary>
+            <p>A Anna atende em casa, hotéis e espaços de eventos na Grande Florianópolis. Informe a cidade e o tipo de local ao consultar sua data.</p>
+          </details>
+          <details>
+            <summary>Com quanta antecedência posso consultar?</summary>
+            <p>A recomendação para noivas é consultar de 4 a 12 meses antes do casamento, especialmente para sábados e meses mais procurados.</p>
+          </details>
+          <details>
+            <summary>Posso pedir produção para outras pessoas?</summary>
+            <p>Informe quantas pessoas precisam de produção. A Anna verifica a disponibilidade e combina o atendimento junto com você.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="reserve" aria-labelledby="titulo-consulta">
+      <div class="shell reserve-inner">
+        <div>
+          <h2 id="titulo-consulta">Já tem a data do casamento?</h2>
+          <p>Envie a data e os detalhes do evento. A Anna vai conferir a agenda e retornar pelo WhatsApp.</p>
+        </div>
+        <a class="button" href="/agendar?servico=noiva#consulta">Consultar minha data</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-inner">
+      <a class="wordmark" href="/">Anna Luísa</a>
+      <nav class="footer-links" aria-label="Links do rodapé">
+        <a href="https://www.instagram.com/annalluisaa/">Instagram</a>
+        <a href="/docs/politica-privacidade.html">Política de privacidade</a>
+        <button type="button" data-cookie-preferences>Preferências de cookies</button>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { setupConsent } from '/scripts/analytics.js';
+
+    setupConsent();
+  </script>
+</body>
+</html>

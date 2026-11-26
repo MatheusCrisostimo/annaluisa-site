@@ -17,7 +17,7 @@
   <meta property="og:locale" content="pt_BR" />
 
   <link rel="icon" href="favicon.ico" />
-  <link rel="canonical" href="https://annaluisamakeup.vercel.app/agendar.html">
+  <link rel="canonical" href="https://annaluisamakeup.vercel.app/agendar">
   
   <meta name="theme-color" content="#171717">
 
@@ -70,6 +70,7 @@
     function openWA(source, text){
       const msg = encodeURIComponent(text || DEFAULT_MSG);
       const url = `https://wa.me/${PHONE}?text=${msg}&utm_source=site&utm_medium=cta&utm_campaign=whatsapp&src=${encodeURIComponent(source||'agendar')}`;
+      document.dispatchEvent(new CustomEvent('anna:whatsapp', { detail: source || 'agendar' }));
       window.open(url, '_blank', 'noopener,noreferrer');
     }
     // expõe p/ formulário
@@ -119,7 +120,7 @@
     <p class="mt-3 text-neutral-600 text-sm">Conte um pouco sobre o atendimento. A Anna vai conferir a agenda e retornar pelo WhatsApp.</p>
   </section>
 
-  <section class="section mb-12">
+  <section id="consulta" aria-label="Formulário de consulta" class="section mb-12 scroll-mt-24">
     <form id="agendarForm" action="/api/leads" method="post" class="bg-white rounded-xl shadow-soft p-5 sm:p-8 border border-neutral-100 grid gap-5 md:grid-cols-2">
       <input type="hidden" name="origem" value="agendar">
       <div hidden>
@@ -141,7 +142,7 @@
         <select name="servico" required class="field-control">
           <option value="" disabled selected>Selecione um serviço</option>
           <option>Maquiagem Social</option>
-          <option>Noiva</option>
+          <option value="Noiva">Noiva</option>
           <option>Aula de Automaquiagem</option>
           <option value="Soluções Corporativas">Empresas / Corporativo</option>
         </select>
@@ -208,29 +209,30 @@
   <footer class="border-t border-neutral-100 py-10 bg-white">
     <div class="section flex flex-col md:flex-row items-center justify-between gap-4 text-xs tracking-wide text-neutral-400 font-light">
       <p>© <span id="ano"></span> Anna Luísa — Maquiadora. Todos os direitos reservados.</p>
-      <div class="flex items-center gap-6">
+      <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
         <a href="docs/politica-privacidade.html" class="hover:text-neutral-800 transition-colors">Privacidade</a>
+        <button type="button" data-cookie-preferences class="text-left hover:text-neutral-800 transition-colors">Preferências de cookies</button>
         <a href="docs/termos-de-uso.html" class="hover:text-neutral-800 transition-colors">Termos</a>
       </div>
     </div>
   </footer>
 
   <script type="module">
-    import { trackWhatsAppClick, trackLead } from './scripts/analytics.js';
+    import { setupConsent, trackLead } from '/scripts/analytics.js';
     import { setupLeadForm } from '/scripts/lead-form.js';
-    window.__analyticsModuleReady = true;
 
-    // marca cliques em botões "simples"
-    document.querySelectorAll('[data-whats]').forEach(el=>{
-      el.addEventListener('click', ()=> trackWhatsAppClick(el.dataset.source || 'agendar'));
-    });
-
-    setupLeadForm(document.getElementById('agendarForm'), {
+    setupConsent();
+    const form = document.getElementById('agendarForm');
+    if (new URLSearchParams(location.search).get('servico') === 'noiva') {
+      const service = form.elements.namedItem('servico');
+      for (const option of service.options) option.defaultSelected = option.value === 'Noiva';
+      service.value = 'Noiva';
+    }
+    setupLeadForm(form, {
       origin: 'agendar',
-      onSuccess: () => trackLead('agendar_form')
+      onSuccess: receipt => trackLead('agendar_form', receipt.leadId)
     });
 
-    // ano no rodapé
     document.getElementById('ano').textContent = new Date().getFullYear();
   </script>
 </body>
