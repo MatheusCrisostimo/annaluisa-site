@@ -103,6 +103,8 @@ No projeto Vercel, conecte um banco Redis da Upstash, configure `UPSTASH_REDIS_R
 
 Opcionalmente, preencha `LEAD_REPLY_TIME` com o prazo de retorno combinado com a Anna, por exemplo, `em até 1 dia útil`. A saudação do WhatsApp Business pode apontar para `https://annaluisamakeup.vercel.app/?origem=whatsapp#orcamento`.
 
+Em **Pedidos**, busque por nome, protocolo, e-mail ou telefone e filtre por situação e serviço. A ordem **Eventos mais próximos** prioriza as datas de hoje em diante, no fuso de São Paulo. Os pedidos com data anterior ou sem data ficam depois, em ordem de recebimento. Use **Pendentes** junto com essa ordem para organizar os retornos. A exportação CSV inclui a fila completa.
+
 Depois de enviar um pedido pelos formulários do site, a cliente pode abrir **Acompanhar pedido** e guardar o link pessoal. A página exibe **Pedido recebido** ou **Resposta registrada**, conforme a situação da fila administrativa. A confirmação de reserva continua no atendimento da Anna. A consulta usa uma chave independente do protocolo. Apenas a verificação dessa chave fica no Redis. Os pedidos anteriores à implantação seguem disponíveis na fila.
 
 ### Preparar um contrato
