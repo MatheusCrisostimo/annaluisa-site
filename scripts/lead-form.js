@@ -13,6 +13,7 @@ export function setupLeadForm(form, { origin, onSuccess }) {
   const submitLabel = submit.textContent;
   let lastPayload;
   let submissionId;
+  let chaveAcompanhamento;
 
   function syncServiceFields() {
     const isBridal = service.value === 'Noiva';
@@ -42,16 +43,26 @@ export function setupLeadForm(form, { origin, onSuccess }) {
       details.textContent = `Protocolo ${receipt.leadId}.${timing} A Anna vai conferir a data e responder pelo WhatsApp.`;
       feedback.append(details);
 
+      const actions = document.createElement('div');
+      actions.className = 'btn-group-mobile mt-3 flex flex-wrap gap-2';
+      if (typeof receipt.linkAcompanhamento === 'string' && receipt.linkAcompanhamento.startsWith('/acompanhar#')) {
+        const trackingLink = document.createElement('a');
+        trackingLink.className = 'btn btn-primary';
+        trackingLink.href = receipt.linkAcompanhamento;
+        trackingLink.textContent = 'Acompanhar pedido';
+        actions.append(trackingLink);
+      }
       if (typeof window.__openWA === 'function') {
         const followUp = document.createElement('button');
         followUp.type = 'button';
-        followUp.className = 'btn btn-outline mt-3';
+        followUp.className = 'btn btn-outline';
         followUp.textContent = 'Falar sobre este pedido';
         followUp.addEventListener('click', () => {
           window.__openWA('acompanhar_orcamento', `Olá, Anna! Gostaria de falar sobre o pedido ${receipt.leadId}.`);
         });
-        feedback.append(followUp);
+        actions.append(followUp);
       }
+      if (actions.childElementCount) feedback.append(actions);
     }
 
     feedback.focus();
@@ -73,6 +84,8 @@ export function setupLeadForm(form, { origin, onSuccess }) {
     const serialized = JSON.stringify(payload);
     if (serialized !== lastPayload) {
       submissionId = crypto.randomUUID();
+      const bytes = crypto.getRandomValues(new Uint8Array(32));
+      chaveAcompanhamento = Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
       lastPayload = serialized;
     }
     feedback.hidden = true;
@@ -85,7 +98,7 @@ export function setupLeadForm(form, { origin, onSuccess }) {
       const response = await fetch(form.action, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...payload, submissionId, ...(campanha ? { campanha } : {}) }),
+        body: JSON.stringify({ ...payload, submissionId, chaveAcompanhamento, ...(campanha ? { campanha } : {}) }),
         signal: AbortSignal.timeout(15000)
       });
       const data = await response.json();

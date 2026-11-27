@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#fcfbfa">
+  <title>Acompanhar meu pedido | Anna Luísa</title>
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/styles/acompanhar.css">
+  <script type="module" src="/scripts/pedido-status.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="wordmark" href="/">Anna Luísa</a>
+      <a class="site-link" href="/">Voltar ao site</a>
+    </div>
+  </header>
+
+  <main class="shell content">
+    <h1>Acompanhar meu pedido</h1>
+    <div class="card">
+      <p id="pedido-protocolo" class="protocol" hidden></p>
+      <div role="status" aria-live="polite" aria-atomic="true">
+        <h2 id="pedido-situacao">Situação do pedido</h2>
+        <p id="pedido-mensagem">Abra o link pessoal exibido ao enviar seu pedido.</p>
+      </div>
+      <div class="actions" id="pedido-acoes" hidden>
+        <button class="button primary" type="button" id="pedido-atualizar">Atualizar situação</button>
+        <button class="button" type="button" id="pedido-copiar" hidden>Copiar meu link</button>
+      </div>
+      <p class="copy-feedback" id="pedido-copia" role="status" hidden></p>
+      <noscript><p>Ative o JavaScript para consultar a situação do pedido.</p></noscript>
+    </div>
+    <footer><a class="site-link" href="/docs/politica-privacidade.html">Política de Privacidade</a></footer>
+  </main>
+</body>
+</html>

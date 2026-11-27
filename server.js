@@ -9,6 +9,7 @@ import { registerContractRoutes } from './contracts.js';
 import { registerFollowupRoutes } from './followup.js';
 import { registerWhatsAppAdmin, registerWhatsAppWebhook } from './whatsapp.js';
 import { registerIndicatorRoutes } from './indicators.js';
+import { matchesTrackingDigest, privateHeaders, registerLeadTracking, trackingDigest } from './lead-tracking.js';
 import { normalizeCampaign } from './scripts/attribution.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -28,10 +29,21 @@ app.use((req, res, next) => {
 
 // Meta signs the original bytes, so its webhook owns its request parser.
 registerWhatsAppWebhook(app);
+registerLeadTracking(app, { leadError });
+
+app.use('/api/leads', (_req, res, next) => {
+  privateHeaders(res);
+  next();
+});
 
 // Parsers for JSON and URL-encoded forms
 app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: true, limit: '100kb' }));
+app.use('/api/leads', (error, _req, res, next) => {
+  const status = error.status;
+  if (!Number.isInteger(status) || status < 400 || status >= 500) return next(error);
+  return res.status(status).json({ success: false, error: 'Não foi possível ler os dados do pedido.' });
+});
 
 
 // Healthcheck endpoint
@@ -97,6 +109,8 @@ app.post('/api/leads', async (req, res) => {
   const autorizouWhatsApp = ['sim', 'on'].includes(body.autorizaWhatsApp);
   const submissionId = clean(body.submissionId);
   const campanha = normalizeCampaign(body.campanha);
+  const chaveAcompanhamento = body.chaveAcompanhamento;
+  const acompanhamentoHash = trackingDigest(chaveAcompanhamento);
   const invalid = error => res.status(400).json({ success: false, error });
 
   if (nome.length < 2 || nome.length > 120) return invalid('Informe seu nome completo.');
@@ -137,16 +151,21 @@ app.post('/api/leads', async (req, res) => {
     nome, email, telefone, servico, detalhes,
     origem: origem || 'site',
     ...(campanha ? { campanha } : {}),
+    ...(acompanhamentoHash ? { acompanhamentoHash } : {}),
     data, horario, cidade, pessoas, tipoLocal, itensNoiva,
     autorizaWhatsApp: origem ? autorizouWhatsApp : null
   };
 
   try {
     const created = await saveLead(lead);
+    const saved = acompanhamentoHash ? (created ? lead : await getLead(protocol)) : null;
+    const linkAcompanhamento = matchesTrackingDigest(saved?.acompanhamentoHash, acompanhamentoHash)
+      ? `/acompanhar#${protocol}.${chaveAcompanhamento}` : null;
     return res.status(created ? 201 : 200).json({
       success: true,
       message: 'Sua solicitação de orçamento foi recebida.',
       leadId: protocol,
+      ...(linkAcompanhamento ? { linkAcompanhamento } : {}),
       prazoRetorno: clean(process.env.LEAD_REPLY_TIME)
     });
   } catch (error) {
@@ -261,6 +280,13 @@ registerIndicatorRoutes(app, adminRoutes);
 // Admin Panel Clean Routes
 app.get(['/admin', '/admin/leads'], (req, res) => {
   res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+app.get(['/acompanhar', '/acompanhar.html'], (_req, res) => {
+  privateHeaders(res);
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+  res.setHeader('Content-Security-Policy', "default-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'");
+  res.sendFile(path.join(__dirname, 'acompanhar.html'));
 });
 
 // Serve static files with html extension fallback
