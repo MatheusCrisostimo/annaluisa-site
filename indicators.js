@@ -104,10 +104,35 @@ function campaignRow(rows, storedCampaign) {
     rows.set(key, {
       utm_source, utm_medium, utm_campaign,
       pedidos: 0, comDadosEvento: 0, propostasProntas: 0, contratosAssinados: 0, atendimentosConfirmados: 0,
-      investimentoCentavos: null
+      investimentoCentavos: null, financeiro: null
     });
   }
   return rows.get(key);
+}
+
+function addCampaignFinances(followups, campaignByLeadId, signedLeadIds) {
+  const totals = new Map();
+  for (const { leadId, totalCentavos, recebidoCentavos } of followups) {
+    const campaign = campaignByLeadId.get(leadId);
+    if (!campaign || !Number.isSafeInteger(totalCentavos) || totalCentavos <= 0
+      || !Number.isSafeInteger(recebidoCentavos) || recebidoCentavos < 0 || recebidoCentavos > totalCentavos) continue;
+
+    if (!totals.has(campaign)) {
+      totals.set(campaign, { contratadoCentavos: 0n, recebidoCentavos: 0n, saldoContratadoCentavos: 0n });
+    }
+    const finance = totals.get(campaign);
+    const received = BigInt(recebidoCentavos);
+    finance.recebidoCentavos += received;
+    if (signedLeadIds.has(leadId)) {
+      const contracted = BigInt(totalCentavos);
+      finance.contratadoCentavos += contracted;
+      finance.saldoContratadoCentavos += contracted - received;
+    }
+  }
+
+  for (const [campaign, sum] of totals) {
+    campaign.financeiro = Object.fromEntries(Object.entries(sum).map(([field, cents]) => [field, cents.toString()]));
+  }
 }
 
 function sortedCampaigns(rows) {
@@ -119,7 +144,7 @@ function sortedCampaigns(rows) {
   }).map(([, row]) => row);
 }
 
-function calculate(periodo, leads, proposals, contracts, agenda, investments) {
+function calculate(periodo, leads, proposals, followups, agenda, investments) {
   const originCounts = new Map();
   const serviceCounts = new Map();
   const campaigns = new Map();
@@ -149,7 +174,7 @@ function calculate(periodo, leads, proposals, contracts, agenda, investments) {
 
   const stageLeadIds = {
     propostasProntas: collectStageLeadIds(proposals, campaignByLeadId, record => record.status === 'pronta'),
-    contratosAssinados: collectStageLeadIds(contracts, campaignByLeadId, record => record.contratoStatus === 'assinado'),
+    contratosAssinados: collectStageLeadIds(followups, campaignByLeadId, record => record.contratoStatus === 'assinado'),
     atendimentosConfirmados: collectStageLeadIds(agenda, campaignByLeadId, record => record.tipo === 'atendimento' && record.status === 'confirmado')
   };
   const etapas = {};
@@ -157,6 +182,7 @@ function calculate(periodo, leads, proposals, contracts, agenda, investments) {
     etapas[stage] = ids.size;
     for (const id of ids) campaignByLeadId.get(id)[stage]++;
   }
+  addCampaignFinances(followups, campaignByLeadId, stageLeadIds.contratosAssinados);
 
   for (const investment of investments) {
     campaignRow(campaigns, investment).investimentoCentavos = investment.investimentoCentavos;
@@ -180,10 +206,10 @@ export function registerIndicatorRoutes(app, { verifyAdminAuth, leadError }) {
       return res.status(400).json({ success: false, error: 'Informe uma data inicial e uma data final válidas em ordem.' });
     }
     try {
-      const [leads, proposals, contracts, agenda, investments] = await Promise.all([
+      const [leads, proposals, followups, agenda, investments] = await Promise.all([
         listLeads(), listProposals(), listFollowups(), listAgenda(), listCampaignInvestments(periodo)
       ]);
-      return res.json({ success: true, periodo, ...calculate(periodo, leads, proposals, contracts, agenda, investments) });
+      return res.json({ success: true, periodo, ...calculate(periodo, leads, proposals, followups, agenda, investments) });
     } catch (error) {
       return leadError(res, error);
     }

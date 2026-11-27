@@ -132,6 +132,8 @@ Em **Pedidos por campanha**, compare os pedidos recebidos, a completude dos dado
 
 Para acompanhar custos, aplique as mesmas datas do relatório de anúncios e use **Informar valor** na linha da campanha. Se ela ainda não tiver pedidos, use **Registrar investimento** com as UTMs do anúncio. Informe o gasto total em reais. O valor fica salvo para a combinação de UTMs e o intervalo exato, e pode ser editado depois. O painel divide o gasto pelos pedidos atribuídos e pelos pedidos com atendimento confirmado daquela campanha. Quando ainda não houver pedidos ou confirmações, o custo correspondente aparece como `—`.
 
+Os valores financeiros por campanha vêm de **Acompanhamento**. O **Total recebido** inclui o sinal e os demais pagamentos informados, inclusive antes da assinatura. O valor contratado e o saldo a receber consideram contratos marcados como assinados. O filtro seleciona os pedidos pela data em que chegaram. Os valores refletem os registros atuais desses pedidos, inclusive quando um pagamento foi registrado depois do período. Com investimento maior que zero para as mesmas UTMs e datas, o painel também mostra o valor recebido por real investido.
+
 ### Página de noivas e conversões
 
 A rota `/noivas` leva ao formulário com o serviço **Noiva** selecionado. Para atribuir uma campanha, use `utm_source`, `utm_medium` e `utm_campaign` na URL da campanha. Após a autorização de métricas, a campanha acompanha o pedido na mesma aba de navegação e aparece na fila e no CSV.
