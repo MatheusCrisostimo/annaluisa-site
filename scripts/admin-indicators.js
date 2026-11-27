@@ -74,6 +74,31 @@ function campaignMetrics(metrics, layout) {
     </dl>`;
 }
 
+function formatCurrencyCents(value) {
+  const cents = BigInt(value);
+  const fraction = String(cents % 100n).padStart(2, '0');
+  return currency.formatToParts(cents / 100n)
+    .map(part => part.type === 'fraction' ? fraction : part.value).join('');
+}
+
+function campaignFinance({ financeiro, investimentoCentavos }) {
+  if (!financeiro) return '';
+
+  const { contratadoCentavos, recebidoCentavos, saldoContratadoCentavos } = financeiro;
+  const amounts = [
+    ['Valor de contratos assinados', formatCurrencyCents(contratadoCentavos)],
+    ['Total recebido', formatCurrencyCents(recebidoCentavos)],
+    ['Saldo de contratos assinados', formatCurrencyCents(saldoContratadoCentavos)]
+  ];
+  if (Number.isSafeInteger(investimentoCentavos) && investimentoCentavos > 0) {
+    const spend = BigInt(investimentoCentavos);
+    const receivedPerReal = (BigInt(recebidoCentavos) * 100n + spend / 2n) / spend;
+    amounts.push(['Recebido por R$ 1 investido', formatCurrencyCents(receivedPerReal)]);
+  }
+
+  return `<div class="mt-3 border-t border-neutral-100 pt-3">${campaignMetrics(amounts, 'sm:grid-cols-4')}</div>`;
+}
+
 function campaignRow(campaign, index) {
   const { utm_source: source, utm_medium: medium, utm_campaign: name } = campaign;
   const label = name ?? (source || medium ? 'Campanha sem nome' : 'Sem UTMs');
@@ -106,6 +131,7 @@ function campaignRow(campaign, index) {
       <div class="min-w-0">
         ${campaignMetrics(counts, 'sm:grid-cols-5')}
         ${hasInvestment ? `<div class="mt-3 border-t border-neutral-100 pt-3">${campaignMetrics(costs, 'sm:grid-cols-3')}</div>` : ''}
+        ${campaignFinance(campaign)}
       </div>
     </li>
   `;
@@ -120,6 +146,7 @@ function campaignBreakdown(campaigns) {
       </div>
       ${campaigns.length ? `
         <p class="mt-1 text-xs text-neutral-600">Os custos consideram pedidos com UTMs registradas após o aceite de cookies de métricas.</p>
+        <p class="mt-1 text-xs text-neutral-600">Os valores financeiros vêm do Acompanhamento salvo dos pedidos recebidos no período.</p>
         <ul class="mt-4 grid gap-2">${campaigns.map(campaignRow).join('')}</ul>
       ` : '<p class="mt-2 text-sm text-neutral-600">Sem pedidos no período.</p>'}
     </section>
