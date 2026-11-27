@@ -50,6 +50,12 @@ export async function getLead(id) {
   return record ? JSON.parse(record) : null;
 }
 
+export async function getLeadStatus(id) {
+  if (useLocalMemory()) return localStatus.get(id) ?? null;
+  const record = await runRedis('HGET', STATUS_KEY, id);
+  return record ? JSON.parse(record) : null;
+}
+
 export async function listLeads() {
   const local = useLocalMemory();
   const [records, entries] = local
@@ -66,7 +72,7 @@ export async function listLeads() {
     ]);
 
   const statuses = new Map(entries);
-  return records.map(lead => ({
+  return records.map(({ acompanhamentoHash, ...lead }) => ({
     status: 'pendente',
     ...lead,
     ...statuses.get(lead.id)

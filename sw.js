@@ -43,6 +43,7 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(req.url);
   if (url.pathname.startsWith('/api/') || /^\/admin(?:[/.]|$)/.test(url.pathname)
+      || ['/acompanhar', '/acompanhar.html', '/scripts/pedido-status.js'].includes(url.pathname)
       || url.origin !== self.location.origin) {
     return;
   }
