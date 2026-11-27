@@ -105,6 +105,8 @@ Opcionalmente, preencha `LEAD_REPLY_TIME` com o prazo de retorno combinado com a
 
 Em **Pedidos**, busque por nome, protocolo, e-mail ou telefone e filtre por situação e serviço. A ordem **Eventos mais próximos** prioriza as datas de hoje em diante, no fuso de São Paulo. Os pedidos com data anterior ou sem data ficam depois, em ordem de recebimento. Use **Pendentes** junto com essa ordem para organizar os retornos. A exportação CSV inclui a fila completa.
 
+Use **Preparar resposta** na linha de um pedido para escolher e editar um modelo. O painel sugere pedir dados quando falta alguma informação para o orçamento. Você pode copiar o texto ou, se o pedido tiver WhatsApp autorizado e um telefone válido, abrir a conversa com o rascunho preenchido. Marque o pedido como respondido depois de enviar a mensagem.
+
 Depois de enviar um pedido pelos formulários do site, a cliente pode abrir **Acompanhar pedido** e guardar o link pessoal. A página exibe **Pedido recebido** ou **Resposta registrada**, conforme a situação da fila administrativa. A confirmação de reserva continua no atendimento da Anna. A consulta usa uma chave independente do protocolo. Apenas a verificação dessa chave fica no Redis. Os pedidos anteriores à implantação seguem disponíveis na fila.
 
 ### Preparar um contrato
